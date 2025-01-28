@@ -47,7 +47,7 @@ const Layout: React.FC<Props> = ({ children }) => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <div className="h-full">{children}</div>
+              <div className="h-full p-8">{children}</div>
             </motion.div>
           </AnimatePresence>
         </div>

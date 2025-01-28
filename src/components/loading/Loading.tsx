@@ -1,4 +1,3 @@
-import Spinner from "react-bootstrap/Spinner";
 import "./loading.css";
 
 interface ILoading {
@@ -8,9 +7,7 @@ interface ILoading {
 const Loading: React.FC<ILoading> = ({ isLoading }) => {
   return (
     <div className={`loading ${isLoading ? "" : "d-none"}`}>
-      <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
+      <span className="visually-hidden">Loading...</span>
     </div>
   );
 };
