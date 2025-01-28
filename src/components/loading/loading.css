@@ -1,0 +1,15 @@
+.loading{
+    /* height: 100vh;
+    width: 100vh; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 9999999;
+    background: rgba(3, 3, 182, 0.048);
+    backdrop-filter: blur(4px);
+}

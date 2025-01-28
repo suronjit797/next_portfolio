@@ -1,0 +1,74 @@
+.userImage {
+  width: 135px;
+  height: 135px;
+  border-radius: 50%;
+  border: 5px solid var(--text_primary_color);
+}
+
+.nav_link {
+  max-width: 320px;
+  display: block;
+  padding: 8px;
+  text-align: center;
+  margin: 13px auto;
+  border-radius: 30px;
+  color: var(--text_color);
+  background-color: var(--button_color);
+  font-weight: bold;
+  transition: 0.3s linear;
+}
+
+.nav_link:hover,
+.nav_link.active,
+.nav_link.pending {
+  background-color: var(--button_hover);
+  color: #fff;
+}
+
+.icon {
+  height: 40px;
+  width: 40px;
+  margin: 5px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 0;
+  position: relative;
+  transition: 0.3s ease-in-out;
+  font-size: 18px;
+}
+.icon.whatsapp {
+  font-size: 20px;
+}
+
+.icon::after {
+  content: "";
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  clip-path: circle(00%);
+  transition: 0.3s ease-in-out;
+}
+.icon.facebook::after {
+  background: linear-gradient(120deg, #567bc5, #1964fadc);
+}
+.icon.linkedin::after {
+  background: linear-gradient(120deg, #2280df, #3c7dff);
+}
+.icon.gmail::after {
+  background: linear-gradient(120deg, #d63934, #c71610);
+}
+.icon.github::after {
+  background: linear-gradient(90deg, #333, #1a1919);
+}
+.icon:hover {
+  transform: translateY(-6px) scale(1.2);
+}
+.icon:hover::after {
+  clip-path: circle(50%);
+}
