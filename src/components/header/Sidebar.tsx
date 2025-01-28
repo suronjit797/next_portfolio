@@ -15,7 +15,7 @@ const NavItems = [
 
 const Sidebar = () => {
   return (
-    <div className="h-screen w-full py-3 px-3 overflow-y-auto overflow-x-hidden bg-[#212529]">
+    <div className="h-screen w-full max-w-screen py-3 px-3 overflow-y-auto overflow-x-hidden bg-[#212529]">
       <div className="flex items-center flex-col h-full">
         <Image src={user} alt="user" className={`${styles.userImage}`} />
         <div className="intro text-center mt-3 mb-2">

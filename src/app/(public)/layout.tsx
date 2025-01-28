@@ -24,7 +24,7 @@ const Layout: React.FC<Props> = ({ children }) => {
 
       <div className="flex">
         <div
-          className={`w-[450] absolute md:relative z-10 transition-all  ${
+          className={`w-[300] md:w-[450] absolute md:relative z-10 transition-all  ${
             isActive ? "left-0  md:left-[-500px] md:w-0" : "left-[-500px] md:left-0"
           }`}
         >
