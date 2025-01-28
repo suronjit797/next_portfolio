@@ -29,15 +29,10 @@
   max-height: 70px;
   max-width: 70px;
   margin: auto 0;
-  /* -webkit-filter: grayscale(100%);
-  filter: grayscale(100%); */
   transition: 0.3s ease-in-out;
 }
 
-/* .skillCard:hover img {
-    -webkit-filter: grayscale(0%);
-    filter: grayscale(0%);
-  } */
+
 
 .skillCard p {
   font-size: 14px;

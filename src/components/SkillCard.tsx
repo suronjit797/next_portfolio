@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { ISkillData } from "../../interfaces/skills";
-import './skillCard.css'
+import { ISkillData } from "../interfaces/skills";
+import styles from "@/styles/skillCard.module.css";
 
 interface SkillCardProps {
   data: ISkillData;
@@ -9,7 +9,7 @@ interface SkillCardProps {
 const SkillCard: React.FC<SkillCardProps> = ({ data }) => {
   return (
     <>
-      <div className="skillCard">
+      <div className={styles.skillCard}>
         <Image src={data.logo} alt={data.name} loading="lazy" />
         <p className="mt-2 mb-0">{data.name}</p>
       </div>
