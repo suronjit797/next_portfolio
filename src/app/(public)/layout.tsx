@@ -24,9 +24,9 @@ const Layout: React.FC<Props> = ({ children }) => {
 
       <div className="flex">
         <div
-          className={`w-[300] md:w-[450] absolute md:relative z-10 transition-all  ${
-            isActive ? "left-0  md:left-[-500px] md:w-0" : "left-[-500px] md:left-0"
-          }`}
+          className={` ${
+            isActive ? "left-0  md:left-[-500px] md:w-0" : "left-[-500px] md:left-0 md:w-[450] "
+          } w-[300] absolute md:relative z-10 transition-all `}
         >
           <Sidebar />
         </div>
@@ -47,7 +47,7 @@ const Layout: React.FC<Props> = ({ children }) => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <div className="container h-100">{children}</div>
+              <div className="h-full">{children}</div>
             </motion.div>
           </AnimatePresence>
         </div>

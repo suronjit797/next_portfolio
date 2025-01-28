@@ -107,7 +107,7 @@ img {
 
 .primary_button-border {
   border: 1px solid var(--button_color);
-  color: #fff;
+  color: #fff !important;
   transition: 0.3s ease-in-out;
   padding: 10px 30px;
   border-radius: 30px;
