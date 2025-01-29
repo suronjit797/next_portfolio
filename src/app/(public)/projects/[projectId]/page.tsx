@@ -2,20 +2,19 @@ import { TProject } from "@/interfaces/project";
 import Loading from "@/components/loading/Loading";
 import { FaShareSquare } from "react-icons/fa";
 import { BsGithub } from "react-icons/bs";
-import { MdKeyboardBackspace } from "react-icons/md";
 import Image from "next/image";
 import BackButton from "./BackButton";
-
 
 interface Props {
   params: Promise<{ projectId: string }>;
 }
 
 const Project: React.FC<Props> = async ({ params }) => {
-  const project: TProject | null = null;
-  const isLoading = false;
-
   const projectId = (await params).projectId;
+  console.log({ projectId });
+
+  const projectData: TProject | null = null;
+  const isLoading = false;
 
   //   const { projectId } = useParams();
   //   const navigate = useNavigate();
@@ -88,50 +87,49 @@ const Project: React.FC<Props> = async ({ params }) => {
             </div>
           </div> */}
           <BackButton />
-          projectId:{projectId}
-          {
-           !!project && <div>
-            <Image src={project?.thumbnail || ""} alt="thumbnail" />
+          {Boolean(projectData) && (
             <div>
-              <div className="fw-bold text-capitalize mb-3">{project?.name}</div>
-              <div className="text-white-50 fs-6">{project?.description}</div>
-              <p className="text-capitalize tags pb-3">
-                Tags: 
-                {project?.tags?.map((tag, index) => (
-                  <span key={index} onClick={() => tagHandler(tag)} className="bg-secondary p-2 rounded-5 mx-1">
-                    {` ${tag} `}
-                  </span>
-                ))}
-              </p>
+              <Image src={projectData?.thumbnail || ""} alt="thumbnail" />
               <div>
-                {project?.live_url && (
-                  <a href={project?.live_url} target="_blank">
-                    <button className="fw-light me-2">
-                      <FaShareSquare />
-                      <span className="ms-2"> Live preview </span>
-                    </button>
-                  </a>
-                )}
-                {project?.github_url?.frontend && (
-                  <a href={project?.github_url?.frontend} target="_blank">
-                    <button className="fw-light me-2">
-                      <BsGithub />
-                      <span className="ms-2"> Frontend </span>
-                    </button>
-                  </a>
-                )}
-                {project?.github_url?.backend && (
-                  <a href={project?.github_url?.backend} target="_blank">
-                    <button className="fw-light me-2">
-                      <BsGithub />
-                      <span className="ms-2"> Backend </span>
-                    </button>
-                  </a>
-                )}
+                <div className="fw-bold text-capitalize mb-3">{projectData?.name}</div>
+                <div className="text-white-50 fs-6">{projectData?.description}</div>
+                <p className="text-capitalize tags pb-3">
+                  Tags:
+                  {projectData?.tags?.map((tag, index) => (
+                    <span key={index} onClick={() => tagHandler(tag)} className="bg-secondary p-2 rounded-5 mx-1">
+                      {` ${tag} `}
+                    </span>
+                  ))}
+                </p>
+                <div>
+                  {projectData?.live_url && (
+                    <a href={projectData?.live_url} target="_blank">
+                      <button className="fw-light me-2">
+                        <FaShareSquare />
+                        <span className="ms-2"> Live preview </span>
+                      </button>
+                    </a>
+                  )}
+                  {projectData?.github_url?.frontend && (
+                    <a href={projectData?.github_url?.frontend} target="_blank">
+                      <button className="fw-light me-2">
+                        <BsGithub />
+                        <span className="ms-2"> Frontend </span>
+                      </button>
+                    </a>
+                  )}
+                  {projectData?.github_url?.backend && (
+                    <a href={projectData?.github_url?.backend} target="_blank">
+                      <button className="fw-light me-2">
+                        <BsGithub />
+                        <span className="ms-2"> Backend </span>
+                      </button>
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-          }
+          )}
         </div>
       )}
     </>

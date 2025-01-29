@@ -5,9 +5,10 @@ import { TProject } from "@/interfaces/project";
 import Loading from "@/components/loading/Loading";
 import { BsSearch } from "react-icons/bs";
 import ProjectCard from "@/components/ProjectCard";
-import styles from "@/styles/projects.module.css"
+import styles from "@/styles/projects.module.css";
 
 const Projects = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [projects, setProjects] = useState<TProject[]>([]);
   const [filteredData, setFilteredData] = useState<TProject[]>(projects);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -32,7 +33,6 @@ const Projects = () => {
 
   useEffect(() => {
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // handler
@@ -62,8 +62,10 @@ const Projects = () => {
         <Loading isLoading={isLoading} />
       ) : (
         <div className="project px-lg-5 py-5 px-3 ">
-
-          <div className="flex">
+          <div className="flex items-center mb-1">
+            <h3 className="heading text-capitalize">
+              <span> Recent </span> Projects
+            </h3>
             <form className={`${styles.project_search} ms-auto`} autoComplete="off" onSubmit={searchHandler}>
               <input
                 type="search"
@@ -78,7 +80,7 @@ const Projects = () => {
               </button>
             </form>
           </div>
-          <hr />
+          <hr className="mb-5" />
           <div className="project_body pt-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-4 align-items-stretch">
               {filteredData.length > 0 ? (
