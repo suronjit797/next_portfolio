@@ -4,14 +4,14 @@ import { BiSolidMap } from "react-icons/bi";
 const AddressShort = () => {
   return (
     <>
-      <h4 className="font-bold mb-4 text-2xl"> Address </h4>
-      <div className="contact_address">
+      <h4 className="font-bold mb-8 text-2xl"> Address </h4>
+      <div>
         {/* mail */}
         <div>
           <a
             target="_blank"
             href="mailto:suronjit797@gmail.com"
-            className="!text-white mb-4 inline-flex items-center"
+            className="!text-white mb-3 inline-flex items-center"
           >
             <span className="me-3 fs-5">
               <BsFillEnvelopeCheckFill />
@@ -21,7 +21,7 @@ const AddressShort = () => {
         </div>
         {/* phone number */}
         <div>
-          <a target="_blank" href="tel:+8801799057302" className="!text-white mb-4 inline-flex items-center">
+          <a target="_blank" href="tel:+8801799057302" className="!text-white mb-3 inline-flex items-center">
             <span className="me-3 fs-5">
               <BsFillTelephoneFill />
             </span>
@@ -30,7 +30,7 @@ const AddressShort = () => {
         </div>
         {/* mail */}
         <div>
-          <a target="_blank" href="tel:+8801920278048" className="!text-white mb-4 inline-flex items-center">
+          <a target="_blank" href="tel:+8801920278048" className="!text-white mb-3 inline-flex items-center">
             <span className="me-3 fs-5">
               <BsFillTelephoneFill />
             </span>
@@ -41,7 +41,7 @@ const AddressShort = () => {
           <a
             target="_blank"
             href="https://goo.gl/maps/KLdecUuzCe9CD1R7A"
-            className="!text-white mb-4 inline-flex items-center"
+            className="!text-white mb-3 inline-flex items-center"
           >
             <span className="me-3 fs-5">
               <BiSolidMap />

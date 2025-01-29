@@ -1,5 +1,5 @@
-import AboutForm from "@/components/about_form/AboutForm";
-import AddressShort from "@/components/address_short/AddressShort";
+import ContactForm from "./ContactForm";
+import AddressShort from "./AddressShort";
 
 const Contact = () => {
   return (
@@ -16,7 +16,7 @@ const Contact = () => {
             </div>
 
             <div className="w-full ">
-              <AboutForm />
+              <ContactForm />
             </div>
           </div>
         </div>

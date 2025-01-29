@@ -24,7 +24,7 @@ const Sidebar = () => {
         </div>
 
         {/* nav items */}
-        <nav className="w-full lg:px-4 mb-4">
+        <nav className="w-full lg:px-4 my-4">
           {NavItems.map((item, ind) => (
             <NavLink
               key={ind}
