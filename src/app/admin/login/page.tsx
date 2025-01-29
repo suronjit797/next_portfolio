@@ -4,8 +4,9 @@ import React, { useEffect, useState } from "react";
 import { Form, Input, Button, message } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { useAuth } from "@/contexts/authContext";
-import Link from "next/link";
+// import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/redux/store";
 
 interface LoginFormData {
   username: string;
@@ -14,15 +15,16 @@ interface LoginFormData {
 
 const LoginPage = () => {
   const router = useRouter();
-  const { login, auth } = useAuth();
+  const { login } = useAuth();
+  const { isLogin } = useAppSelector((state) => state.auth);
 
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (auth.isAuth) {
+    if (isLogin) {
       router.push("/admin");
     }
-  }, [auth.isAuth, router]);
+  }, [isLogin, router]);
 
   const onFinish = async (values: LoginFormData) => {
     setLoading(true);
@@ -64,12 +66,12 @@ const LoginPage = () => {
         </Form>
 
         {/* Signup Link */}
-        <div className="flex justify-center text-sm">
+        {/* <div className="flex justify-center text-sm">
           <span className="text-gray-500">Don&apos;t have an account?</span>
           <Link href="signup" className="ml-1 text-indigo-600 hover:text-indigo-500">
             Sign up
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );
