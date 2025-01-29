@@ -1,0 +1,22 @@
+/* about */
+.about{
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: center;
+    min-height: 100vh;
+  }
+  .about p{
+    font-weight: 100;
+    margin-bottom: 15px;
+  }
+  .about_short{
+    text-transform: capitalize;
+  }
+  .about_short p{
+    margin-bottom: 5px;
+  }
+  .about_short p b{
+    color: var(--text_primary_color);
+  }
+  

@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime"
+import styles from "@/styles/about.module.css"
 
 dayjs.extend(relativeTime)
 
@@ -7,15 +8,15 @@ const About = () => {
   const birthday = dayjs('1999-01-01').fromNow() .slice(0, 8)
   return (
     <>
-      <div className="about px-lg-5 py-5 px-3 ">
+      <div className={`${styles.about} px-lg-5 py-5 px-3`}>
 
-          <h3 className="heading">
+          <h3 className="mb-4 heading text-capitalize">
             <span> About </span> Me
           </h3>
-          <hr />
+          <hr className="mb-5"/>
           <p> Hello, <span className="text_primary"> Suronjit Pal </span> here! </p>
           <p>
-            a passionate MERN (MongoDB, Express.js, React.js, Node.js) stack
+            A passionate MERN (MongoDB, Express.js, React.js, Node.js) stack
             developer with expertise in building scalable and user-friendly web
             applications. I have a solid understanding of HTML, CSS, JavaScript,
             and the entire MERN stack. I specialize in creating responsive and
@@ -30,7 +31,7 @@ const About = () => {
             to your next project!
           </p>
 
-          <div className="text-capitalize about_short">
+          <div className={styles.about_short}>
             <p>
               <b> Age:</b> <span> {birthday} </span>
             </p>
