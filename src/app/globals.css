@@ -1,9 +1,7 @@
 @import "tailwindcss";
 
-
 :root {
-  font-family: "Merriweather Sans", Inter, system-ui, Avenir, Helvetica, Arial,
-    sans-serif;
+  font-family: "Merriweather Sans", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   font-synthesis: none;
@@ -23,10 +21,13 @@
   --text2_color: #343090;
 }
 
-@theme{
-  --color-primary: var(--text_primary_color)
+@theme {
+  --color-primary: var(--text_primary_color);
 }
 
+* {
+  outline: none;
+}
 
 html {
   scroll-behavior: smooth;
@@ -41,8 +42,7 @@ body {
   flex-direction: column;
   background-color: var(--primary_color);
   color: var(--text_color);
-  font-family: "Merriweather Sans", Inter, system-ui, Helvetica, Arial,
-    sans-serif !important;
+  font-family: "Merriweather Sans", Inter, system-ui, Helvetica, Arial, sans-serif !important;
   word-spacing: 3px;
 }
 
@@ -85,7 +85,6 @@ img {
 .text_primary {
   color: var(--text_primary_color);
 }
-
 
 ::placeholder {
   text-transform: capitalize;
@@ -138,9 +137,8 @@ img {
   text-decoration: underline;
 }
 
-
 @media (max-width: 299px) {
-  body{
+  body {
     display: none !important;
   }
 }

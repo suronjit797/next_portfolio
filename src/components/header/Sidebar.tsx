@@ -26,7 +26,12 @@ const Sidebar = () => {
         {/* nav items */}
         <nav className="w-full lg:px-4 mb-4">
           {NavItems.map((item, ind) => (
-            <NavLink key={ind} className={`${styles.nav_link}`} activeClassName={`${styles.active}`} href={item.path}>
+            <NavLink
+              key={ind}
+              className={`capitalize ${styles.nav_link}`}
+              activeClassName={`${styles.active}`}
+              href={item.path}
+            >
               {item.name}
             </NavLink>
           ))}

@@ -1,4 +1,5 @@
-import Swal from "sweetalert2";
+'use client'
+
 import "./about_form.css";
 import { useState } from "react";
 
@@ -9,14 +10,14 @@ const AboutForm = () => {
 
   const handelSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    Swal.fire({ title: "Success", text: "Message Send", icon: "success" });
+    // Swal.fire({ title: "Success", text: "Message Send", icon: "success" });
     console.log({ name, email, message });
   };
 
   return (
     <form
       onSubmit={handelSubmit}
-      className="about_form mt-3 mt-lg-0 px-0 px-sm-3 px-lg-0"
+      className="mt-3 mt-lg-0 px-0 px-sm-3 px-lg-0 w-full"
     >
       <div className="input-gro">
         <input
