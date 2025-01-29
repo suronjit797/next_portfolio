@@ -9,14 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ant-design/nextjs-registry": "^1.0.2",
-    "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@tailwindcss/postcss": "^4.0.0",
-    "antd": "^5.23.3",
+    "axios": "^1.7.9",
     "dayjs": "^1.11.13",
     "framer-motion": "^12.0.6",
     "next": "15.1.6",
     "postcss": "^8.5.1",
+    "ra-data-json-server": "^5.5.2",
     "react": "^19.0.0",
     "react-admin": "^5.5.2",
     "react-dom": "^19.0.0",
