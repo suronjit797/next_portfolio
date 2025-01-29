@@ -1,4 +1,12 @@
+import { Metadata } from "next";
 import Link from "next/link";
+
+
+export const metadata: Metadata = {
+  title: "Home | " + process.env.TITLE,
+  description: "Web Developer Portfolio",
+};
+
 
 const Home = () => {
   return (

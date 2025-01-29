@@ -1,7 +1,7 @@
 import ContactForm from "./ContactForm";
 import AddressShort from "./AddressShort";
 
-const Contact = () => {
+const Contact = async() => {
   return (
     <>
       <div className="">

@@ -13,7 +13,20 @@ const Project: React.FC<Props> = async ({ params }) => {
   const projectId = (await params).projectId;
   console.log({ projectId });
 
-  const projectData: TProject | null = null;
+  const projectData: TProject = {
+    _id: "",
+    thumbnail: "",
+    images: [],
+    name: "",
+    packages: [],
+    tags: [],
+    description: "",
+    live_url: "",
+    github_url: {
+      frontend: "",
+      backend: "",
+    },
+  };
   const isLoading = false;
 
   //   const { projectId } = useParams();
