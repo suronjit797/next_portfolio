@@ -1,15 +1,19 @@
-"use client";
-
 import type { ColumnsType } from "antd/es/table";
 import { AdminProps } from "./AdminInterface";
-import { useSearchParamsState } from "@/hooks/useSearchParamsState";
 import { AnyObject } from "antd/es/_util/type";
 import AdminTable from "./AdminTable";
 import AdminHeader from "./AdminHeader";
+import AdminGrid from "./AdminGrid";
 
-const AdminBody: React.FC<AdminProps> = ({ data, showItems = [], meta }) => {
-  const { params, updateParams } = useSearchParamsState({ page: 1, limit: 10 });
-
+const AdminBody: React.FC<AdminProps> = ({
+  params,
+  updateParams,
+  data,
+  showItems = [],
+  meta,
+  isListView,
+  setIsListView,
+}) => {
   const columns: ColumnsType<AnyObject> | undefined = (
     Array.isArray(data) && data.length > 0 ? Object.keys(data[0]) : []
   )
@@ -22,8 +26,12 @@ const AdminBody: React.FC<AdminProps> = ({ data, showItems = [], meta }) => {
 
   return (
     <>
-      <AdminHeader />
-      <AdminTable {...{ columns, data, params, meta, updateParams }} />
+      <AdminHeader {...{ isListView, setIsListView }} />
+      {isListView ? (
+        <AdminTable {...{ columns, data, params, meta, updateParams }} />
+      ) : (
+        <AdminGrid {...{ showItems, data, params, meta, updateParams }} />
+      )}
     </>
     // <Table
     //   columns={columns}

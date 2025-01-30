@@ -1,13 +1,18 @@
-import { Select, Button, Tooltip } from "antd";
+import { Button, Tooltip } from "antd";
 import { FilterOutlined, UnorderedListOutlined, AppstoreOutlined } from "@ant-design/icons";
+import { Dispatch, SetStateAction } from "react";
 
-const AdminHeader: React.FC = () => {
+interface Props {
+  isListView: boolean;
+  setIsListView: Dispatch<SetStateAction<boolean>>;
+}
+
+const AdminHeader: React.FC<Props> = ({ isListView, setIsListView }) => {
   return (
-    <div className="flex justify-between items-center  p-4 rounded-md shadow-sm">
+    <div className="flex bg-gray-600 mb-4 justify-between items-center  p-4 rounded-md shadow-sm">
       {/* Left Section */}
       <div className="text-lg font-medium ">
-        My Courses for{" "}
-        <span className="text-blue-600 font-semibold">“All Courses”</span>
+        My Courses for <span className="text-blue-600 font-semibold">“All Courses”</span>
       </div>
 
       {/* Right Section */}
@@ -28,11 +33,7 @@ const AdminHeader: React.FC = () => {
 
         {/* Filter Icon */}
         <Tooltip title="Filter">
-          <Button
-            shape="circle"
-            icon={<FilterOutlined />}
-            className="hover:bg-gray-200 text-gray-500"
-          />
+          <Button shape="circle" icon={<FilterOutlined />} className="hover:bg-gray-200 text-gray-500 " />
         </Tooltip>
 
         {/* View Mode Icons */}
@@ -41,6 +42,9 @@ const AdminHeader: React.FC = () => {
             <Button
               shape="circle"
               icon={<UnorderedListOutlined />}
+              variant="solid"
+              onClick={() => setIsListView(true)}
+              color={isListView ? "primary" : "default"}
               className="hover:bg-gray-200 text-gray-500"
             />
           </Tooltip>
@@ -48,6 +52,9 @@ const AdminHeader: React.FC = () => {
             <Button
               shape="circle"
               icon={<AppstoreOutlined />}
+              variant="solid"
+              onClick={() => setIsListView(false)}
+              color={!isListView ? "primary" : "default"}
               className="hover:bg-gray-200 text-gray-500"
             />
           </Tooltip>

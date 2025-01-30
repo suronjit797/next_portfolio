@@ -1,10 +1,11 @@
-import { AnyObject } from "antd/es/_util/type";
-import { ColumnsType } from "antd/es/table";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { User } from "@/global/interface";
 
 export interface BaseProps {
   name: string;
   uri: string;
   showItems: string[];
+  query?: Record<string, string>;
   dataFormate?:
     | {
         data: string;
@@ -13,9 +14,14 @@ export interface BaseProps {
     | string;
 }
 
+export type UpdateParams = (newParams: string) => object;
 export interface AdminProps {
+  isListView: boolean;
+  setIsListView: React.Dispatch<React.SetStateAction<boolean>>;
   showItems?: string[];
-  data?: ColumnsType<AnyObject>;
+  data?: User[];
+  updateParams?: any;
+  params: any;
   meta?: {
     page?: number;
     limit?: number;
