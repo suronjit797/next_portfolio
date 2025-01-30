@@ -61,8 +61,8 @@ const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <AdminSidebar {...{ user }} />
           </div>
           <div className="w-full">
-            <AdminHeader {...{ setIsActive, logout}}  />
-            <div className="h-full p-8">{children}</div>
+            <AdminHeader {...{ setIsActive, logout }} />
+            <div className="p-8">{children}</div>
           </div>
         </div>
       </div>

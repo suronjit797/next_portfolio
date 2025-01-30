@@ -44,7 +44,7 @@ const Layout: React.FC<Props> = ({ children }) => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
             > */}
-              <div className="h-full p-8">{children}</div>
+              <div className="h-full max-h-screen p-8 overflow-y-auto">{children}</div>
             {/* </motion.div>
           </AnimatePresence> */}
         </div>
