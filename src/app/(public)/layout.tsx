@@ -4,16 +4,13 @@ import { ReactNode, useState } from "react";
 import { LiaBarsSolid } from "react-icons/lia";
 import { AiOutlineClose } from "react-icons/ai";
 import Sidebar from "@/components/header/Sidebar";
-import { AnimatePresence, motion } from "framer-motion";
 import styles from "@/styles/mainLayout.module.css";
-import { usePathname } from "next/navigation";
 
 interface Props {
   children: ReactNode;
 }
 
 const Layout: React.FC<Props> = ({ children }) => {
-  const pathname = usePathname();
   const [isActive, setIsActive] = useState(false);
 
   return (
@@ -32,7 +29,7 @@ const Layout: React.FC<Props> = ({ children }) => {
         </div>
         <div className="w-full">
           {/* <AnimatePresence exitBeforeEnter> */}
-          <AnimatePresence mode="wait">
+          {/* <AnimatePresence mode="wait">
             <motion.div
               key={pathname}
               initial={{
@@ -46,10 +43,10 @@ const Layout: React.FC<Props> = ({ children }) => {
               }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
-            >
+            > */}
               <div className="h-full p-8">{children}</div>
-            </motion.div>
-          </AnimatePresence>
+            {/* </motion.div>
+          </AnimatePresence> */}
         </div>
       </div>
     </div>

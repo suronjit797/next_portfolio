@@ -1,8 +1,7 @@
-import AdminApp from "@/components/AdminApp/AdminApp";
 import React from "react";
 
-const AdminRoute: React.FC = () => {
-  return <AdminApp />;
+const Dashboard: React.FC = () => {
+  return < >admin</>;
 };
 
-export default AdminRoute;
+export default Dashboard;

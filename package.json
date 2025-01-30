@@ -11,6 +11,7 @@
   "dependencies": {
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@reduxjs/toolkit": "^2.5.1",
+    "@refinedev/simple-rest": "^5.0.10",
     "@tailwindcss/postcss": "^4.0.0",
     "antd": "^5.23.3",
     "axios": "^1.7.9",
@@ -20,6 +21,7 @@
     "next": "15.1.6",
     "postcss": "^8.5.1",
     "ra-data-json-server": "^5.5.2",
+    "ra-data-simple-rest": "^5.5.2",
     "react": "^19.0.0",
     "react-admin": "^5.5.2",
     "react-dom": "^19.0.0",

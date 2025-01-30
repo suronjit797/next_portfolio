@@ -1,11 +1,12 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
-import { persistReducer, persistStore } from "redux-persist";
 import authReducer from "./features/authSlice";
 import helperReducer from "./features/helperSlice";
 import themeReducer from "./features/themeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import socketReducer from "./features/socketSlice";
+
+import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist"
 
 const persistConfig = {
   key: "root",
@@ -27,8 +28,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredPaths: ["socket", "register"],
-        ignoredActions: ["socket/setSocket"],
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
 });

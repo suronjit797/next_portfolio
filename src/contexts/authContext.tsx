@@ -1,9 +1,9 @@
 "use client";
 
-import { createContext,  useContext, ReactNode, useEffect } from "react";
+import { createContext, useContext, ReactNode, useEffect } from "react";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { setAuthToken } from "@/redux/features/authSlice";
+import { setAuthToken, setUser } from "@/redux/features/authSlice";
 
 interface AuthContextType {
   token: string | null;
@@ -39,7 +39,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const { data } = await axios.post("/users/login", { email, password });
       dispatch(setAuthToken({ token: `Bearer ${data.token}` }));
-      localStorage.setItem("auth_token", `Bearer ${data.token}`);
     } catch (error) {
       console.error("Login failed:", error);
     }
@@ -47,8 +46,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // logout
   const logout = () => {
-    localStorage.removeItem("auth_token");
-    dispatch(setAuthToken({ token: null }));
+    dispatch(setAuthToken({ token: "" }));
+    dispatch(setUser(null));
   };
 
   return <AuthContext.Provider value={{ token, login, logout }}>{children}</AuthContext.Provider>;

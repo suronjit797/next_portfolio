@@ -772,6 +772,14 @@
     redux-thunk "^3.1.0"
     reselect "^5.1.0"
 
+"@refinedev/simple-rest@^5.0.10":
+  version "5.0.10"
+  resolved "https://registry.yarnpkg.com/@refinedev/simple-rest/-/simple-rest-5.0.10.tgz#8348063d6d1102af4c54b366963141f060ba53f9"
+  integrity sha512-syLkfhQJ+6NuJxPnhwNjuNVep3CodtVlR1LA+uF6fXm8/Pz2csUyC9pRrBWRg1kwVK757La0vmd8auEKq/AF+w==
+  dependencies:
+    axios "^1.6.2"
+    query-string "^7.1.1"
+
 "@rtsao/scc@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@rtsao/scc/-/scc-1.1.0.tgz#927dd2fae9bc3361403ac2c7a00c32ddce9ad7e8"
@@ -1258,7 +1266,7 @@ axe-core@^4.10.0:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.10.2.tgz#85228e3e1d8b8532a27659b332e39b7fa0e022df"
   integrity sha512-RE3mdQ7P3FRSe7eqCWoeQ/Z9QXrtniSjp1wUjt5nRC3WIpz5rSCve6o3fsZ2aCpJtrZjSZgjwXAoTO5k4tEI0w==
 
-axios@^1.7.9:
+axios@^1.6.2, axios@^1.7.9:
   version "1.7.9"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.9.tgz#d7d071380c132a24accda1b2cfc1535b79ec650a"
   integrity sha512-LhLcE7Hbiryz8oMDdDptSrWowmB4Bl6RCt6sIJKpRB4XtVf0iEgewX3au/pJqm+Py1kCASkb/FFKjxQaLtxJvw==
@@ -2998,7 +3006,7 @@ punycode@^2.1.0:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.3.1.tgz#027422e2faec0b25e1549c3e1bd8309b9133b6e5"
   integrity sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==
 
-query-string@^7.1.3:
+query-string@^7.1.1, query-string@^7.1.3:
   version "7.1.3"
   resolved "https://registry.yarnpkg.com/query-string/-/query-string-7.1.3.tgz#a1cf90e994abb113a325804a972d98276fe02328"
   integrity sha512-hh2WYhq4fi8+b+/2Kg9CEge4fDPvHS534aOOvOZeQ3+Vf2mCFsaFBYj0i+iXcAq6I9Vzp5fjMFBlONvayDC1qg==
@@ -3036,6 +3044,13 @@ ra-data-json-server@^5.5.2:
   dependencies:
     query-string "^7.1.3"
     ra-core "^5.5.2"
+
+ra-data-simple-rest@^5.5.2:
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/ra-data-simple-rest/-/ra-data-simple-rest-5.5.2.tgz#d906a21e45fbaea386578935aae212fe97272b97"
+  integrity sha512-/LfWvaRfNB3lOMwv0gikqDTHG+rLYZ4MeB7U7R50hCKA3CSBGeE0BspQAOltGqHMTVLVQRunkvK8LcfWfE8fsQ==
+  dependencies:
+    query-string "^7.1.3"
 
 ra-i18n-polyglot@^5.5.2:
   version "5.5.2"

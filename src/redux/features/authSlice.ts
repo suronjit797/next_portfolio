@@ -1,15 +1,16 @@
+import { User } from "@/global/interface";
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface IState {
   token: string;
   isLogin: boolean;
-  user: { [key: string]: string };
+  user: User | null;
 }
 
 const initialState: IState = {
   token: "",
   isLogin: false,
-  user: {},
+  user: null,
 };
 
 export const authSlice = createSlice({
@@ -23,7 +24,6 @@ export const authSlice = createSlice({
     setUser: (state, { payload }) => {
       state.user = payload;
     },
-    
   },
 });
 
