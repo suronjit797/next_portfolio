@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/contexts/authContext";
 import "@ant-design/v5-patch-for-react-19";
 import { ReduxProviders } from "@/components/ReduxProvider";
+import AntdConfigProvider from "@/components/AntdConfigProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +35,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} ${merriweather.className} antialiased`}>
         <ReduxProviders>
-          <AuthProvider>{children}</AuthProvider>
+          <AntdConfigProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </AntdConfigProvider>
         </ReduxProviders>
       </body>
     </html>
