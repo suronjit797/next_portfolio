@@ -21,10 +21,6 @@
   --text2_color: #343090;
 }
 
-.ant-btn {
-  box-shadow: none !important;
-}
-
 @theme {
   --color-primary: var(--text_primary_color);
 }
@@ -157,4 +153,19 @@ hr {
   body {
     display: none !important;
   }
+}
+
+/* antd */
+.ant-btn {
+  box-shadow: none !important;
+}
+
+input:-webkit-autofill,
+textarea:-webkit-autofill {
+  background-color: #292929 !important; /* Autofill background */
+  color: #e1e1e1 !important; /* Autofill text color */
+  border: 1px solid #8c61ff !important; /* Autofill border color */
+  box-shadow: 0 0 0px 1000px #292929 inset !important; /* Ensures background color fills the field */
+  -webkit-text-fill-color: #e1e1e1 !important; /* Ensures text is visible */
+  transition: background-color 5000s ease-in-out 0s;
 }

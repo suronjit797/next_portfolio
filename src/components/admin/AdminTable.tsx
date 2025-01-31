@@ -17,7 +17,8 @@ const AdminTable: React.FC<Props> = ({ columns, data, params, meta, updateParams
   };
 
   if (Array.isArray(data) && Array.isArray(columns) && data?.length > 0 && columns?.length > 0) {
-    return <Table
+    return <div className="overflow-x-auto">
+      <Table
       columns={columns}
       dataSource={data}
       rowKey={(record) => record._id}
@@ -30,7 +31,8 @@ const AdminTable: React.FC<Props> = ({ columns, data, params, meta, updateParams
       }}
       onChange={handleTableChange}
       className="rounded-md"
-    />;
+    />
+    </div>;
   } else {
     return <p className="text-center text-gray-500">No data available</p>;
   }

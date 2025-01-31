@@ -3,15 +3,17 @@ import { gql } from "@/__generated__";
 import { UsersListQuery } from "@/__generated__/graphql";
 import AdminTable from "@/components/admin/AdminTable";
 import AdminTableHeader from "@/components/admin/AdminTableHeader";
+import { User } from "@/global/interface";
 import { useSearchParamsState } from "@/hooks/useSearchParamsState";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useMutation, useQuery } from "@apollo/client";
-import { Space, Spin, Tag } from "antd";
+import { Form, Space, Spin, Tag } from "antd";
 import { ColumnsType } from "antd/es/table";
-import React from "react";
+import React, { useState } from "react";
 import { FiUserCheck, FiUserX } from "react-icons/fi";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import UserFormDrawer from "./UserFormDrawer";
 
 // GraphQL Queries and Mutations
 const ALL_USERS = gql(`
@@ -44,13 +46,18 @@ const UPDATE_USER = gql(`
 const Users: React.FC = () => {
   const { params, updateParams } = useSearchParamsState({ page: "1", limit: "10" });
   const { page, limit } = params;
+  const [form] = Form.useForm();
+
+  // states
+  const [open, setOpen] = useState(false);
+  const [editUser, setEditUser] = useState<Partial<User> | null>(null);
 
   // GraphQL Hooks
   const variables = { pagination: { page: parseInt(page), limit: parseInt(limit) }, query: {} };
   const { loading, data, refetch } = useQuery(ALL_USERS, { variables });
 
   const [deleteUser] = useMutation(REMOVE_USER, { refetchQueries: ["UsersList"] });
-  const [updateUser] = useMutation( UPDATE_USER, { refetchQueries: ["UsersList"] });
+  const [updateUser] = useMutation(UPDATE_USER, { refetchQueries: ["UsersList"] });
 
   // const data: DataType[] = [
   const columns: ColumnsType<UsersListQuery["users"]["data"][]> = [
@@ -145,10 +152,25 @@ const Users: React.FC = () => {
     });
   };
 
+  const closeDrawer = () => {
+    setOpen(false);
+  };
+
+  const createUser = async () => {
+    try {
+      console.log("Creating user...");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      closeDrawer();
+    }
+  };
+
   return (
     <Spin spinning={loading}>
-      <AdminTableHeader {...{ refetch: refetchData }} />
+      <AdminTableHeader {...{ refetch: refetchData, setOpen, name: "Users" }} />
       <AdminTable {...{ columns, data: data?.users?.data, params, meta: data?.users?.meta, updateParams }} />
+      <UserFormDrawer {...{ open, closeDrawer, onFinish: createUser, form }} />
     </Spin>
   );
 };

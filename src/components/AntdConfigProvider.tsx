@@ -35,19 +35,27 @@ export default function AntdConfigProvider({ children }: { children: ReactNode }
           colorPrimary: "#8c61ff",
           colorPrimaryHover: "#a573ff",
           colorText: "#e1e1e1",
-          colorBgBase: "#1e1e1e",          
+          colorBgBase: "#1e1e1e",
           colorBorder: "#393939",
           colorTextHeading: "#bb86fc",
           colorTextSecondary: "#cccccc",
           colorLink: "#6592fd",
           colorLinkHover: "#8c61ff",
+          colorTextPlaceholder: "#7a7a7a",
+          colorIcon: "#e1e1e1",
+          colorIconHover: "#bb86fc",
+          controlItemBgActive: "#3d3d3d",
+          lineWidthBold: 0,
+          controlOutlineWidth: 0
         },
-        components:{
-          Button:{
-            defaultShadow:'none',
+        components: {
+          Button: {
+            defaultShadow: "none",
           },
-
-        }
+          DatePicker: {
+            cellActiveWithRangeBg: "#00000050",
+          },
+        },
       }}
     >
       {children}

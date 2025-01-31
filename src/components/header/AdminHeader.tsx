@@ -17,7 +17,7 @@ const AdminHeader: React.FC<Props> = ({ setIsActive, logout }) => {
 
   return (
     <Header className="!bg-[#212529] flex !text-white justify-between items-center !px-4 shadow-md">
-      <MenuFoldOutlined className="text-xl  cursor-pointer" onClick={() => setIsActive((pre) => !pre)} />
+      <MenuFoldOutlined className="text-xl z-50 cursor-pointer" onClick={() => setIsActive((pre) => !pre)} />
       <Dropdown
         menu={{ items }}
         placement="bottomRight"
