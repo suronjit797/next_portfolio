@@ -8,7 +8,7 @@ interface Props {
 
 const AdminTableHeader: React.FC<Props> = ({ refetch }) => {
   return (
-    <div className="flex bg-gray-600 mb-4 justify-between items-center  p-4 rounded-md shadow-sm">
+    <div className="flex bg-black/40 mb-4 justify-between items-center  p-4 rounded-md shadow-sm">
       {/* Left Section */}
       <div className="text-lg font-medium ">
         My Courses for <span className="text-blue-600 font-semibold">“All Courses”</span>

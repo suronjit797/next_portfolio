@@ -35,21 +35,18 @@ export default function AntdConfigProvider({ children }: { children: ReactNode }
           colorPrimary: "#8c61ff",
           colorPrimaryHover: "#a573ff",
           colorText: "#e1e1e1",
-          colorBgBase: "#1e1e1e",
-          colorBgContainer: "#292929",
+          colorBgBase: "#1e1e1e",          
           colorBorder: "#393939",
           colorTextHeading: "#bb86fc",
           colorTextSecondary: "#cccccc",
           colorLink: "#6592fd",
           colorLinkHover: "#8c61ff",
-          borderRadius: 8,
-          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.3)",
-          controlHeight: 38,          
         },
         components:{
           Button:{
             defaultShadow:'none',
-          }
+          },
+
         }
       }}
     >

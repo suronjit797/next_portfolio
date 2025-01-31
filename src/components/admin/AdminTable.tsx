@@ -26,9 +26,10 @@ const AdminTable: React.FC<Props> = ({ columns, data, params, meta, updateParams
         pageSize: Number(params?.limit) || 10,
         total: meta?.total || 0,
         showSizeChanger: true,
+        className:"bg-black/50 !px-3 !py-2 !text-white disabled:!text-white disabled:opacity-100 rounded-md"
       }}
       onChange={handleTableChange}
-      className="bg-gray-900 text-white rounded-md"
+      className="rounded-md"
     />;
   } else {
     return <p className="text-center text-gray-500">No data available</p>;
