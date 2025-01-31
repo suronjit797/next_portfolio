@@ -1,5 +1,9 @@
 import { Button, Tooltip } from "antd";
-import { FilterOutlined, PlusOutlined, ReloadOutlined } from "@ant-design/icons";
+import {
+  // FilterOutlined,
+  PlusOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 
 interface Props {
   refetch: () => void;
@@ -9,23 +13,23 @@ interface Props {
 
 const AdminTableHeader: React.FC<Props> = ({ refetch, setOpen, name }) => {
   return (
-    <div className="flex bg-black/40 mb-4 justify-between items-center  p-4 rounded-md shadow-sm">
+    <div className="flex bg-black/40 mb-4 justify-between items-center p-4 rounded-md shadow-sm">
       {/* Left Section */}
       <div className="text-lg font-medium ">{name && "All " + name}</div>
 
       {/* Right Section */}
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-8">
         {/* View Mode Icons */}
         <div className="flex gap-2">
           {/* Filter Icon */}
-          <Tooltip title="Filter">
+          {/* <Tooltip title="Filter">
             <Button
               shape="circle"
               icon={<FilterOutlined />}
               className="hover:bg-gray-200 text-gray-500 "
               onClick={() => console.log("filter")}
             />
-          </Tooltip>
+          </Tooltip> */}
 
           <Tooltip title="Refetch">
             <Button

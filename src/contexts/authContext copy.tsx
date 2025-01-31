@@ -1,10 +1,9 @@
 "use client";
 
-import { gql } from "@/__generated__";
-import { setAuthToken, setUser } from "@/redux/features/authSlice";
+import { createContext, useContext, ReactNode, useEffect } from "react";
+import axios from "axios";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { useMutation } from "@apollo/client";
-import { createContext, ReactNode, useContext } from "react";
+import { setAuthToken, setUser } from "@/redux/features/authSlice";
 
 interface AuthContextType {
   token: string | null;
@@ -12,11 +11,7 @@ interface AuthContextType {
   logout: () => void;
 }
 
-const LOGIN = gql(`
-  mutation Login($body: LoginInput) {
-    login(body: $body) { accessToken }
-  }
-`);
+
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -31,13 +26,21 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const dispatch = useAppDispatch();
   const { token } = useAppSelector((state) => state.auth);
-  const [loginUser] = useMutation(LOGIN);
+
+  // set base url
+  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_ROUTE;
+
+  useEffect(() => {
+    if (token) {
+      axios.defaults.headers["Authorization"] = token;
+    }
+  }, [token]);
 
   // login
   const login = async (email: string, password: string) => {
     try {
-      const { data } = await loginUser({ variables: { body: { email, password } } });
-      dispatch(setAuthToken({ token: data?.login?.accessToken ? `Bearer ${data?.login?.accessToken}` : null }));
+      const { data } = await axios.post("/users/login", { email, password });
+      dispatch(setAuthToken({ token: `Bearer ${data.token}` }));
     } catch (error) {
       console.error("Login failed:", error);
     }

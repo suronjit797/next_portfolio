@@ -15,7 +15,7 @@ const AdminSidebar: React.FC<{ user: User; }> = ({ user }) => {
     <div className="h-screen w-full max-w-screen py-3 px-3 overflow-y-auto overflow-x-hidden bg-[#212529]">
       <div className="flex items-center flex-col h-full">
         <h1 className="capitalize">
-          <span className="font-bold">{user?.name}</span> <span className="text-xs">({user.role})</span>{" "}
+          <span className="font-bold">{user?.name}</span> <span className="text-xs">({user?.role})</span>
         </h1>
         <hr className="w-full my-3" />
         {/* nav items */}

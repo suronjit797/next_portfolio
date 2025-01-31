@@ -7,6 +7,9 @@ import { ReduxProviders } from "@/components/ReduxProvider";
 import AntdConfigProvider from "@/components/AntdConfigProvider";
 import ApolloProvider from "@/graphql/ApolloProvider";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,12 +42,14 @@ export default function RootLayout({
         <ReduxProviders>
           <AntdRegistry>
             <AntdConfigProvider>
-              <AuthProvider>
-                <ApolloProvider>{children}</ApolloProvider>
-              </AuthProvider>
+              <ApolloProvider>
+                <AuthProvider>{children}</AuthProvider>
+              </ApolloProvider>
             </AntdConfigProvider>
           </AntdRegistry>
         </ReduxProviders>
+        <ToastContainer position="top-right" autoClose={3000} theme="colored" />
+
       </body>
     </html>
   );

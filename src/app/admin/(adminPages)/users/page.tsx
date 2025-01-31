@@ -6,7 +6,7 @@ import { User } from "@/global/interface";
 import { useSearchParamsState } from "@/hooks/useSearchParamsState";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useMutation, useQuery } from "@apollo/client";
-import { Form, Space, Spin, Tag } from "antd";
+import { Button, Form, Space, Spin, Tag } from "antd";
 import { ColumnsType } from "antd/es/table";
 import React, { useState } from "react";
 import { FiUserCheck, FiUserX } from "react-icons/fi";
@@ -116,6 +116,9 @@ const Users: React.FC = () => {
       key: "actions",
       render: (_, record) => (
         <Space className="text-xl ">
+          <Button type="text" color="blue" onClick={() => updateHandler(record)}>
+            <EditOutlined />
+          </Button>
           <div className=" cursor-pointer mx-2 text-blue-400" onClick={() => updateHandler(record)}>
             <EditOutlined />
           </div>

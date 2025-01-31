@@ -40,9 +40,9 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-3xl font-bold text-center text-gray-700">Login</h2>
+    <div className="flex items-center justify-center min-h-screen ">
+      <div className="w-full max-w-md p-8 space-y-6  rounded-lg shadow-lg">
+        <h2 className="text-3xl font-bold text-center">Login</h2>
         <Form layout="vertical" onFinish={onFinish}>
           {/* Username Field */}
           <Form.Item label="Username" name="username" rules={[{ required: true, message: "Username is required" }]}>
@@ -51,10 +51,7 @@ const LoginPage = () => {
 
           {/* Password Field with Show/Hide Toggle */}
           <Form.Item label="Password" name="password" rules={[{ required: true, message: "Password is required" }]}>
-            <Input.Password
-              placeholder="Enter your password"
-              iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-            />
+            <Input.Password placeholder="Enter your password" autoComplete="off" />
           </Form.Item>
 
           {/* Submit Button */}
