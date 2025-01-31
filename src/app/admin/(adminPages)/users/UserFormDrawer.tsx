@@ -29,7 +29,7 @@ const UserFormDrawer: React.FC<Props> = ({ open, closeDrawer, onFinish, form, mo
         }}
         extra={
           <Space>
-            <Button onClick={closeDrawer}>Cancel</Button>
+            <Button danger type='primary' onClick={closeDrawer}>Cancel</Button>
             <Button onClick={() => form.submit()} type="primary">
               Submit
             </Button>
@@ -53,12 +53,23 @@ const UserFormDrawer: React.FC<Props> = ({ open, closeDrawer, onFinish, form, mo
           >
             <Input placeholder="Enter your email" />
           </Form.Item>
+
           <Form.Item label="Status" name="isActive" rules={[{ required: true, message: "Status is required" }]}>
             <Select
               placeholder="Select Status"
               options={[
                 { label: "Active", value: true },
                 { label: "Inactive", value: false },
+              ]}
+            />
+          </Form.Item>
+
+          <Form.Item label="Role" name="role" rules={[{ required: true, message: "Role is required" }]}>
+            <Select
+              placeholder="Select User Role"
+              options={[
+                { label: "Admin", value: "admin" },
+                { label: "User", value: "user" },
               ]}
             />
           </Form.Item>

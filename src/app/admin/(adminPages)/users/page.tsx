@@ -177,11 +177,13 @@ const Users: React.FC = () => {
 
   const onFinish = async () => {
     try {
-      const { name, email, password, isActive } = form.getFieldsValue();
+      const { name, email, password, isActive, role } = form.getFieldsValue();
       if (mode === "create") {
-        await createUser({ variables: { body: { name, email, password, isActive } } });
+        await createUser({ variables: { body: { name, email, password, isActive, role } } });
       } else {
-        await updateUser({ variables: { body: { name, email, isActive }, updateUserId: editUser?._id as string } });
+        await updateUser({
+          variables: { body: { name, email, isActive, role }, updateUserId: editUser?._id as string },
+        });
       }
     } catch (error) {
       console.log(error);
