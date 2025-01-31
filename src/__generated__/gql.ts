@@ -17,6 +17,7 @@ const documents = {
     "\n  query UsersList($pagination: PaginationInput, $query: UserQuery) {\n    users(pagination: $pagination, query: $query) {\n      meta { page limit total }\n      data { _id name email role isActive }\n    }\n  }\n": types.UsersListDocument,
     "\n  mutation DeleteUser($deleteUserId: ID!) {\n    deleteUser(id: $deleteUserId) {\n      _id\n    }\n  }\n": types.DeleteUserDocument,
     "\n  mutation UpdateUser($updateUserId: ID!, $body: UpdateUserInput) {\n    updateUser(id: $updateUserId, body: $body) {\n      email\n      name\n      role\n    }\n  }\n": types.UpdateUserDocument,
+    "\n    mutation createUser($body: CreateUserInput!) {\n    register(body: $body) {\n\n      _id\n\n    }\n  }  \n": types.CreateUserDocument,
 };
 
 /**
@@ -45,6 +46,10 @@ export function gql(source: "\n  mutation DeleteUser($deleteUserId: ID!) {\n    
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation UpdateUser($updateUserId: ID!, $body: UpdateUserInput) {\n    updateUser(id: $updateUserId, body: $body) {\n      email\n      name\n      role\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateUser($updateUserId: ID!, $body: UpdateUserInput) {\n    updateUser(id: $updateUserId, body: $body) {\n      email\n      name\n      role\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n    mutation createUser($body: CreateUserInput!) {\n    register(body: $body) {\n\n      _id\n\n    }\n  }  \n"): (typeof documents)["\n    mutation createUser($body: CreateUserInput!) {\n    register(body: $body) {\n\n      _id\n\n    }\n  }  \n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

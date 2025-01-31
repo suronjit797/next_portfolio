@@ -1,6 +1,5 @@
 "use client";
 import { gql } from "@/__generated__";
-import { UsersListQuery } from "@/__generated__/graphql";
 import AdminTable from "@/components/admin/AdminTable";
 import AdminTableHeader from "@/components/admin/AdminTableHeader";
 import { User } from "@/global/interface";
@@ -43,6 +42,16 @@ const UPDATE_USER = gql(`
   }
 `);
 
+const CREATE_USER = gql(`
+    mutation createUser($body: CreateUserInput!) {
+    register(body: $body) {
+
+      _id
+
+    }
+  }  
+`);
+
 const Users: React.FC = () => {
   const { params, updateParams } = useSearchParamsState({ page: "1", limit: "10" });
   const { page, limit } = params;
@@ -51,6 +60,7 @@ const Users: React.FC = () => {
   // states
   const [open, setOpen] = useState(false);
   const [editUser, setEditUser] = useState<Partial<User> | null>(null);
+  const [mode, setMode] = useState<"edit" | "create">("create");
 
   // GraphQL Hooks
   const variables = { pagination: { page: parseInt(page), limit: parseInt(limit) }, query: {} };
@@ -58,9 +68,11 @@ const Users: React.FC = () => {
 
   const [deleteUser] = useMutation(REMOVE_USER, { refetchQueries: ["UsersList"] });
   const [updateUser] = useMutation(UPDATE_USER, { refetchQueries: ["UsersList"] });
+  const [createUser] = useMutation(CREATE_USER, { refetchQueries: ["UsersList"] });
 
   // const data: DataType[] = [
-  const columns: ColumnsType<UsersListQuery["users"]["data"][]> = [
+  // const columns: ColumnsType<UsersListQuery["users"]["data"]> = [
+  const columns: ColumnsType<User> = [
     {
       title: "SL No",
       dataIndex: "index",
@@ -104,21 +116,27 @@ const Users: React.FC = () => {
       key: "actions",
       render: (_, record) => (
         <Space className="text-xl ">
-          <div className=" cursor-pointer mx-2 ">
+          <div className=" cursor-pointer mx-2 text-blue-400" onClick={() => updateHandler(record)}>
             <EditOutlined />
           </div>
-          <div className=" cursor-pointer mx-2 " onClick={() => deleteHandler(record._id)}>
+          <div className=" cursor-pointer mx-2 text-red-400" onClick={() => deleteHandler(record?._id)}>
             <DeleteOutlined />
           </div>
-          {record?.isActive ? (
-            <div className=" cursor-pointer mx-2 text-red-400" title="Deactivate">
-              <FiUserX />
-            </div>
-          ) : (
-            <div className=" cursor-pointer mx-2 text-green-400" title="Activate">
-              <FiUserCheck />
-            </div>
-          )}
+          <div
+            onClick={() =>
+              updateUser({ variables: { body: { isActive: !Boolean(record?.isActive) }, updateUserId: record?._id } })
+            }
+          >
+            {record?.isActive ? (
+              <div className=" cursor-pointer mx-2 text-red-400" title="Deactivate">
+                <FiUserX />
+              </div>
+            ) : (
+              <div className=" cursor-pointer mx-2 text-green-400" title="Activate">
+                <FiUserCheck />
+              </div>
+            )}
+          </div>
         </Space>
       ),
       align: "center",
@@ -154,11 +172,17 @@ const Users: React.FC = () => {
 
   const closeDrawer = () => {
     setOpen(false);
+    form.resetFields();
   };
 
-  const createUser = async () => {
+  const onFinish = async () => {
     try {
-      console.log("Creating user...");
+      const { name, email, password, isActive } = form.getFieldsValue();
+      if (mode === "create") {
+        await createUser({ variables: { body: { name, email, password, isActive } } });
+      } else {
+        await updateUser({ variables: { body: { name, email, isActive }, updateUserId: editUser?._id as string } });
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -166,11 +190,19 @@ const Users: React.FC = () => {
     }
   };
 
+  const updateHandler = (data: Partial<User>) => {
+    const { name, email, isActive } = data;
+    form.setFieldsValue({ name, email, isActive });
+    setEditUser(data);
+    setOpen(true);
+    setMode("edit");
+  };
+
   return (
     <Spin spinning={loading}>
       <AdminTableHeader {...{ refetch: refetchData, setOpen, name: "Users" }} />
       <AdminTable {...{ columns, data: data?.users?.data, params, meta: data?.users?.meta, updateParams }} />
-      <UserFormDrawer {...{ open, closeDrawer, onFinish: createUser, form }} />
+      <UserFormDrawer {...{ open, closeDrawer, onFinish, form }} />
     </Spin>
   );
 };

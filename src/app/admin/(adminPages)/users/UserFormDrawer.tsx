@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Drawer, Form, FormInstance, Input, Space } from "antd";
+import { Button, Drawer, Form, FormInstance, Input, Select, Space } from "antd";
 import React from "react";
 
 interface Props {
@@ -7,14 +7,19 @@ interface Props {
   closeDrawer: () => void;
   onFinish: () => void;
   form: FormInstance<any>;
+  mode?: "edit" | "create";
 }
 
-const UserFormDrawer: React.FC<Props> = ({ open, closeDrawer, onFinish, form }) => {
+const onFinishFailed = () => {
+  console.log("failed");
+};
+
+const UserFormDrawer: React.FC<Props> = ({ open, closeDrawer, onFinish, form, mode='create' }) => {
   return (
     <div className="!text-white">
       <Drawer
         title="Create a new account"
-        width={720}
+        width={540}
         onClose={closeDrawer}
         open={open}
         styles={{
@@ -25,13 +30,13 @@ const UserFormDrawer: React.FC<Props> = ({ open, closeDrawer, onFinish, form }) 
         extra={
           <Space>
             <Button onClick={closeDrawer}>Cancel</Button>
-            <Button onClick={onFinish} type="primary">
+            <Button onClick={() => form.submit()} type="primary">
               Submit
             </Button>
           </Space>
         }
       >
-        <Form layout="vertical" form={form}>
+        <Form layout="vertical" form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
           {/* Name Field */}
           <Form.Item label="Name" name="name" rules={[{ required: true, message: "Name is required" }]}>
             <Input placeholder="Enter your name" />
@@ -48,44 +53,50 @@ const UserFormDrawer: React.FC<Props> = ({ open, closeDrawer, onFinish, form }) 
           >
             <Input placeholder="Enter your email" />
           </Form.Item>
+          <Form.Item label="Status" name="isActive" rules={[{ required: true, message: "Status is required" }]}>
+            <Select
+              placeholder="Select Status"
+              options={[
+                { label: "Active", value: true },
+                { label: "Inactive", value: false },
+              ]}
+            />
+          </Form.Item>
 
           {/* Password Field */}
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[
-              { required: true, message: "Password is required" },
-              { min: 6, message: "Password must be at least 6 characters" },
-            ]}
-          >
-            <Input.Password
-              placeholder="Enter your password"
-              // iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-            />
-          </Form.Item>
-
-          {/* Confirm Password Field */}
-          <Form.Item
-            label="Confirm Password"
-            name="confirmPassword"
-            dependencies={["password"]}
-            rules={[
-              { required: true, message: "Please confirm your password" },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (!value || getFieldValue("password") === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(new Error("Passwords do not match!"));
-                },
-              }),
-            ]}
-          >
-            <Input.Password
-              placeholder="Confirm your password"
-              // iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-            />
-          </Form.Item>
+          {mode === "edit" && (
+            <>
+              <Form.Item
+                label="Password"
+                name="password"
+                rules={[
+                  { required: true, message: "Password is required" },
+                  { min: 6, message: "Password must be at least 6 characters" },
+                ]}
+              >
+                <Input.Password placeholder="Enter your password" />
+              </Form.Item>
+              {/* Confirm Password Field */}
+              <Form.Item
+                label="Confirm Password"
+                name="confirmPassword"
+                dependencies={["password"]}
+                rules={[
+                  { required: true, message: "Please confirm your password" },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue("password") === value) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(new Error("Passwords do not match!"));
+                    },
+                  }),
+                ]}
+              >
+                <Input.Password placeholder="Confirm your password" />
+              </Form.Item>
+            </>
+          )}
         </Form>
       </Drawer>
     </div>
