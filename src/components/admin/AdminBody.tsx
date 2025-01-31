@@ -2,7 +2,7 @@ import type { ColumnsType } from "antd/es/table";
 import { AdminProps } from "./AdminInterface";
 import { AnyObject } from "antd/es/_util/type";
 import AdminTable from "./AdminTable";
-import AdminHeader from "./AdminHeader";
+import AdminTableHeader from "./AdminTableHeader";
 import AdminGrid from "./AdminGrid";
 
 const AdminBody: React.FC<AdminProps> = ({
@@ -26,7 +26,7 @@ const AdminBody: React.FC<AdminProps> = ({
 
   return (
     <>
-      <AdminHeader {...{ isListView, setIsListView }} />
+      <AdminTableHeader {...{ isListView, setIsListView }} />
       {isListView ? (
         <AdminTable {...{ columns, data, params, meta, updateParams }} />
       ) : (

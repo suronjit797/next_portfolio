@@ -21,6 +21,10 @@
   --text2_color: #343090;
 }
 
+.ant-btn {
+  box-shadow: none !important;
+}
+
 @theme {
   --color-primary: var(--text_primary_color);
 }

@@ -1,15 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { User } from "@/global/interface";
 import { Table } from "antd";
-import { AnyObject } from "antd/es/_util/type";
-import { ColumnsType } from "antd/es/table";
 import React from "react";
 
 interface Props {
-  columns?: ColumnsType<AnyObject>;
-  data?: User[];
+  columns: any[];
+  data?: any[] | null;
   params: any;
-  meta: any;
+  meta?: any;
   updateParams: (newParams: any) => void;
 }
 
@@ -19,8 +16,8 @@ const AdminTable: React.FC<Props> = ({ columns, data, params, meta, updateParams
     updateParams({ page: pagination.current, limit: pagination.pageSize });
   };
 
-  return (
-    <Table
+  if (Array.isArray(data) && Array.isArray(columns) && data?.length > 0 && columns?.length > 0) {
+    return <Table
       columns={columns}
       dataSource={data}
       rowKey={(record) => record._id}
@@ -32,8 +29,10 @@ const AdminTable: React.FC<Props> = ({ columns, data, params, meta, updateParams
       }}
       onChange={handleTableChange}
       className="bg-gray-900 text-white rounded-md"
-    />
-  );
+    />;
+  } else {
+    return <p className="text-center text-gray-500">No data available</p>;
+  }
 };
 
 export default AdminTable;

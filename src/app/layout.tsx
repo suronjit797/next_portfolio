@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Merriweather_Sans } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/authContext";
-import "@ant-design/v5-patch-for-react-19";
+// import "@ant-design/v5-patch-for-react-19";
 import { ReduxProviders } from "@/components/ReduxProvider";
 import AntdConfigProvider from "@/components/AntdConfigProvider";
+import ApolloProvider from "@/graphql/ApolloProvider";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,9 +37,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} ${merriweather.className} antialiased`}>
         <ReduxProviders>
-          <AntdConfigProvider>
-            <AuthProvider>{children}</AuthProvider>
-          </AntdConfigProvider>
+          <AntdRegistry>
+            <AntdConfigProvider>
+              <AuthProvider>
+                <ApolloProvider>{children}</ApolloProvider>
+              </AuthProvider>
+            </AntdConfigProvider>
+          </AntdRegistry>
         </ReduxProviders>
       </body>
     </html>
