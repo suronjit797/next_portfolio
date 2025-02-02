@@ -23,11 +23,13 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     for (const err of graphQLErrors) {
       console.error(`[GraphQL error]: Message: ${err.message}, Location: ${err.locations}, Path: ${err.path}`);
       // Handle specific GraphQL errors
-      if (err.message.includes("Unauthorized")) {
+      if (err.message.includes("invalid value")) {
+        console.warn("A BAD_*_INPUT error occurred, but no toast will be shown.");
+      } else if (err.message.includes("Unauthorized")) {
         toast.error(err.message);
         // Clear local storage and redirect to login
         localStorage.clear();
-        window.location.href = "/login";
+        window.location.href = "/admin/login";
       } else {
         toast.error(err.message || "GraphQL Error");
       }

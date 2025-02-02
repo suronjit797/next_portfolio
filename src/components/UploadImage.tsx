@@ -1,7 +1,7 @@
 "use client";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { UploadOutlined } from "@ant-design/icons";
+import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
 import { Button, Form, FormInstance, Upload } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -17,6 +17,21 @@ interface Props {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   form: FormInstance<any>;
 }
+
+const uploadButton = (
+  <button
+    type="button"
+  >
+    <PlusOutlined />
+    <div
+      style={{
+        marginTop: 8,
+      }}
+    >
+      Upload
+    </div>
+  </button>
+);
 
 const App: React.FC<Props> = ({ maxCount, name, label, listType, setIsLoading, form }) => {
   // let fileList;
@@ -88,7 +103,8 @@ const App: React.FC<Props> = ({ maxCount, name, label, listType, setIsLoading, f
             const updatedFiles = fileList.filter((image: any) => image.uid !== file.uid);
             form.setFieldsValue({ [name]: updatedFiles });
             setFileList(updatedFiles);
-            toast.success(`${file.name} file removed.`);
+            console.log(`${file.name} file removed.`);
+            // toast.success(`${file.name} file removed.`);
           }}
           supportServerRender={true}
           listType={listType}
@@ -98,9 +114,13 @@ const App: React.FC<Props> = ({ maxCount, name, label, listType, setIsLoading, f
           }}
           onPreview={handlePreview}
         >
-          <Button disabled={false} icon={<UploadOutlined />}>
-            Upload
-          </Button>
+          {["text", "picture"].includes(listType) ? (
+            <Button disabled={false} icon={<UploadOutlined />}>
+              Upload
+            </Button>
+          ) : (
+            uploadButton
+          )}
         </Upload>
       </Form.Item>
     </>

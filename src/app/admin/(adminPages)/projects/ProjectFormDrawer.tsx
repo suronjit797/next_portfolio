@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import UploadImage from "@/components/UploadImage";
-import { Button, Drawer, Form, FormInstance, Input, Select, Space } from "antd";
+import { Button, Drawer, Form, FormInstance, Input, Select, Space, Spin } from "antd";
 import React from "react";
 
 interface Props {
@@ -13,8 +13,8 @@ interface Props {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const onFinishFailed = () => {
-  console.log("failed");
+const onFinishFailed = (values: any) => {
+  console.log("failed", values);
 };
 
 const ProjectFormDrawer: React.FC<Props> = ({
@@ -27,119 +27,92 @@ const ProjectFormDrawer: React.FC<Props> = ({
   setIsLoading,
 }) => {
   return (
-    <div className="!text-white">
-      <Drawer
-        title="Create a new account"
-        width={540}
-        onClose={closeDrawer}
-        open={open}
-        styles={{
-          body: {
-            paddingBottom: 80,
-          },
-        }}
-        extra={
-          <Space>
-            <Button danger type="primary" onClick={closeDrawer}>
-              Cancel
-            </Button>
-            <Button onClick={() => form.submit()} type="primary" disabled={isLoading}>
-              Submit
-            </Button>
-          </Space>
-        }
-      >
+    <Drawer
+      title={`${mode === "create" ? "Create a new" : "Update"} project`}
+      width={540}
+      onClose={closeDrawer}
+      open={open}
+      styles={{ body: { paddingBottom: 80 } }}
+      extra={
+        <Space>
+          <Button danger type="primary" onClick={closeDrawer}>
+            Cancel
+          </Button>
+          <Button onClick={() => form.submit()} type="primary" disabled={isLoading}>
+            Submit
+          </Button>
+        </Space>
+      }
+    >
+      <Spin spinning={isLoading}>
         <Form layout="vertical" form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
-          {/* Name Field */}
+          {/* Position */}
+          <Form.Item label="Position" name="position" rules={[{ required: true, message: "Position is required" }]}>
+            <Input type="number" placeholder="Enter position" />
+          </Form.Item>
+
+          {/* Name */}
           <Form.Item label="Name" name="name" rules={[{ required: true, message: "Name is required" }]}>
-            <Input placeholder="Enter your name" />
+            <Input placeholder="Enter project name" />
           </Form.Item>
 
-          {/* Email Field */}
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[
-              { required: true, message: "Email is required" },
-              { type: "email", message: "Invalid email format" },
-            ]}
-          >
-            <Input placeholder="Enter your email" />
+          {/* Description */}
+          <Form.Item label="Description" name="description" rules={[{ required: true, message: "Description is required" }]}>
+            <Input.TextArea rows={3} placeholder="Enter project description" />
           </Form.Item>
 
-          <Form.Item label="Status" name="isActive" rules={[{ required: true, message: "Status is required" }]}>
-            <Select
-              placeholder="Select Status"
-              options={[
-                { label: "Active", value: true },
-                { label: "Inactive", value: false },
-              ]}
-            />
+          {/* Packages */}
+          <Form.Item label="Packages" name="packages" rules={[{ required: true, message: "At least one package is required" }]}>
+            <Select mode="tags" placeholder="Add packages (e.g., React, Express)" />
           </Form.Item>
 
-          <Form.Item label="Role" name="role" rules={[{ required: true, message: "Role is required" }]}>
-            <Select
-              placeholder="Select User Role"
-              options={[
-                { label: "Admin", value: "admin" },
-                { label: "User", value: "user" },
-              ]}
-            />
+          {/* Tags */}
+          <Form.Item label="Tags" name="tags" rules={[{ required: true, message: "At least one tag is required" }]}>
+            <Select mode="tags" placeholder="Add tags (e.g., Fullstack, MERN)" />
           </Form.Item>
 
-          {/* Password Field */}
-          {mode === "edit" && (
-            <>
-              <Form.Item
-                label="Password"
-                name="password"
-                rules={[
-                  { required: true, message: "Password is required" },
-                  { min: 6, message: "Password must be at least 6 characters" },
-                ]}
-              >
-                <Input.Password placeholder="Enter your password" />
-              </Form.Item>
-              {/* Confirm Password Field */}
-              <Form.Item
-                label="Confirm Password"
-                name="confirmPassword"
-                dependencies={["password"]}
-                rules={[
-                  { required: true, message: "Please confirm your password" },
-                  ({ getFieldValue }) => ({
-                    validator(_, value) {
-                      if (!value || getFieldValue("password") === value) {
-                        return Promise.resolve();
-                      }
-                      return Promise.reject(new Error("Passwords do not match!"));
-                    },
-                  }),
-                ]}
-              >
-                <Input.Password placeholder="Confirm your password" />
-              </Form.Item>
-            </>
-          )}
-          {/* <Form.Item
-            getValueFromEvent={normFile}
-            label="Avatar"
-            name="avatar"
-            rules={[{ required: true, message: "Avatar is required" }]}
-          > */}
-          <UploadImage {...{  }} />
-          {/* </Form.Item> */}
+          {/* Live URL */}
+          <Form.Item label="Live URL" name="liveUrl" rules={[{ type: "url", message: "Enter a valid URL" }]}>
+            <Input placeholder="Enter live project URL" />
+          </Form.Item>
 
-          {/* <Form.Item
-            label="Profile Picture"
-            name="avatar"
-            rules={[{ required: true, message: "Profile picture is required" }]}
-          >
-            <Upload  />
-          </Form.Item> */}
+          {/* GitHub URLs */}
+          <Form.Item label="GitHub (Frontend)" name={["githubUrl", "frontend"]} rules={[{ type: "url", message: "Enter a valid URL" }]}>
+            <Input placeholder="Enter frontend repo URL" />
+          </Form.Item>
+
+          <Form.Item label="GitHub (Backend)" name={["githubUrl", "backend"]} rules={[{ type: "url", message: "Enter a valid URL" }]}>
+            <Input placeholder="Enter backend repo URL" />
+          </Form.Item>
+
+          {/* Thumbnail Upload (Single Image) */}
+          <UploadImage
+            {...{
+              label: "Thumbnail",
+              listType: "picture",
+              maxCount: 1,
+              name: "thumbnail",
+              isLoading,
+              setIsLoading,
+              form,
+            }}
+          />
+
+          {/* Images Upload (Multiple) */}
+          <UploadImage
+            {...{
+              label: "Project Images",
+              listType: "picture-card",
+              maxCount: 5,
+              name: "images",
+              isLoading,
+              setIsLoading,
+              form,
+            }}
+          />
         </Form>
-      </Drawer>
-    </div>
+      </Spin>
+    </Drawer>
   );
 };
 

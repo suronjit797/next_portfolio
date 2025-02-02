@@ -8,7 +8,7 @@ import { useSearchParamsState } from "@/hooks/useSearchParamsState";
 import { AVATAR } from "@/lib/constants";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useMutation, useQuery } from "@apollo/client";
-import { Form, Space, Spin, Tag } from "antd";
+import { Button, Empty, Form, Space, Spin, Tag } from "antd";
 import { ColumnsType } from "antd/es/table";
 import React, { useState } from "react";
 import { FiUserCheck, FiUserX } from "react-icons/fi";
@@ -21,7 +21,7 @@ const ALL_USERS = gql(`
   query UsersList($pagination: PaginationInput, $query: UserQuery) {
       users(pagination: $pagination, query: $query) {
         meta { page limit total }
-        data { _id name email role isActive avatar { uid name status url size } }
+        data { _id name email role isActive avatar { uid name status url } }
       }
     }
 `);
@@ -51,7 +51,7 @@ const Users: React.FC = () => {
   const { page, limit } = params;
   const [form] = Form.useForm();
 
-  // states
+  // states`
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [editUser, setEditUser] = useState<Partial<User> | null>(null);
@@ -217,7 +217,17 @@ const Users: React.FC = () => {
   return (
     <Spin spinning={loading}>
       <AdminTableHeader {...{ refetch: refetchData, setOpen, name: "Users" }} />
-      <AdminTable {...{ columns, data: data?.users?.data, params, meta: data?.users?.meta, updateParams }} />
+      {Array.isArray(data?.users?.data) && data?.users?.data?.length > 0 ? (
+        <AdminTable {...{ columns, data: data?.users?.data, params, meta: data?.users?.meta, updateParams }} />
+      ) : (
+        <div className="py-10 bg-black/40 rounded-md">
+          <Empty description="No data found">
+            <Button type="primary" onClick={() => setOpen(true)}>
+              Create Now
+            </Button>
+          </Empty>
+        </div>
+      )}
       <UserFormDrawer {...{ open, closeDrawer, onFinish, form, isLoading, setIsLoading }} />
     </Spin>
   );

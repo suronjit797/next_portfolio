@@ -4,7 +4,7 @@ import React from "react";
 
 interface Props {
   columns: any[];
-  data?: any[] | null;
+  data?: any[];
   params: any;
   meta?: any;
   updateParams: (newParams: any) => void;

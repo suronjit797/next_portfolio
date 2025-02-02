@@ -2,83 +2,88 @@
 import { gql } from "@/__generated__";
 import AdminTable from "@/components/admin/AdminTable";
 import AdminTableHeader from "@/components/admin/AdminTableHeader";
-import { User } from "@/global/interface";
+import TableImagePreview from "@/components/TableImagePreview";
+import { Project } from "@/global/interface";
 import { useSearchParamsState } from "@/hooks/useSearchParamsState";
+import { AVATAR } from "@/lib/constants";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { useMutation, useQuery } from "@apollo/client";
-import { Button, Form, Space, Spin, Tag } from "antd";
+import { useQuery } from "@apollo/client";
+import { Button, Empty, Form, Space, Spin, Tag } from "antd";
 import { ColumnsType } from "antd/es/table";
 import React, { useState } from "react";
-import { FiUserCheck, FiUserX } from "react-icons/fi";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import ProjectFormDrawer from "./ProjectFormDrawer";
 
 // GraphQL Queries and Mutations
-const ALL_USERS = gql(`
-  query ProjectList($pagination: PaginationInput, $query: UserQuery) {
-    users(pagination: $pagination, query: $query) {
-      meta { page limit total }
-      data { _id name email role isActive }
+const ALL_PROJECTS = gql(`
+  query ProjectsList($pagination: PaginationInput, $query: ProjectQuery) {
+      projects(pagination: $pagination, query: $query) {
+        meta { page limit total }
+        data { _id name thumbnail {uid name status url} images {uid name status url} description packages tags liveUrl githubUrl { frontend   backend } }
+      }
     }
-  }
 `);
 
-const REMOVE_USER = gql(`
-  mutation DeleteProject($deleteUserId: ID!) {
-    deleteUser(id: $deleteUserId) {
-      _id
-    }
-  }
-`);
+// const REMOVE_PROJECT = gql(`
+//   mutation DeleteProject($deleteProjectId: ID!) {
+//     deleteProject(id: $deleteProjectId) {
+//       _id
+//     }
+//   }
+// `);
 
-const UPDATE_USER = gql(`
-  mutation UpdateProject($updateUserId: ID!, $body: UpdateUserInput) {
-    updateUser(id: $updateUserId, body: $body) {
-      email
-      name
-      role
-    }
-  }
-`);
+// const UPDATE_PROJECT = gql(`
+//   mutation UpdateProject($updateProjectId: ID!, $body: UpdateProjectInput) {
+//     updateProject(id: $updateProjectId, body: $body) { name }
+//   }
+// `);
 
-const CREATE_USER = gql(`
-    mutation createProject($body: CreateUserInput!) {
-    register(body: $body) {
+// const CREATE_PROJECT = gql(`
+//     mutation createProject($body: CreateProjectInput!) {
+//     register(body: $body) { _id }
+//   }
+// `);
 
-      _id
-
-    }
-  }  
-`);
-
-const Users: React.FC = () => {
+const Projects: React.FC = () => {
   const { params, updateParams } = useSearchParamsState({ page: "1", limit: "10" });
   const { page, limit } = params;
   const [form] = Form.useForm();
 
   // states
-  const [open, setOpen] = useState(true);
-  const [editUser, setEditUser] = useState<Partial<User> | null>(null);
-  const [mode, setMode] = useState<"edit" | "create">("create");
+  const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [editProject, setEditProject] = useState<Partial<Project> | null>(null);
+  const [mode, setMode] = useState<"edit" | "create">("create");
 
   // GraphQL Hooks
   const variables = { pagination: { page: parseInt(page), limit: parseInt(limit) }, query: {} };
-  const { loading, data, refetch } = useQuery(ALL_USERS, { variables });
+  const { loading, data, refetch } = useQuery(ALL_PROJECTS, { variables });
 
-  const [deleteUser] = useMutation(REMOVE_USER, { refetchQueries: ["UsersList"] });
-  const [updateUser] = useMutation(UPDATE_USER, { refetchQueries: ["UsersList"] });
-  const [createUser] = useMutation(CREATE_USER, { refetchQueries: ["UsersList"] });
+  // const [deleteProject] = useMutation(REMOVE_PROJECT, { refetchQueries: ["ProjectsList"] });
+  // const [updateProject] = useMutation(UPDATE_PROJECT, { refetchQueries: ["ProjectsList"] });
+  // const [createProject] = useMutation(CREATE_PROJECT, { refetchQueries: ["ProjectsList"] });
 
   // const data: DataType[] = [
-  // const columns: ColumnsType<UsersListQuery["users"]["data"]> = [
-  const columns: ColumnsType<User> = [
+  // const columns: ColumnsType<ProjectsListQuery["users"]["data"]> = [
+  const columns: ColumnsType<Project> = [
     {
       title: "SL No",
       dataIndex: "index",
       key: "index",
       render: (_, __, index) => (parseInt(page) - 1) * parseInt(limit) + index + 1,
+      align: "center",
+    },
+    
+    {
+      title: "Thumbnail",
+      dataIndex: "index",
+      key: "index",
+      render: (_, record) => (
+        <div className="flex justify-center">
+          <TableImagePreview src={record?.thumbnail?.url} />
+        </div>
+      ),
       align: "center",
     },
     {
@@ -87,60 +92,22 @@ const Users: React.FC = () => {
       key: "name",
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
+      title: "Position",
+      dataIndex: "position",
+      key: "position",
     },
-    {
-      title: "Role",
-      dataIndex: "role",
-      key: "role",
-      align: "center",
-    },
-
-    {
-      title: "Status",
-      dataIndex: "isActive",
-      align: "center",
-      render: (value, record) => (
-        <div className="flex items-center justify-center">
-          {Boolean(record?.isActive) ? (
-            <Tag className="!bg-green-600">Active</Tag>
-          ) : (
-            <Tag className="!bg-red-600">Inactive</Tag>
-          )}
-        </div>
-      ),
-    },
+    
     {
       title: "Actions",
       key: "actions",
       render: (_, record) => (
         <Space className="text-xl ">
-          <Button type="text" color="blue" onClick={() => updateHandler(record)}>
-            <EditOutlined />
-          </Button>
           <div className=" cursor-pointer mx-2 text-blue-400" onClick={() => updateHandler(record)}>
             <EditOutlined />
           </div>
-          <div className=" cursor-pointer mx-2 text-red-400" onClick={() => deleteHandler(record?._id)}>
+          <div className=" cursor-pointer mx-2 text-red-400" onClick={() => deleteHandler(record?._id )}>
             <DeleteOutlined />
-          </div>
-          <div
-            onClick={() =>
-              updateUser({ variables: { body: { isActive: !Boolean(record?.isActive) }, updateUserId: record?._id } })
-            }
-          >
-            {record?.isActive ? (
-              <div className=" cursor-pointer mx-2 text-red-400" title="Deactivate">
-                <FiUserX />
-              </div>
-            ) : (
-              <div className=" cursor-pointer mx-2 text-green-400" title="Activate">
-                <FiUserCheck />
-              </div>
-            )}
-          </div>
+          </div>         
         </Space>
       ),
       align: "center",
@@ -152,7 +119,7 @@ const Users: React.FC = () => {
     refetch(variables);
   };
 
-  const deleteHandler = (deleteUserId: string) => {
+  const deleteHandler = (deleteProjectId: string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -164,8 +131,8 @@ const Users: React.FC = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await deleteUser({ variables: { deleteUserId } });
-          toast.success("User deleted successfully!");
+          // await deleteProject({ variables: { deleteProjectId } });
+          toast.success("Project deleted successfully!");
         } catch (error) {
           console.error("Failed to delete user!", error);
           toast.error("Failed to delete user!");
@@ -180,28 +147,34 @@ const Users: React.FC = () => {
   };
 
   const onFinish = async () => {
-    const abc = form.getFieldsValue();
-    return console.log({ abc });
     try {
-      const { name, email, password, isActive, role } = form.getFieldsValue();
-      if (mode === "create") {
-        await createUser({ variables: { body: { name, email, password, isActive, role } } });
-      } else {
-        await updateUser({
-          variables: { body: { name, email, isActive, role }, updateUserId: editUser?._id as string },
-        });
-      }
+      const { name, email, password, isActive, role, avatar } = form.getFieldsValue();
+      const body = {
+        name,
+        email,
+        isActive,
+        role,
+        avatar: (Array.isArray(avatar) ? avatar[0] : avatar) || {},
+      };
+      // if (mode === "create") {
+      //   await createProject({ variables: { body: { ...body, password } } });
+      // } else {
+      //   await updateProject({
+      //     variables: { body, updateProjectId: editProject?._id as string },
+      //   });
+      // }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       closeDrawer();
     }
   };
 
-  const updateHandler = (data: Partial<User>) => {
-    const { name, email, isActive } = data;
-    form.setFieldsValue({ name, email, isActive });
-    setEditUser(data);
+  const updateHandler = (data: Partial<Project>) => {
+    const { name, email, role, isActive, avatar } = data;
+    form.setFieldsValue({ name, email, role, isActive, avatar });
+
+    setEditProject(data);
     setOpen(true);
     setMode("edit");
   };
@@ -209,10 +182,20 @@ const Users: React.FC = () => {
   return (
     <Spin spinning={loading}>
       <AdminTableHeader {...{ refetch: refetchData, setOpen, name: "Projects" }} />
-      <AdminTable {...{ columns, data: data?.users?.data, params, meta: data?.users?.meta, updateParams }} />
+      {Array.isArray(data?.projects?.data) && data?.projects?.data?.length > 0 ? (
+        <AdminTable {...{ columns, data: data?.projects?.data, params, meta: data?.projects?.meta, updateParams }} />
+      ) : (
+        <div className="py-10 bg-black/40 rounded-md">
+          <Empty description="No data found">
+            <Button type="primary" onClick={() => setOpen(true)}>
+              Create Now
+            </Button>
+          </Empty>
+        </div>
+      )}
       <ProjectFormDrawer {...{ open, closeDrawer, onFinish, form, isLoading, setIsLoading }} />
     </Spin>
   );
 };
 
-export default Users;
+export default Projects;

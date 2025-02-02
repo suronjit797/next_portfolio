@@ -4,7 +4,7 @@ import { ConfigProvider, theme } from "antd";
 import { ReactNode } from "react";
 
 export default function AntdConfigProvider({ children }: { children: ReactNode }) {
-  console.log(theme)
+  // console.log(theme)
   return (
     <ConfigProvider
       theme={{

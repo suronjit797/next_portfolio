@@ -55,9 +55,9 @@ const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   if (loading) {
     return <p>Loading...</p>;
   }
-  // if (!isLogin || !user) {
-  //   router.push("/admin/login");
-  // }
+  if (!isLogin || !user) {
+    router.push("/admin/login");
+  }
 
   return (
     <>
