@@ -15,10 +15,14 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  query GetProfile {\n    profile { _id name email role }\n  }\n": types.GetProfileDocument,
-    "\n  query UsersList($pagination: PaginationInput, $query: UserQuery) {\n    users(pagination: $pagination, query: $query) {\n      meta { page limit total }\n      data { _id name email role isActive }\n    }\n  }\n": types.UsersListDocument,
+    "\n  query ProjectList($pagination: PaginationInput, $query: UserQuery) {\n    users(pagination: $pagination, query: $query) {\n      meta { page limit total }\n      data { _id name email role isActive }\n    }\n  }\n": types.ProjectListDocument,
+    "\n  mutation DeleteProject($deleteUserId: ID!) {\n    deleteUser(id: $deleteUserId) {\n      _id\n    }\n  }\n": types.DeleteProjectDocument,
+    "\n  mutation UpdateProject($updateUserId: ID!, $body: UpdateUserInput) {\n    updateUser(id: $updateUserId, body: $body) {\n      email\n      name\n      role\n    }\n  }\n": types.UpdateProjectDocument,
+    "\n    mutation createProject($body: CreateUserInput!) {\n    register(body: $body) {\n\n      _id\n\n    }\n  }  \n": types.CreateProjectDocument,
+    "\n  query UsersList($pagination: PaginationInput, $query: UserQuery) {\n      users(pagination: $pagination, query: $query) {\n        meta { page limit total }\n        data { _id name email role isActive avatar { uid\nname\nstatus\nurl\nsize } }\n      }\n    }\n": types.UsersListDocument,
     "\n  mutation DeleteUser($deleteUserId: ID!) {\n    deleteUser(id: $deleteUserId) {\n      _id\n    }\n  }\n": types.DeleteUserDocument,
-    "\n  mutation UpdateUser($updateUserId: ID!, $body: UpdateUserInput) {\n    updateUser(id: $updateUserId, body: $body) {\n      email\n      name\n      role\n    }\n  }\n": types.UpdateUserDocument,
-    "\n    mutation createUser($body: CreateUserInput!) {\n    register(body: $body) {\n\n      _id\n\n    }\n  }  \n": types.CreateUserDocument,
+    "\n  mutation UpdateUser($updateUserId: ID!, $body: UpdateUserInput) {\n    updateUser(id: $updateUserId, body: $body) { name }\n  }\n": types.UpdateUserDocument,
+    "\n    mutation createUser($body: CreateUserInput!) {\n    register(body: $body) { _id }\n  }  \n": types.CreateUserDocument,
     "\n  mutation Login($body: LoginInput) {\n    login(body: $body) { accessToken }\n  }\n": types.LoginDocument,
 };
 
@@ -43,7 +47,23 @@ export function gql(source: "\n  query GetProfile {\n    profile { _id name emai
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query UsersList($pagination: PaginationInput, $query: UserQuery) {\n    users(pagination: $pagination, query: $query) {\n      meta { page limit total }\n      data { _id name email role isActive }\n    }\n  }\n"): (typeof documents)["\n  query UsersList($pagination: PaginationInput, $query: UserQuery) {\n    users(pagination: $pagination, query: $query) {\n      meta { page limit total }\n      data { _id name email role isActive }\n    }\n  }\n"];
+export function gql(source: "\n  query ProjectList($pagination: PaginationInput, $query: UserQuery) {\n    users(pagination: $pagination, query: $query) {\n      meta { page limit total }\n      data { _id name email role isActive }\n    }\n  }\n"): (typeof documents)["\n  query ProjectList($pagination: PaginationInput, $query: UserQuery) {\n    users(pagination: $pagination, query: $query) {\n      meta { page limit total }\n      data { _id name email role isActive }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation DeleteProject($deleteUserId: ID!) {\n    deleteUser(id: $deleteUserId) {\n      _id\n    }\n  }\n"): (typeof documents)["\n  mutation DeleteProject($deleteUserId: ID!) {\n    deleteUser(id: $deleteUserId) {\n      _id\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation UpdateProject($updateUserId: ID!, $body: UpdateUserInput) {\n    updateUser(id: $updateUserId, body: $body) {\n      email\n      name\n      role\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateProject($updateUserId: ID!, $body: UpdateUserInput) {\n    updateUser(id: $updateUserId, body: $body) {\n      email\n      name\n      role\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n    mutation createProject($body: CreateUserInput!) {\n    register(body: $body) {\n\n      _id\n\n    }\n  }  \n"): (typeof documents)["\n    mutation createProject($body: CreateUserInput!) {\n    register(body: $body) {\n\n      _id\n\n    }\n  }  \n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query UsersList($pagination: PaginationInput, $query: UserQuery) {\n      users(pagination: $pagination, query: $query) {\n        meta { page limit total }\n        data { _id name email role isActive avatar { uid\nname\nstatus\nurl\nsize } }\n      }\n    }\n"): (typeof documents)["\n  query UsersList($pagination: PaginationInput, $query: UserQuery) {\n      users(pagination: $pagination, query: $query) {\n        meta { page limit total }\n        data { _id name email role isActive avatar { uid\nname\nstatus\nurl\nsize } }\n      }\n    }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -51,11 +71,11 @@ export function gql(source: "\n  mutation DeleteUser($deleteUserId: ID!) {\n    
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  mutation UpdateUser($updateUserId: ID!, $body: UpdateUserInput) {\n    updateUser(id: $updateUserId, body: $body) {\n      email\n      name\n      role\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateUser($updateUserId: ID!, $body: UpdateUserInput) {\n    updateUser(id: $updateUserId, body: $body) {\n      email\n      name\n      role\n    }\n  }\n"];
+export function gql(source: "\n  mutation UpdateUser($updateUserId: ID!, $body: UpdateUserInput) {\n    updateUser(id: $updateUserId, body: $body) { name }\n  }\n"): (typeof documents)["\n  mutation UpdateUser($updateUserId: ID!, $body: UpdateUserInput) {\n    updateUser(id: $updateUserId, body: $body) { name }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n    mutation createUser($body: CreateUserInput!) {\n    register(body: $body) {\n\n      _id\n\n    }\n  }  \n"): (typeof documents)["\n    mutation createUser($body: CreateUserInput!) {\n    register(body: $body) {\n\n      _id\n\n    }\n  }  \n"];
+export function gql(source: "\n    mutation createUser($body: CreateUserInput!) {\n    register(body: $body) { _id }\n  }  \n"): (typeof documents)["\n    mutation createUser($body: CreateUserInput!) {\n    register(body: $body) { _id }\n  }  \n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -7,6 +7,7 @@ import { useAuth } from "@/contexts/authContext";
 import { setAuthToken, setUser } from "@/redux/features/authSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { useQuery } from "@apollo/client";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import type React from "react";
 import { useEffect, useState } from "react";
@@ -33,6 +34,9 @@ const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     },
   });
 
+  axios.defaults.headers["Authorization"] = token;
+  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_ROUTE;
+
   // check auth
   useEffect(() => {
     if (!loading) {
@@ -51,9 +55,9 @@ const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   if (loading) {
     return <p>Loading...</p>;
   }
-  if (!isLogin || !user) {
-    router.push("/admin/login");
-  }
+  // if (!isLogin || !user) {
+  //   router.push("/admin/login");
+  // }
 
   return (
     <>

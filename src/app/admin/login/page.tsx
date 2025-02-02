@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { Form, Input, Button, message } from "antd";
-import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { useAuth } from "@/contexts/authContext";
+import { Button, Form, Input, message } from "antd";
+import { useEffect, useState } from "react";
 // import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/store";
+import { useRouter } from "next/navigation";
 
 interface LoginFormData {
   username: string;

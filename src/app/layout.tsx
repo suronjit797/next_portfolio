@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Merriweather_Sans } from "next/font/google";
 import "./globals.css";
+import "./sweetAlertCustomize.css";
 import { AuthProvider } from "@/contexts/authContext";
 // import "@ant-design/v5-patch-for-react-19";
 import { ReduxProviders } from "@/components/ReduxProvider";
@@ -9,6 +10,7 @@ import ApolloProvider from "@/graphql/ApolloProvider";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+
 
 
 const geistSans = Geist({
@@ -49,7 +51,6 @@ export default function RootLayout({
           </AntdRegistry>
         </ReduxProviders>
         <ToastContainer position="top-right" autoClose={3000} theme="colored" />
-
       </body>
     </html>
   );

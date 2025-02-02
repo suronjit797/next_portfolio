@@ -1,0 +1,9 @@
+.swal2-popup{
+    background: var(--primary_color) !important;
+    color: #fff !important;
+}
+
+.swal2-container.swal2-center.swal2-backdrop-show{
+    background-color: #2929296b;
+    backdrop-filter: blur(3px);
+}

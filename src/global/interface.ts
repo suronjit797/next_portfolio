@@ -4,6 +4,11 @@ export interface User {
   email: string;
   role: "superAdmin" | "admin" | "user";
   isActive: boolean;
+  avatar: {
+    path: string;
+    filename: string;
+    size: number;
+  };
   password?: string;
   createdAt: Date;
   updatedAt: Date;

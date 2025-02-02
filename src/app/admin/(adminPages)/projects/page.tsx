@@ -6,30 +6,26 @@ import { User } from "@/global/interface";
 import { useSearchParamsState } from "@/hooks/useSearchParamsState";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useMutation, useQuery } from "@apollo/client";
-import { Form, Space, Spin, Tag } from "antd";
+import { Button, Form, Space, Spin, Tag } from "antd";
 import { ColumnsType } from "antd/es/table";
 import React, { useState } from "react";
 import { FiUserCheck, FiUserX } from "react-icons/fi";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-import UserFormDrawer from "./UserFormDrawer";
+import ProjectFormDrawer from "./ProjectFormDrawer";
 
 // GraphQL Queries and Mutations
 const ALL_USERS = gql(`
-  query UsersList($pagination: PaginationInput, $query: UserQuery) {
-      users(pagination: $pagination, query: $query) {
-        meta { page limit total }
-        data { _id name email role isActive avatar { uid
-name
-status
-url
-size } }
-      }
+  query ProjectList($pagination: PaginationInput, $query: UserQuery) {
+    users(pagination: $pagination, query: $query) {
+      meta { page limit total }
+      data { _id name email role isActive }
     }
+  }
 `);
 
 const REMOVE_USER = gql(`
-  mutation DeleteUser($deleteUserId: ID!) {
+  mutation DeleteProject($deleteUserId: ID!) {
     deleteUser(id: $deleteUserId) {
       _id
     }
@@ -37,14 +33,22 @@ const REMOVE_USER = gql(`
 `);
 
 const UPDATE_USER = gql(`
-  mutation UpdateUser($updateUserId: ID!, $body: UpdateUserInput) {
-    updateUser(id: $updateUserId, body: $body) { name }
+  mutation UpdateProject($updateUserId: ID!, $body: UpdateUserInput) {
+    updateUser(id: $updateUserId, body: $body) {
+      email
+      name
+      role
+    }
   }
 `);
 
 const CREATE_USER = gql(`
-    mutation createUser($body: CreateUserInput!) {
-    register(body: $body) { _id }
+    mutation createProject($body: CreateUserInput!) {
+    register(body: $body) {
+
+      _id
+
+    }
   }  
 `);
 
@@ -54,10 +58,10 @@ const Users: React.FC = () => {
   const [form] = Form.useForm();
 
   // states
-  const [open, setOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(true);
   const [editUser, setEditUser] = useState<Partial<User> | null>(null);
   const [mode, setMode] = useState<"edit" | "create">("create");
+  const [isLoading, setIsLoading] = useState(false);
 
   // GraphQL Hooks
   const variables = { pagination: { page: parseInt(page), limit: parseInt(limit) }, query: {} };
@@ -113,6 +117,9 @@ const Users: React.FC = () => {
       key: "actions",
       render: (_, record) => (
         <Space className="text-xl ">
+          <Button type="text" color="blue" onClick={() => updateHandler(record)}>
+            <EditOutlined />
+          </Button>
           <div className=" cursor-pointer mx-2 text-blue-400" onClick={() => updateHandler(record)}>
             <EditOutlined />
           </div>
@@ -173,21 +180,15 @@ const Users: React.FC = () => {
   };
 
   const onFinish = async () => {
+    const abc = form.getFieldsValue();
+    return console.log({ abc });
     try {
-      const { name, email, password, isActive, role, avatar } = form.getFieldsValue();
-      const body = {
-        name,
-        email,
-        isActive,
-        role,
-        avatar: Array.isArray(avatar) ? avatar[0] : avatar,
-      };
-      // return console.log({ body });
+      const { name, email, password, isActive, role } = form.getFieldsValue();
       if (mode === "create") {
-        await createUser({ variables: { body: { ...body, password } } });
+        await createUser({ variables: { body: { name, email, password, isActive, role } } });
       } else {
         await updateUser({
-          variables: { body, updateUserId: editUser?._id as string },
+          variables: { body: { name, email, isActive, role }, updateUserId: editUser?._id as string },
         });
       }
     } catch (error) {
@@ -198,9 +199,8 @@ const Users: React.FC = () => {
   };
 
   const updateHandler = (data: Partial<User>) => {
-    const { name, email, role, isActive, avatar } = data;
-    form.setFieldsValue({ name, email, role, isActive, avatar });
-
+    const { name, email, isActive } = data;
+    form.setFieldsValue({ name, email, isActive });
     setEditUser(data);
     setOpen(true);
     setMode("edit");
@@ -208,9 +208,9 @@ const Users: React.FC = () => {
 
   return (
     <Spin spinning={loading}>
-      <AdminTableHeader {...{ refetch: refetchData, setOpen, name: "Users" }} />
+      <AdminTableHeader {...{ refetch: refetchData, setOpen, name: "Projects" }} />
       <AdminTable {...{ columns, data: data?.users?.data, params, meta: data?.users?.meta, updateParams }} />
-      <UserFormDrawer {...{ open, closeDrawer, onFinish, form, isLoading, setIsLoading }} />
+      <ProjectFormDrawer {...{ open, closeDrawer, onFinish, form, isLoading, setIsLoading }} />
     </Spin>
   );
 };
