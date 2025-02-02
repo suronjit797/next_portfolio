@@ -110,9 +110,9 @@ const Users: React.FC = () => {
       render: (value, record) => (
         <div className="flex items-center justify-center">
           {Boolean(record?.isActive) ? (
-            <Tag className="!bg-green-600">Active</Tag>
+            <Tag className="!bg-green-600 w-14 !text-center">Active</Tag>
           ) : (
-            <Tag className="!bg-red-600">Inactive</Tag>
+            <Tag className="!bg-red-600 w-14 !text-center">Inactive</Tag>
           )}
         </div>
       ),

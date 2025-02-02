@@ -13,7 +13,7 @@ interface Props {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const onFinishFailed = (values:any) => {
+const onFinishFailed = (values: any) => {
   console.log("failed", values);
 };
 
@@ -29,7 +29,7 @@ const UserFormDrawer: React.FC<Props> = ({
   return (
     <div>
       <Drawer
-        title="Create a new account"
+        title={`${mode === "create" ? "Create  a new" : "Update a"} user`}
         width={540}
         onClose={closeDrawer}
         open={open}

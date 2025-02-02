@@ -10,8 +10,8 @@ export default function AntdConfigProvider({ children }: { children: ReactNode }
       theme={{
         algorithm: theme.darkAlgorithm,
         token: {
-          // colorPrimary: "#8c61ff",
-          // colorPrimaryHover: "#a573ff",
+          colorPrimary: "#8c61ff",
+          colorPrimaryHover: "#a573ff",
           // colorText: "#e1e1e1",
           // colorBgBase: "#1e1e1e",
           // colorBorder: "#393939",
