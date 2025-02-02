@@ -5,8 +5,10 @@ export interface User {
   role: "superAdmin" | "admin" | "user";
   isActive: boolean;
   avatar: {
-    path: string;
-    filename: string;
+    uid: string;
+    name: string;
+    status: string;
+    url: string;
     size: number;
   };
   password?: string;

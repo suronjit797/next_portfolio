@@ -13,8 +13,8 @@ interface Props {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const onFinishFailed = () => {
-  console.log("failed");
+const onFinishFailed = (values:any) => {
+  console.log("failed", values);
 };
 
 const UserFormDrawer: React.FC<Props> = ({
@@ -49,7 +49,7 @@ const UserFormDrawer: React.FC<Props> = ({
           </Space>
         }
       >
-        <Spin spinning={false}>
+        <Spin spinning={isLoading}>
           <Form layout="vertical" form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
             {/* Name Field */}
             <Form.Item label="Name" name="name" rules={[{ required: true, message: "Name is required" }]}>
@@ -127,7 +127,7 @@ const UserFormDrawer: React.FC<Props> = ({
               {...{
                 label: "Profile Picture",
                 listType: "picture",
-                maxCount: 2,
+                maxCount: 1,
                 name: "avatar",
                 isLoading,
                 setIsLoading,

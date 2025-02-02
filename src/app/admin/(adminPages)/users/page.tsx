@@ -2,8 +2,10 @@
 import { gql } from "@/__generated__";
 import AdminTable from "@/components/admin/AdminTable";
 import AdminTableHeader from "@/components/admin/AdminTableHeader";
+import TableImagePreview from "@/components/TableImagePreview";
 import { User } from "@/global/interface";
 import { useSearchParamsState } from "@/hooks/useSearchParamsState";
+import { AVATAR } from "@/lib/constants";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useMutation, useQuery } from "@apollo/client";
 import { Form, Space, Spin, Tag } from "antd";
@@ -19,11 +21,7 @@ const ALL_USERS = gql(`
   query UsersList($pagination: PaginationInput, $query: UserQuery) {
       users(pagination: $pagination, query: $query) {
         meta { page limit total }
-        data { _id name email role isActive avatar { uid
-name
-status
-url
-size } }
+        data { _id name email role isActive avatar { uid name status url size } }
       }
     }
 `);
@@ -75,6 +73,17 @@ const Users: React.FC = () => {
       dataIndex: "index",
       key: "index",
       render: (_, __, index) => (parseInt(page) - 1) * parseInt(limit) + index + 1,
+      align: "center",
+    },
+    {
+      title: "Avatar",
+      dataIndex: "index",
+      key: "index",
+      render: (_, record) => (
+        <div className="flex justify-center">
+          <TableImagePreview src={record?.avatar?.url || AVATAR(record?.name)} />
+        </div>
+      ),
       align: "center",
     },
     {
@@ -180,9 +189,8 @@ const Users: React.FC = () => {
         email,
         isActive,
         role,
-        avatar: Array.isArray(avatar) ? avatar[0] : avatar,
+        avatar: (Array.isArray(avatar) ? avatar[0] : avatar) || {},
       };
-      // return console.log({ body });
       if (mode === "create") {
         await createUser({ variables: { body: { ...body, password } } });
       } else {
@@ -191,7 +199,7 @@ const Users: React.FC = () => {
         });
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       closeDrawer();
     }

@@ -40,7 +40,7 @@ const AdminTableHeader: React.FC<Props> = ({ refetch, setOpen, name }) => {
               className="hover:bg-gray-200 text-gray-500"
             />
           </Tooltip>
-          <Tooltip title="Refetch">
+          <Tooltip title={`Add ${name || "Item"}`}>
             <Button
               shape="circle"
               icon={<PlusOutlined />}

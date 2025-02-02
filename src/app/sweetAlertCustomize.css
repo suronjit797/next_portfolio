@@ -7,3 +7,16 @@
     background-color: #2929296b;
     backdrop-filter: blur(3px);
 }
+
+.no-padding-swal {
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+  
+  /* Remove margins from images */
+  .no-margin-image {
+    margin: 0 !important;
+    display: block;
+    max-width: 100%;
+  }
