@@ -6,7 +6,7 @@ import TableImagePreview from "@/components/TableImagePreview";
 import { User } from "@/global/interface";
 import { useSearchParamsState } from "@/hooks/useSearchParamsState";
 import { AVATAR } from "@/lib/constants";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { useMutation, useQuery } from "@apollo/client";
 import { Button, Empty, Form, Space, Spin, Tag } from "antd";
 import { ColumnsType } from "antd/es/table";
@@ -15,6 +15,7 @@ import { FiUserCheck, FiUserX } from "react-icons/fi";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import UserFormDrawer from "./UserFormDrawer";
+import Link from "next/link";
 
 // GraphQL Queries and Mutations
 const ALL_USERS = gql(`
@@ -93,8 +94,11 @@ const Users: React.FC = () => {
     },
     {
       title: "Email",
-      dataIndex: "email",
+      // dataIndex: "email",
       key: "email",
+      render: (_, record) => <Link className="!text-gray-400 hover:!underline" href={`mailto:${record?.email}`} target="_blank">
+      {record?.email}
+    </Link>,
     },
     {
       title: "Role",
@@ -122,10 +126,16 @@ const Users: React.FC = () => {
       key: "actions",
       render: (_, record) => (
         <Space className="text-xl ">
-          <div className=" cursor-pointer mx-2 text-blue-400" onClick={() => updateHandler(record)}>
+          <div className=" cursor-pointer mx-1 text-blue-400">
+            <Link href={`users/${record._id}`}>
+              {" "}
+              <EyeOutlined />{" "}
+            </Link>
+          </div>
+          <div className=" cursor-pointer mx-1 text-green-400" onClick={() => updateHandler(record)}>
             <EditOutlined />
           </div>
-          <div className=" cursor-pointer mx-2 text-red-400" onClick={() => deleteHandler(record?._id)}>
+          <div className=" cursor-pointer mx-1 text-red-400" onClick={() => deleteHandler(record?._id)}>
             <DeleteOutlined />
           </div>
           <div
@@ -134,11 +144,11 @@ const Users: React.FC = () => {
             }
           >
             {record?.isActive ? (
-              <div className=" cursor-pointer mx-2 text-red-400" title="Deactivate">
+              <div className=" cursor-pointer mx-1 text-red-400" title="Deactivate">
                 <FiUserX />
               </div>
             ) : (
-              <div className=" cursor-pointer mx-2 text-green-400" title="Activate">
+              <div className=" cursor-pointer mx-1 text-green-400" title="Activate">
                 <FiUserCheck />
               </div>
             )}
@@ -178,7 +188,7 @@ const Users: React.FC = () => {
 
   const closeDrawer = () => {
     setOpen(false);
-    setMode("create")
+    setMode("create");
     form.resetFields();
   };
 

@@ -10,4 +10,5 @@ COPY . .
 
 EXPOSE 3000
 
+# CMD ["yarn", "watch"]
 CMD ["yarn", "dev"]

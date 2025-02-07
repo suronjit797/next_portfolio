@@ -20,6 +20,7 @@ const documents = {
     "\nmutation DeleteProject($deleteProjectId: ID!) {\n  deleteProject(id: $deleteProjectId) {    \n      _id\n    }\n  }\n": types.DeleteProjectDocument,
     "\n  mutation UpdateProject($updateProjectId: ID!, $body: UpdateProjectInput) {\n    updateProject(id: $updateProjectId, body: $body) { _id }\n  }\n": types.UpdateProjectDocument,
     "\n  mutation CreateProject($body: CreateProjectInput!) {\n    createProject(body: $body) {\n      _id\n    }\n  }\n": types.CreateProjectDocument,
+    "\n  query User($userId: ID!) {\n    user(id: $userId) { name email role avatar { url } isActive createdAt updatedAt\n    }\n  }\n": types.UserDocument,
     "\n  query UsersList($pagination: PaginationInput, $query: UserQuery) {\n      users(pagination: $pagination, query: $query) {\n        meta { page limit total }\n        data { _id name email role isActive avatar { uid name status url } }\n      }\n    }\n": types.UsersListDocument,
     "\n  mutation DeleteUser($deleteUserId: ID!) {\n    deleteUser(id: $deleteUserId) {\n      _id\n    }\n  }\n": types.DeleteUserDocument,
     "\n  mutation UpdateUser($updateUserId: ID!, $body: UpdateUserInput) {\n    updateUser(id: $updateUserId, body: $body) { name }\n  }\n": types.UpdateUserDocument,
@@ -65,6 +66,10 @@ export function gql(source: "\n  mutation UpdateProject($updateProjectId: ID!, $
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation CreateProject($body: CreateProjectInput!) {\n    createProject(body: $body) {\n      _id\n    }\n  }\n"): (typeof documents)["\n  mutation CreateProject($body: CreateProjectInput!) {\n    createProject(body: $body) {\n      _id\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query User($userId: ID!) {\n    user(id: $userId) { name email role avatar { url } isActive createdAt updatedAt\n    }\n  }\n"): (typeof documents)["\n  query User($userId: ID!) {\n    user(id: $userId) { name email role avatar { url } isActive createdAt updatedAt\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
