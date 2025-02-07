@@ -127,9 +127,8 @@ const Users: React.FC = () => {
       render: (_, record) => (
         <Space className="text-xl ">
           <div className=" cursor-pointer mx-1 text-blue-400">
-            <Link href={`users/${record._id}`}>
-              {" "}
-              <EyeOutlined />{" "}
+            <Link href={`users/${record._id}`}>              
+              <EyeOutlined />
             </Link>
           </div>
           <div className=" cursor-pointer mx-1 text-green-400" onClick={() => updateHandler(record)}>

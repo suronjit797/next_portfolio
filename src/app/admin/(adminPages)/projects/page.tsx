@@ -1,20 +1,21 @@
 "use client";
 
 import { gql } from "@/__generated__";
+import { InputMaybe, SortOrder } from "@/__generated__/graphql";
 import AdminTable from "@/components/admin/AdminTable";
 import AdminTableHeader from "@/components/admin/AdminTableHeader";
 import TableImagePreview from "@/components/TableImagePreview";
 import { Project } from "@/global/interface";
 import { useSearchParamsState } from "@/hooks/useSearchParamsState";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { Button, Empty, Form, Space, Spin } from "antd";
 import { ColumnsType } from "antd/es/table";
+import Link from "next/link";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import ProjectFormDrawer from "./ProjectFormDrawer";
-import { InputMaybe, SortOrder } from "@/__generated__/graphql";
 
 // GraphQL Queries and Mutations
 const ALL_PROJECTS = gql(`
@@ -129,7 +130,10 @@ const Projects: React.FC = () => {
       key: "actions",
       render: (_, record) => (
         <Space className="text-xl ">
-          <div className=" cursor-pointer mx-2 text-blue-400" onClick={() => updateHandler(record?._id)}>
+          <div className=" cursor-pointer mx-2 text-blue-400">
+            <Link href={`projects/${record?._id}`}> <EyeOutlined /> </Link>
+          </div>
+          <div className=" cursor-pointer mx-2 text-green-400" onClick={() => updateHandler(record?._id)}>
             <EditOutlined />
           </div>
           <div className=" cursor-pointer mx-2 text-red-400" onClick={() => deleteHandler(record?._id)}>
