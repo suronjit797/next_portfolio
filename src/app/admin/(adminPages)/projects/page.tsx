@@ -87,7 +87,7 @@ const Projects: React.FC = () => {
   };
   const { loading, data, refetch } = useQuery(ALL_PROJECTS, { variables });
 
-  const [fetchProject] = useLazyQuery<{ project: Project }>(GET_PROJECT);
+  const [fetchProject] = useLazyQuery<{ project: Project }>(GET_PROJECT, { fetchPolicy: "no-cache" });
 
   const [createProject] = useMutation(CREATE_PROJECT, { refetchQueries: ["ProjectsList"] });
   const [updateProject] = useMutation(UPDATE_PROJECT, { refetchQueries: ["ProjectsList"] });

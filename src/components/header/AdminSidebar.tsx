@@ -5,6 +5,7 @@ import NavLink from "../NavLink";
 const NavItems = [
   { name: "dashboard", path: "" },
   { name: "users", path: "/users" },
+  { name: "skills", path: "/skills" },
   { name: "Recent Projects", path: "/projects" },
   { name: "About Me", path: "/about" },
   { name: "Contact Me", path: "/contact" },
