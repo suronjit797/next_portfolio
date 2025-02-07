@@ -4,7 +4,6 @@ import authReducer from "./features/authSlice";
 import helperReducer from "./features/helperSlice";
 import themeReducer from "./features/themeSlice";
 import { useDispatch, useSelector } from "react-redux";
-import socketReducer from "./features/socketSlice";
 
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist"
 
@@ -18,7 +17,6 @@ const rootReducer = combineReducers({
   auth: authReducer,
   helper: helperReducer,
   theme: themeReducer,
-  socket: socketReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

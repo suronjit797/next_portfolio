@@ -1,9 +1,8 @@
-import type { ColumnsType } from "antd/es/table";
-import { AdminProps } from "./AdminInterface";
 import { AnyObject } from "antd/es/_util/type";
-import AdminTable from "./AdminTable";
-import AdminTableHeader from "./AdminTableHeader";
+import type { ColumnsType } from "antd/es/table";
 import AdminGrid from "./AdminGrid";
+import { AdminProps } from "./AdminInterface";
+import AdminTable from "./AdminTable";
 
 const AdminBody: React.FC<AdminProps> = ({
   params,
@@ -12,7 +11,7 @@ const AdminBody: React.FC<AdminProps> = ({
   showItems = [],
   meta,
   isListView,
-  setIsListView,
+  
 }) => {
   const columns: ColumnsType<AnyObject> | undefined = (
     Array.isArray(data) && data.length > 0 ? Object.keys(data[0]) : []
@@ -26,7 +25,7 @@ const AdminBody: React.FC<AdminProps> = ({
 
   return (
     <>
-      <AdminTableHeader {...{ isListView, setIsListView }} />
+      {/* <AdminTableHeader {...{ isListView, setIsListView }} /> */}
       {isListView ? (
         <AdminTable {...{ columns, data, params, meta, updateParams }} />
       ) : (
