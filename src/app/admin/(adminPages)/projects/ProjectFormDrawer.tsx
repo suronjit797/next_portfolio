@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import UploadImage from "@/components/UploadImage";
-import { Button, Drawer, Form, FormInstance, Input, Select, Space, Spin } from "antd";
+import { Button, Drawer, Form, FormInstance, Input, InputNumber, Select, Space, Spin } from "antd";
 import React from "react";
 
 interface Props {
@@ -45,10 +45,10 @@ const ProjectFormDrawer: React.FC<Props> = ({
       }
     >
       <Spin spinning={isLoading}>
-        <Form layout="vertical" form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
+        <Form name="projectForm" layout="vertical" form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
           {/* Position */}
           <Form.Item label="Position" name="position" rules={[{ required: true, message: "Position is required" }]}>
-            <Input type="number" placeholder="Enter position" />
+            <InputNumber className="!w-full" controls={false} placeholder="Enter position" />
           </Form.Item>
 
           {/* Name */}

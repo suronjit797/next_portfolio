@@ -10,7 +10,7 @@ const NavItems = [
   { name: "Contact Me", path: "/contact" },
 ];
 
-const AdminSidebar: React.FC<{ user: User; }> = ({ user }) => {
+const AdminSidebar: React.FC<{ user: User }> = ({ user }) => {
   return (
     <div className="h-screen w-full max-w-screen py-3 px-3 overflow-y-auto overflow-x-hidden bg-[#212529]">
       <div className="flex items-center flex-col h-full">
@@ -20,6 +20,9 @@ const AdminSidebar: React.FC<{ user: User; }> = ({ user }) => {
         <hr className="w-full my-3" />
         {/* nav items */}
         <nav className="w-full lg:px-4">
+          <NavLink className={`capitalize ${styles.nav_link}`} activeClassName={`${styles.active}`} href={"/"}>
+            Home
+          </NavLink>
           {NavItems.map((item, ind) => (
             <NavLink
               key={ind}

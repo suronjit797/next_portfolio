@@ -50,7 +50,7 @@ const UserFormDrawer: React.FC<Props> = ({
         }
       >
         <Spin spinning={isLoading}>
-          <Form layout="vertical" form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
+          <Form name="userForm" layout="vertical" form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
             {/* Name Field */}
             <Form.Item label="Name" name="name" rules={[{ required: true, message: "Name is required" }]}>
               <Input placeholder="Enter your name" />
@@ -89,7 +89,7 @@ const UserFormDrawer: React.FC<Props> = ({
             </Form.Item>
 
             {/* Password Field */}
-            {mode === "edit" && (
+            {mode === "create" && (
               <>
                 <Form.Item
                   label="Password"

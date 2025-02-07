@@ -178,6 +178,7 @@ const Users: React.FC = () => {
 
   const closeDrawer = () => {
     setOpen(false);
+    setMode("create")
     form.resetFields();
   };
 
@@ -228,7 +229,7 @@ const Users: React.FC = () => {
           </Empty>
         </div>
       )}
-      <UserFormDrawer {...{ open, closeDrawer, onFinish, form, isLoading, setIsLoading }} />
+      <UserFormDrawer {...{ open, closeDrawer, onFinish, form, isLoading, setIsLoading, mode }} />
     </Spin>
   );
 };

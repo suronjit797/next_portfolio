@@ -47,7 +47,9 @@ const link = ApolloLink.from([errorLink, authLink, httpLink]);
 
 const gqlClient = new ApolloClient({
   link,
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    addTypename: false,
+  }),
 });
 
 export default gqlClient;

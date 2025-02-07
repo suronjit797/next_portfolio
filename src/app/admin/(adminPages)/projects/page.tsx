@@ -1,71 +1,98 @@
 "use client";
+
 import { gql } from "@/__generated__";
 import AdminTable from "@/components/admin/AdminTable";
 import AdminTableHeader from "@/components/admin/AdminTableHeader";
 import TableImagePreview from "@/components/TableImagePreview";
 import { Project } from "@/global/interface";
 import { useSearchParamsState } from "@/hooks/useSearchParamsState";
-import { AVATAR } from "@/lib/constants";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { useQuery } from "@apollo/client";
-import { Button, Empty, Form, Space, Spin, Tag } from "antd";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { Button, Empty, Form, Space, Spin } from "antd";
 import { ColumnsType } from "antd/es/table";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import ProjectFormDrawer from "./ProjectFormDrawer";
+import { InputMaybe, SortOrder } from "@/__generated__/graphql";
 
 // GraphQL Queries and Mutations
 const ALL_PROJECTS = gql(`
   query ProjectsList($pagination: PaginationInput, $query: ProjectQuery) {
       projects(pagination: $pagination, query: $query) {
         meta { page limit total }
-        data { _id name thumbnail {uid name status url} images {uid name status url} description packages tags liveUrl githubUrl { frontend   backend } }
+        data { _id name thumbnail{uid name status url} position }
       }
     }
 `);
 
-// const REMOVE_PROJECT = gql(`
-//   mutation DeleteProject($deleteProjectId: ID!) {
-//     deleteProject(id: $deleteProjectId) {
-//       _id
-//     }
-//   }
-// `);
+const GET_PROJECT = gql(`
+  query Project($projectId: ID!) {
+    project(id: $projectId) {
+      _id position name description packages tags liveUrl
+      thumbnail { uid name status url }
+      images { uid name status url }
+      githubUrl { frontend backend }
+    }
+  }
+`);
 
-// const UPDATE_PROJECT = gql(`
-//   mutation UpdateProject($updateProjectId: ID!, $body: UpdateProjectInput) {
-//     updateProject(id: $updateProjectId, body: $body) { name }
-//   }
-// `);
+const REMOVE_PROJECT = gql(`
+mutation DeleteProject($deleteProjectId: ID!) {
+  deleteProject(id: $deleteProjectId) {    
+      _id
+    }
+  }
+`);
 
-// const CREATE_PROJECT = gql(`
-//     mutation createProject($body: CreateProjectInput!) {
-//     register(body: $body) { _id }
-//   }
-// `);
+const UPDATE_PROJECT = gql(`
+  mutation UpdateProject($updateProjectId: ID!, $body: UpdateProjectInput) {
+    updateProject(id: $updateProjectId, body: $body) { _id }
+  }
+`);
+
+const CREATE_PROJECT = gql(`
+  mutation CreateProject($body: CreateProjectInput!) {
+    createProject(body: $body) {
+      _id
+    }
+  }
+`);
 
 const Projects: React.FC = () => {
-  const { params, updateParams } = useSearchParamsState({ page: "1", limit: "10" });
-  const { page, limit } = params;
+  const { params, updateParams } = useSearchParamsState({
+    page: "1",
+    limit: "10",
+    sortOrder: "asc",
+    sortBy: "position",
+  });
+  const { page, limit, sortOrder, sortBy } = params;
   const [form] = Form.useForm();
 
   // states
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [editProject, setEditProject] = useState<Partial<Project> | null>(null);
   const [mode, setMode] = useState<"edit" | "create">("create");
+  const [editProject, setEditProject] = useState<Partial<Project> | null>(null);
 
   // GraphQL Hooks
-  const variables = { pagination: { page: parseInt(page), limit: parseInt(limit) }, query: {} };
+  const variables = {
+    pagination: {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      sortOrder: sortOrder as InputMaybe<SortOrder>,
+      sortBy,
+    },
+    query: {},
+  };
   const { loading, data, refetch } = useQuery(ALL_PROJECTS, { variables });
 
-  // const [deleteProject] = useMutation(REMOVE_PROJECT, { refetchQueries: ["ProjectsList"] });
-  // const [updateProject] = useMutation(UPDATE_PROJECT, { refetchQueries: ["ProjectsList"] });
-  // const [createProject] = useMutation(CREATE_PROJECT, { refetchQueries: ["ProjectsList"] });
+  const [fetchProject] = useLazyQuery<{ project: Project }>(GET_PROJECT);
 
-  // const data: DataType[] = [
-  // const columns: ColumnsType<ProjectsListQuery["users"]["data"]> = [
+  const [createProject] = useMutation(CREATE_PROJECT, { refetchQueries: ["ProjectsList"] });
+  const [updateProject] = useMutation(UPDATE_PROJECT, { refetchQueries: ["ProjectsList"] });
+  const [deleteProject] = useMutation(REMOVE_PROJECT, { refetchQueries: ["ProjectsList"] });
+
   const columns: ColumnsType<Project> = [
     {
       title: "SL No",
@@ -74,10 +101,9 @@ const Projects: React.FC = () => {
       render: (_, __, index) => (parseInt(page) - 1) * parseInt(limit) + index + 1,
       align: "center",
     },
-    
+
     {
       title: "Thumbnail",
-      dataIndex: "index",
       key: "index",
       render: (_, record) => (
         <div className="flex justify-center">
@@ -95,19 +121,20 @@ const Projects: React.FC = () => {
       title: "Position",
       dataIndex: "position",
       key: "position",
+      align: "center",
     },
-    
+
     {
       title: "Actions",
       key: "actions",
       render: (_, record) => (
         <Space className="text-xl ">
-          <div className=" cursor-pointer mx-2 text-blue-400" onClick={() => updateHandler(record)}>
+          <div className=" cursor-pointer mx-2 text-blue-400" onClick={() => updateHandler(record?._id)}>
             <EditOutlined />
           </div>
-          <div className=" cursor-pointer mx-2 text-red-400" onClick={() => deleteHandler(record?._id )}>
+          <div className=" cursor-pointer mx-2 text-red-400" onClick={() => deleteHandler(record?._id)}>
             <DeleteOutlined />
-          </div>         
+          </div>
         </Space>
       ),
       align: "center",
@@ -131,7 +158,7 @@ const Projects: React.FC = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          // await deleteProject({ variables: { deleteProjectId } });
+          await deleteProject({ variables: { deleteProjectId } });
           toast.success("Project deleted successfully!");
         } catch (error) {
           console.error("Failed to delete user!", error);
@@ -144,25 +171,21 @@ const Projects: React.FC = () => {
   const closeDrawer = () => {
     setOpen(false);
     form.resetFields();
+    setMode("create");
   };
 
   const onFinish = async () => {
     try {
-      const { name, email, password, isActive, role, avatar } = form.getFieldsValue();
-      const body = {
-        name,
-        email,
-        isActive,
-        role,
-        avatar: (Array.isArray(avatar) ? avatar[0] : avatar) || {},
-      };
-      // if (mode === "create") {
-      //   await createProject({ variables: { body: { ...body, password } } });
-      // } else {
-      //   await updateProject({
-      //     variables: { body, updateProjectId: editProject?._id as string },
-      //   });
-      // }
+      const values = form.getFieldsValue();
+      const body = { ...values, thumbnail: values.thumbnail[0] };
+
+      console.log({ values, body });
+
+      if (mode === "create") {
+        await createProject({ variables: { body } });
+      } else {
+        await updateProject({ variables: { body, updateProjectId: editProject?._id as string } });
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -170,13 +193,19 @@ const Projects: React.FC = () => {
     }
   };
 
-  const updateHandler = (data: Partial<Project>) => {
-    const { name, email, role, isActive, avatar } = data;
-    form.setFieldsValue({ name, email, role, isActive, avatar });
-
-    setEditProject(data);
-    setOpen(true);
-    setMode("edit");
+  const updateHandler = async (projectId: string) => {
+    try {
+      const { data } = await fetchProject({ variables: { projectId } });
+      if (data?.project) {
+        form.setFieldsValue({ ...data.project, thumbnail: [data.project?.thumbnail] });
+        // // setEditProject(data);
+        setEditProject(data.project);
+        setMode("edit");
+        setOpen(true);
+      }
+    } catch (error) {
+      console.error("error", error);
+    }
   };
 
   return (
@@ -193,7 +222,7 @@ const Projects: React.FC = () => {
           </Empty>
         </div>
       )}
-      <ProjectFormDrawer {...{ open, closeDrawer, onFinish, form, isLoading, setIsLoading }} />
+      <ProjectFormDrawer {...{ open, closeDrawer, onFinish, form, isLoading, setIsLoading, mode }} />
     </Spin>
   );
 };
