@@ -46,13 +46,15 @@ const UserProfile: React.FC = () => {
             className="shadow-lg rounded-2xl bg-gray-800 border-gray-700"
             cover={
               <div className="bg-gray-700 flex py-6">
-                <Image
-                  src={user?.avatar?.url || AVATAR(user?.name)}
-                  width={300}
-                  height={300}
-                  className="shadow-lg h-44 w-44 rounded-full mx-auto"
-                  alt="avatar"
-                />
+                <Link href={user?.avatar?.url || AVATAR(user?.name)} target="_blank">
+                  <Image
+                    src={user?.avatar?.url || AVATAR(user?.name)}
+                    width={300}
+                    height={300}
+                    className="shadow-lg h-44 w-44 rounded-full mx-auto"
+                    alt="avatar"
+                  />
+                </Link>
               </div>
             }
           >
