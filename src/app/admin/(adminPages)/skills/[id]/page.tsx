@@ -8,10 +8,23 @@ import { useParams } from "next/navigation";
 import React from "react";
 
 const GET_PROJECT = gql(`
-query single_Project($projectId: ID!) {
- project(id: $projectId) { name thumbnail { url } images { url } description packages tags liveUrl
-  githubUrl { frontend backend }
-  user { name email } createdAt updatedAt
+query s_Project($projectId: ID!) {
+ project(id: $projectId) {  name  position  thumbnail {   url  }  images {   url  }  description
+  packages
+  tags
+  liveUrl
+  githubUrl {
+   frontend
+   backend
+  }
+  user {
+   _id
+   name
+   email
+   role
+  }
+  createdAt
+  updatedAt
  }
 }
 `);
@@ -83,7 +96,7 @@ const ProductView: React.FC = () => {
           <div>
             {project.packages.map((p, index) => (
               <div key={index}>
-                <Tag>{p}</Tag>
+                <Tag >{p}</Tag>
               </div>
             ))}
           </div>

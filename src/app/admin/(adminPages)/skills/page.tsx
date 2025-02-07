@@ -5,7 +5,8 @@ import { InputMaybe, SortOrder } from "@/__generated__/graphql";
 import AdminTable from "@/components/admin/AdminTable";
 import AdminTableHeader from "@/components/admin/AdminTableHeader";
 import TableImagePreview from "@/components/TableImagePreview";
-import { Project } from "@/global/interface";
+
+import { Skill } from "@/global/interface";
 import { useSearchParamsState } from "@/hooks/useSearchParamsState";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
@@ -15,52 +16,37 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-import ProjectFormDrawer from "./ProjectFormDrawer";
+import SkillFormDrawer from "./SkillFormDrawer";
 
 // GraphQL Queries and Mutations
-const ALL_PROJECTS = gql(`
-  query ProjectsList($pagination: PaginationInput, $query: ProjectQueryInput) {
-      projects(pagination: $pagination, query: $query) {
-        meta { page limit total }
-        data { _id name thumbnail{uid name status url} position }
-      }
+const ALL_SKILLS = gql(`
+  query Skills($pagination: PaginationInput, $query: SkillsQueryInput) {
+    skills(pagination: $pagination, query: $query) { meta { page limit total }
+    data { _id name image { uid name status url size } type createdAt updatedAt
     }
-`);
-
-const GET_PROJECT = gql(`
-  query Project($projectId: ID!) {
-    project(id: $projectId) {
-      _id position name description packages tags liveUrl
-      thumbnail { uid name status url }
-      images { uid name status url }
-      githubUrl { frontend backend }
     }
   }
 `);
 
-const REMOVE_PROJECT = gql(`
-mutation DeleteProject($deleteProjectId: ID!) {
-  deleteProject(id: $deleteProjectId) {    
-      _id
-    }
+const CREATE_SKILL = gql(`
+  mutation CreateSkill($body: CreateSkillsInput!) { createSkill(body: $body) { _id }}
+`);
+
+const GET_PROJECT = gql(`
+  query skill($skillId: ID!) {
+      skill(id: $skillId) { _id name image { uid name status url size } type createdAt updatedAt}
   }
 `);
 
 const UPDATE_PROJECT = gql(`
-  mutation UpdateProject($updateProjectId: ID!, $body: UpdateProjectInput) {
-    updateProject(id: $updateProjectId, body: $body) { _id }
-  }
+  mutation UpdateSkill($updateSkillId: ID!, $body: UpdateSkillsInput) { updateSkill(id: $updateSkillId, body: $body) { _id }}
 `);
 
-const CREATE_PROJECT = gql(`
-  mutation CreateProject($body: CreateProjectInput!) {
-    createProject(body: $body) {
-      _id
-    }
-  }
+const REMOVE_PROJECT = gql(`
+  mutation RemoveSkill($deleteSkillId: ID!) { deleteSkill(id: $deleteSkillId) { _id }}
 `);
 
-const Projects: React.FC = () => {
+const Skills: React.FC = () => {
   const { params, updateParams } = useSearchParamsState({
     page: "1",
     limit: "10",
@@ -74,7 +60,7 @@ const Projects: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [mode, setMode] = useState<"edit" | "create">("create");
-  const [editProject, setEditProject] = useState<Partial<Project> | null>(null);
+  const [editSkill, setEditSkill] = useState<Partial<Skill> | null>(null);
 
   // GraphQL Hooks
   const variables = {
@@ -84,34 +70,36 @@ const Projects: React.FC = () => {
       sortOrder: sortOrder as InputMaybe<SortOrder>,
       sortBy,
     },
-    query: {},
+    // query: {},
   };
-  const { loading, data, refetch } = useQuery(ALL_PROJECTS, { variables });
+  const { loading, data, refetch } = useQuery(ALL_SKILLS, { variables });
 
-  const [fetchProject] = useLazyQuery<{ project: Project }>(GET_PROJECT, { fetchPolicy: "no-cache" });
+  const [fetchSkill] = useLazyQuery<{ skill: Skill }>(GET_PROJECT, { fetchPolicy: "no-cache" });
 
-  const [createProject] = useMutation(CREATE_PROJECT, { refetchQueries: ["ProjectsList"] });
-  const [updateProject] = useMutation(UPDATE_PROJECT, { refetchQueries: ["ProjectsList"] });
-  const [deleteProject] = useMutation(REMOVE_PROJECT, { refetchQueries: ["ProjectsList"] });
+  const [createSkill] = useMutation(CREATE_SKILL, { refetchQueries: ["Skills"] });
+  const [updateSkill] = useMutation(UPDATE_PROJECT, { refetchQueries: ["Skills"] });
+  const [deleteSkill] = useMutation(REMOVE_PROJECT, { refetchQueries: ["Skills"] });
 
-  const columns: ColumnsType<Project> = [
+  const columns: ColumnsType<Skill> = [
     {
       title: "SL No",
       dataIndex: "index",
       key: "index",
       render: (_, __, index) => (parseInt(page) - 1) * parseInt(limit) + index + 1,
       align: "center",
+      width: 100,
     },
 
     {
-      title: "Thumbnail",
+      title: "Image",
       key: "index",
       render: (_, record) => (
         <div className="flex justify-center">
-          <TableImagePreview src={record?.thumbnail?.url} />
+          <TableImagePreview src={record?.image?.url} />
         </div>
       ),
       align: "center",
+      width: 150,
     },
     {
       title: "Name",
@@ -119,19 +107,19 @@ const Projects: React.FC = () => {
       key: "name",
     },
     {
-      title: "Position",
-      dataIndex: "position",
-      key: "position",
-      align: "center",
+      title: "Type",
+      dataIndex: "type",
+      key: "type",
     },
-
     {
       title: "Actions",
       key: "actions",
       render: (_, record) => (
         <Space className="text-xl ">
           <div className=" cursor-pointer mx-2 text-blue-400">
-            <Link href={`projects/${record?._id}`}> <EyeOutlined /> </Link>
+            <Link href={`skills/${record?._id}`}>
+              <EyeOutlined />
+            </Link>
           </div>
           <div className=" cursor-pointer mx-2 text-green-400" onClick={() => updateHandler(record?._id)}>
             <EditOutlined />
@@ -142,6 +130,7 @@ const Projects: React.FC = () => {
         </Space>
       ),
       align: "center",
+      width: 200,
     },
   ];
 
@@ -150,7 +139,7 @@ const Projects: React.FC = () => {
     refetch(variables);
   };
 
-  const deleteHandler = (deleteProjectId: string) => {
+  const deleteHandler = (deleteSkillId: string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -162,8 +151,8 @@ const Projects: React.FC = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await deleteProject({ variables: { deleteProjectId } });
-          toast.success("Project deleted successfully!");
+          await deleteSkill({ variables: { deleteSkillId } });
+          toast.success("Skill deleted successfully!");
         } catch (error) {
           console.error("Failed to delete user!", error);
           toast.error("Failed to delete user!");
@@ -181,14 +170,14 @@ const Projects: React.FC = () => {
   const onFinish = async () => {
     try {
       const values = form.getFieldsValue();
-      const body = { ...values, thumbnail: values.thumbnail[0] };
+      const body = { ...values, image: values.image[0] };
 
       console.log({ values, body });
 
       if (mode === "create") {
-        await createProject({ variables: { body } });
+        await createSkill({ variables: { body } });
       } else {
-        await updateProject({ variables: { body, updateProjectId: editProject?._id as string } });
+        await updateSkill({ variables: { body, updateSkillId: editSkill?._id as string } });
       }
     } catch (error) {
       console.error(error);
@@ -197,13 +186,13 @@ const Projects: React.FC = () => {
     }
   };
 
-  const updateHandler = async (projectId: string) => {
+  const updateHandler = async (skillId: string) => {
     try {
-      const { data } = await fetchProject({ variables: { projectId } });
-      if (data?.project) {
-        form.setFieldsValue({ ...data.project, thumbnail: [data.project?.thumbnail] });
-        // // setEditProject(data);
-        setEditProject(data.project);
+      const { data } = await fetchSkill({ variables: { skillId } });
+      if (data?.skill) {
+        form.setFieldsValue({ ...data.skill, image: [data.skill?.image] });
+        // // setEditSkill(data);
+        setEditSkill(data.skill);
         setMode("edit");
         setOpen(true);
       }
@@ -214,9 +203,9 @@ const Projects: React.FC = () => {
 
   return (
     <Spin spinning={loading}>
-      <AdminTableHeader {...{ refetch: refetchData, setOpen, name: "Projects" }} />
-      {Array.isArray(data?.projects?.data) && data?.projects?.data?.length > 0 ? (
-        <AdminTable {...{ columns, data: data?.projects?.data, params, meta: data?.projects?.meta, updateParams }} />
+      <AdminTableHeader {...{ refetch: refetchData, setOpen, name: "Skills" }} />
+      {Array.isArray(data?.skills?.data) && data?.skills?.data?.length > 0 ? (
+        <AdminTable {...{ columns, data: data?.skills?.data, params, meta: data?.skills?.meta, updateParams }} />
       ) : (
         <div className="py-10 bg-black/40 rounded-md">
           <Empty description="No data found">
@@ -226,9 +215,9 @@ const Projects: React.FC = () => {
           </Empty>
         </div>
       )}
-      <ProjectFormDrawer {...{ open, closeDrawer, onFinish, form, isLoading, setIsLoading, mode }} />
+      <SkillFormDrawer {...{ open, closeDrawer, onFinish, form, isLoading, setIsLoading, mode }} />
     </Spin>
   );
 };
 
-export default Projects;
+export default Skills;

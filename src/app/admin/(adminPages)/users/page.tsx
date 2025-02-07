@@ -19,7 +19,7 @@ import Link from "next/link";
 
 // GraphQL Queries and Mutations
 const ALL_USERS = gql(`
-  query UsersList($pagination: PaginationInput, $query: UserQuery) {
+  query UsersList($pagination: PaginationInput, $query: UserQueryInput) {
       users(pagination: $pagination, query: $query) {
         meta { page limit total }
         data { _id name email role isActive avatar { uid name status url } }

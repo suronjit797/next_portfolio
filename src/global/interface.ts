@@ -31,3 +31,12 @@ export interface Project {
   githubUrl: { frontend: string; backend: string };
   user: Partial<User>;
 }
+
+export interface Skill {
+  _id: string;
+  name: string;
+  type: string;
+  image: ImageType;
+  createdAt: Date;
+  updatedAt: Date;
+}
