@@ -18,6 +18,12 @@ export type Scalars = {
   JSON: { input: any; output: any; }
 };
 
+export type CreateMessagesInput = {
+  email: Scalars['String']['input'];
+  message: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+};
+
 export type CreateProjectInput = {
   description: Scalars['String']['input'];
   githubUrl: GithubUrlInput;
@@ -84,6 +90,35 @@ export type LoginResponse = {
   refreshToken: Scalars['String']['output'];
 };
 
+export type MessageMetaQuery = {
+  __typename?: 'MessageMetaQuery';
+  limit: Scalars['Int']['output'];
+  page: Scalars['Int']['output'];
+  total: Scalars['Int']['output'];
+  unread: Scalars['Int']['output'];
+};
+
+export type MessagesQueryInput = {
+  createdAt?: InputMaybe<Scalars['Date']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  message?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  unread?: InputMaybe<Scalars['Boolean']['input']>;
+  updatedAt?: InputMaybe<Scalars['Date']['input']>;
+};
+
+export type MessagesType = {
+  __typename?: 'MessagesType';
+  _id: Scalars['ID']['output'];
+  createdAt: Scalars['Date']['output'];
+  email: Scalars['String']['output'];
+  message: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  unread: Scalars['Boolean']['output'];
+  updatedAt: Scalars['Date']['output'];
+};
+
 export type MetaQuery = {
   __typename?: 'MetaQuery';
   limit: Scalars['Int']['output'];
@@ -93,18 +128,27 @@ export type MetaQuery = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createMessage: MessagesType;
   createProject: Project;
   createSkill: SkillsType;
+  deleteManyMessages: MessagesType;
   deleteManyProject: Project;
   deleteManySkills: SkillsType;
+  deleteMessage: MessagesType;
   deleteProject: Project;
   deleteSkill: SkillsType;
   deleteUser: User;
   login: LoginResponse;
   register: User;
+  updateMessage: MessagesType;
   updateProject: Project;
   updateSkill: SkillsType;
   updateUser: User;
+};
+
+
+export type MutationCreateMessageArgs = {
+  body: CreateMessagesInput;
 };
 
 
@@ -118,6 +162,11 @@ export type MutationCreateSkillArgs = {
 };
 
 
+export type MutationDeleteManyMessagesArgs = {
+  query: MessagesQueryInput;
+};
+
+
 export type MutationDeleteManyProjectArgs = {
   query: ProjectQueryInput;
 };
@@ -125,6 +174,11 @@ export type MutationDeleteManyProjectArgs = {
 
 export type MutationDeleteManySkillsArgs = {
   query: SkillsQueryInput;
+};
+
+
+export type MutationDeleteMessageArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -150,6 +204,12 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
   body: CreateUserInput;
+};
+
+
+export type MutationUpdateMessageArgs = {
+  body?: InputMaybe<UpdateMessagesInput>;
+  id: Scalars['ID']['input'];
 };
 
 
@@ -207,6 +267,8 @@ export type ProjectQueryInput = {
 
 export type Query = {
   __typename?: 'Query';
+  message?: Maybe<MessagesType>;
+  messages: GetAllMessagesQuery;
   profile?: Maybe<User>;
   project?: Maybe<Project>;
   projects: GetAllProjectsQuery;
@@ -214,6 +276,17 @@ export type Query = {
   skills: GetAllSkillsQuery;
   user?: Maybe<User>;
   users: GetAllUsersQuery;
+};
+
+
+export type QueryMessageArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryMessagesArgs = {
+  pagination?: InputMaybe<PaginationInput>;
+  query?: InputMaybe<MessagesQueryInput>;
 };
 
 
@@ -274,6 +347,13 @@ export enum SortOrder {
   Descending = 'descending'
 }
 
+export type UpdateMessagesInput = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  message?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  unread?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
 export type UpdateProjectInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   githubUrl?: InputMaybe<GithubUrlInput>;
@@ -323,6 +403,12 @@ export type UserQueryInput = {
   updatedAt?: InputMaybe<Scalars['Date']['input']>;
 };
 
+export type GetAllMessagesQuery = {
+  __typename?: 'getAllMessagesQuery';
+  data?: Maybe<Array<MessagesType>>;
+  meta?: Maybe<MessageMetaQuery>;
+};
+
 export type GetAllProjectsQuery = {
   __typename?: 'getAllProjectsQuery';
   data?: Maybe<Array<Project>>;
@@ -340,6 +426,43 @@ export type GetAllUsersQuery = {
   data?: Maybe<Array<User>>;
   meta?: Maybe<MetaQuery>;
 };
+
+export type CreateMessageMutationVariables = Exact<{
+  body: CreateMessagesInput;
+}>;
+
+
+export type CreateMessageMutation = { __typename?: 'Mutation', createMessage: { __typename?: 'MessagesType', name: string } };
+
+export type MessageQueryVariables = Exact<{
+  messageId: Scalars['ID']['input'];
+}>;
+
+
+export type MessageQuery = { __typename?: 'Query', message?: { __typename?: 'MessagesType', _id: string, name: string, email: string, unread: boolean, message: string, createdAt: any, updatedAt: any } | null };
+
+export type MessagesQueryVariables = Exact<{
+  pagination?: InputMaybe<PaginationInput>;
+  query?: InputMaybe<MessagesQueryInput>;
+}>;
+
+
+export type MessagesQuery = { __typename?: 'Query', messages: { __typename?: 'getAllMessagesQuery', meta?: { __typename?: 'MessageMetaQuery', page: number, limit: number, total: number, unread: number } | null, data?: Array<{ __typename?: 'MessagesType', _id: string, name: string, email: string, unread: boolean }> | null } };
+
+export type UpdateMessageMutationVariables = Exact<{
+  updateMessageId: Scalars['ID']['input'];
+  body?: InputMaybe<UpdateMessagesInput>;
+}>;
+
+
+export type UpdateMessageMutation = { __typename?: 'Mutation', updateMessage: { __typename?: 'MessagesType', _id: string } };
+
+export type RemoveMessageMutationVariables = Exact<{
+  deleteMessageId: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveMessageMutation = { __typename?: 'Mutation', deleteMessage: { __typename?: 'MessagesType', _id: string } };
 
 export type GetProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -480,6 +603,11 @@ export type LoginMutationVariables = Exact<{
 export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginResponse', accessToken: string } };
 
 
+export const CreateMessageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateMessage"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"body"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateMessagesInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createMessage"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"body"},"value":{"kind":"Variable","name":{"kind":"Name","value":"body"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<CreateMessageMutation, CreateMessageMutationVariables>;
+export const MessageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"message"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"messageId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"messageId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"unread"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<MessageQuery, MessageQueryVariables>;
+export const MessagesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Messages"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"PaginationInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"query"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"MessagesQueryInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"messages"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}},{"kind":"Argument","name":{"kind":"Name","value":"query"},"value":{"kind":"Variable","name":{"kind":"Name","value":"query"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"meta"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"limit"}},{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"unread"}}]}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"unread"}}]}}]}}]}}]} as unknown as DocumentNode<MessagesQuery, MessagesQueryVariables>;
+export const UpdateMessageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateMessage"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateMessageId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"body"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateMessagesInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateMessage"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateMessageId"}}},{"kind":"Argument","name":{"kind":"Name","value":"body"},"value":{"kind":"Variable","name":{"kind":"Name","value":"body"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}}]}}]}}]} as unknown as DocumentNode<UpdateMessageMutation, UpdateMessageMutationVariables>;
+export const RemoveMessageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RemoveMessage"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"deleteMessageId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteMessage"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"deleteMessageId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}}]}}]}}]} as unknown as DocumentNode<RemoveMessageMutation, RemoveMessageMutationVariables>;
 export const GetProfileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetProfile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"profile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"role"}}]}}]}}]} as unknown as DocumentNode<GetProfileQuery, GetProfileQueryVariables>;
 export const Single_ProjectDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"single_Project"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"projectId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"project"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"projectId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"images"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"packages"}},{"kind":"Field","name":{"kind":"Name","value":"tags"}},{"kind":"Field","name":{"kind":"Name","value":"liveUrl"}},{"kind":"Field","name":{"kind":"Name","value":"githubUrl"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"frontend"}},{"kind":"Field","name":{"kind":"Name","value":"backend"}}]}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<Single_ProjectQuery, Single_ProjectQueryVariables>;
 export const ProjectsListDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ProjectsList"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"PaginationInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"query"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ProjectQueryInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"projects"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}},{"kind":"Argument","name":{"kind":"Name","value":"query"},"value":{"kind":"Variable","name":{"kind":"Name","value":"query"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"meta"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"limit"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uid"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"position"}}]}}]}}]}}]} as unknown as DocumentNode<ProjectsListQuery, ProjectsListQueryVariables>;

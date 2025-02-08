@@ -14,6 +14,11 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 const documents = {
+    "  \n    mutation CreateMessage($body: CreateMessagesInput!) {\n      createMessage(body: $body) {\n        name\n      }\n    }\n": types.CreateMessageDocument,
+    "\n  query message($messageId: ID!) {\n      message(id: $messageId) { _id name email unread message createdAt updatedAt}\n  }\n": types.MessageDocument,
+    "\n  query Messages($pagination: PaginationInput, $query: MessagesQueryInput) {\n    messages(pagination: $pagination, query: $query) { meta { page limit total unread }\n    data { _id name email unread}\n    }\n  }\n": types.MessagesDocument,
+    "\n  mutation UpdateMessage($updateMessageId: ID!, $body: UpdateMessagesInput) {\n    updateMessage(id: $updateMessageId, body: $body) { _id }\n}\n": types.UpdateMessageDocument,
+    "\n  mutation RemoveMessage($deleteMessageId: ID!) { deleteMessage(id: $deleteMessageId) { _id }}\n": types.RemoveMessageDocument,
     "\n  query GetProfile {\n    profile { _id name email role }\n  }\n": types.GetProfileDocument,
     "\nquery single_Project($projectId: ID!) {\n project(id: $projectId) { name thumbnail { url } images { url } description packages tags liveUrl\n  githubUrl { frontend backend }\n  user { name email } createdAt updatedAt\n }\n}\n": types.Single_ProjectDocument,
     "\n  query ProjectsList($pagination: PaginationInput, $query: ProjectQueryInput) {\n      projects(pagination: $pagination, query: $query) {\n        meta { page limit total }\n        data { _id name thumbnail{uid name status url} position }\n      }\n    }\n": types.ProjectsListDocument,
@@ -49,6 +54,26 @@ const documents = {
  */
 export function gql(source: string): unknown;
 
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "  \n    mutation CreateMessage($body: CreateMessagesInput!) {\n      createMessage(body: $body) {\n        name\n      }\n    }\n"): (typeof documents)["  \n    mutation CreateMessage($body: CreateMessagesInput!) {\n      createMessage(body: $body) {\n        name\n      }\n    }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query message($messageId: ID!) {\n      message(id: $messageId) { _id name email unread message createdAt updatedAt}\n  }\n"): (typeof documents)["\n  query message($messageId: ID!) {\n      message(id: $messageId) { _id name email unread message createdAt updatedAt}\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query Messages($pagination: PaginationInput, $query: MessagesQueryInput) {\n    messages(pagination: $pagination, query: $query) { meta { page limit total unread }\n    data { _id name email unread}\n    }\n  }\n"): (typeof documents)["\n  query Messages($pagination: PaginationInput, $query: MessagesQueryInput) {\n    messages(pagination: $pagination, query: $query) { meta { page limit total unread }\n    data { _id name email unread}\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation UpdateMessage($updateMessageId: ID!, $body: UpdateMessagesInput) {\n    updateMessage(id: $updateMessageId, body: $body) { _id }\n}\n"): (typeof documents)["\n  mutation UpdateMessage($updateMessageId: ID!, $body: UpdateMessagesInput) {\n    updateMessage(id: $updateMessageId, body: $body) { _id }\n}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation RemoveMessage($deleteMessageId: ID!) { deleteMessage(id: $deleteMessageId) { _id }}\n"): (typeof documents)["\n  mutation RemoveMessage($deleteMessageId: ID!) { deleteMessage(id: $deleteMessageId) { _id }}\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
