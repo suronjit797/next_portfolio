@@ -21,7 +21,6 @@ const documents = {
     "\nmutation DeleteProject($deleteProjectId: ID!) {\n  deleteProject(id: $deleteProjectId) {    \n      _id\n    }\n  }\n": types.DeleteProjectDocument,
     "\n  mutation UpdateProject($updateProjectId: ID!, $body: UpdateProjectInput) {\n    updateProject(id: $updateProjectId, body: $body) { _id }\n  }\n": types.UpdateProjectDocument,
     "\n  mutation CreateProject($body: CreateProjectInput!) {\n    createProject(body: $body) {\n      _id\n    }\n  }\n": types.CreateProjectDocument,
-    "\nquery s_Project($projectId: ID!) {\n project(id: $projectId) {  name  position  thumbnail {   url  }  images {   url  }  description\n  packages\n  tags\n  liveUrl\n  githubUrl {\n   frontend\n   backend\n  }\n  user {\n   _id\n   name\n   email\n   role\n  }\n  createdAt\n  updatedAt\n }\n}\n": types.S_ProjectDocument,
     "\n  query Skills($pagination: PaginationInput, $query: SkillsQueryInput) {\n    skills(pagination: $pagination, query: $query) { meta { page limit total }\n    data { _id name image { uid name status url size } type createdAt updatedAt\n    }\n    }\n  }\n": types.SkillsDocument,
     "\n  mutation CreateSkill($body: CreateSkillsInput!) { createSkill(body: $body) { _id }}\n": types.CreateSkillDocument,
     "\n  query skill($skillId: ID!) {\n      skill(id: $skillId) { _id name image { uid name status url size } type createdAt updatedAt}\n  }\n": types.SkillDocument,
@@ -32,6 +31,7 @@ const documents = {
     "\n  mutation DeleteUser($deleteUserId: ID!) {\n    deleteUser(id: $deleteUserId) {\n      _id\n    }\n  }\n": types.DeleteUserDocument,
     "\n  mutation UpdateUser($updateUserId: ID!, $body: UpdateUserInput) {\n    updateUser(id: $updateUserId, body: $body) { name }\n  }\n": types.UpdateUserDocument,
     "\n    mutation createUser($body: CreateUserInput!) {\n    register(body: $body) { _id }\n  }  \n": types.CreateUserDocument,
+    "\n  query Skills_F($pagination: PaginationInput, $query: SkillsQueryInput) {\n      skills(pagination: $pagination, query: $query) {\n      data { _id name image {url}\n      }\n    }\n  }\n": types.Skills_FDocument,
     "\n  mutation Login($body: LoginInput) {\n    login(body: $body) { accessToken }\n  }\n": types.LoginDocument,
 };
 
@@ -80,10 +80,6 @@ export function gql(source: "\n  mutation CreateProject($body: CreateProjectInpu
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\nquery s_Project($projectId: ID!) {\n project(id: $projectId) {  name  position  thumbnail {   url  }  images {   url  }  description\n  packages\n  tags\n  liveUrl\n  githubUrl {\n   frontend\n   backend\n  }\n  user {\n   _id\n   name\n   email\n   role\n  }\n  createdAt\n  updatedAt\n }\n}\n"): (typeof documents)["\nquery s_Project($projectId: ID!) {\n project(id: $projectId) {  name  position  thumbnail {   url  }  images {   url  }  description\n  packages\n  tags\n  liveUrl\n  githubUrl {\n   frontend\n   backend\n  }\n  user {\n   _id\n   name\n   email\n   role\n  }\n  createdAt\n  updatedAt\n }\n}\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
 export function gql(source: "\n  query Skills($pagination: PaginationInput, $query: SkillsQueryInput) {\n    skills(pagination: $pagination, query: $query) { meta { page limit total }\n    data { _id name image { uid name status url size } type createdAt updatedAt\n    }\n    }\n  }\n"): (typeof documents)["\n  query Skills($pagination: PaginationInput, $query: SkillsQueryInput) {\n    skills(pagination: $pagination, query: $query) { meta { page limit total }\n    data { _id name image { uid name status url size } type createdAt updatedAt\n    }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -121,6 +117,10 @@ export function gql(source: "\n  mutation UpdateUser($updateUserId: ID!, $body: 
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n    mutation createUser($body: CreateUserInput!) {\n    register(body: $body) { _id }\n  }  \n"): (typeof documents)["\n    mutation createUser($body: CreateUserInput!) {\n    register(body: $body) { _id }\n  }  \n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query Skills_F($pagination: PaginationInput, $query: SkillsQueryInput) {\n      skills(pagination: $pagination, query: $query) {\n      data { _id name image {url}\n      }\n    }\n  }\n"): (typeof documents)["\n  query Skills_F($pagination: PaginationInput, $query: SkillsQueryInput) {\n      skills(pagination: $pagination, query: $query) {\n      data { _id name image {url}\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

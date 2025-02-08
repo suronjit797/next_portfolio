@@ -8,6 +8,7 @@ import { store } from "@/redux/store";
 
 const httpLink = createHttpLink({
   uri: process.env.NEXT_PUBLIC_API_ROUTE + "graphql",
+  // uri: "https://next-portfolio-server-tan.vercel.app/api/v1/" + "graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
