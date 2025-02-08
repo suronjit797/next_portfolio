@@ -17,7 +17,7 @@ const documents = {
     "  \n    mutation CreateMessage($body: CreateMessagesInput!) {\n      createMessage(body: $body) {\n        name\n      }\n    }\n": types.CreateMessageDocument,
     "\n  query message($messageId: ID!) {\n      message(id: $messageId) { _id name email unread message createdAt updatedAt}\n  }\n": types.MessageDocument,
     "\n  query Messages($pagination: PaginationInput, $query: MessagesQueryInput) {\n    messages(pagination: $pagination, query: $query) { meta { page limit total unread }\n    data { _id name email unread}\n    }\n  }\n": types.MessagesDocument,
-    "\n  mutation UpdateMessage($updateMessageId: ID!, $body: UpdateMessagesInput) {\n    updateMessage(id: $updateMessageId, body: $body) { _id }\n}\n": types.UpdateMessageDocument,
+    "\n  mutation UpdateMessage($updateMessageId: ID!, $body: UpdateMessagesInput) {\n    updateMessage(id: $updateMessageId, body: $body) { unread }\n}\n": types.UpdateMessageDocument,
     "\n  mutation RemoveMessage($deleteMessageId: ID!) { deleteMessage(id: $deleteMessageId) { _id }}\n": types.RemoveMessageDocument,
     "\n  query GetProfile {\n    profile { _id name email role }\n  }\n": types.GetProfileDocument,
     "\nquery single_Project($projectId: ID!) {\n project(id: $projectId) { name thumbnail { url } images { url } description packages tags liveUrl\n  githubUrl { frontend backend }\n  user { name email } createdAt updatedAt\n }\n}\n": types.Single_ProjectDocument,
@@ -69,7 +69,7 @@ export function gql(source: "\n  query Messages($pagination: PaginationInput, $q
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  mutation UpdateMessage($updateMessageId: ID!, $body: UpdateMessagesInput) {\n    updateMessage(id: $updateMessageId, body: $body) { _id }\n}\n"): (typeof documents)["\n  mutation UpdateMessage($updateMessageId: ID!, $body: UpdateMessagesInput) {\n    updateMessage(id: $updateMessageId, body: $body) { _id }\n}\n"];
+export function gql(source: "\n  mutation UpdateMessage($updateMessageId: ID!, $body: UpdateMessagesInput) {\n    updateMessage(id: $updateMessageId, body: $body) { unread }\n}\n"): (typeof documents)["\n  mutation UpdateMessage($updateMessageId: ID!, $body: UpdateMessagesInput) {\n    updateMessage(id: $updateMessageId, body: $body) { unread }\n}\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

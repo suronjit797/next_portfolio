@@ -27,7 +27,7 @@ const ALL_MESSAGES = gql(`
 
 const UPDATE_MESSAGE = gql(`
   mutation UpdateMessage($updateMessageId: ID!, $body: UpdateMessagesInput) {
-    updateMessage(id: $updateMessageId, body: $body) { _id }
+    updateMessage(id: $updateMessageId, body: $body) { unread }
 }
 `);
 
@@ -56,7 +56,19 @@ const Messages: React.FC = () => {
   };
   const { loading, data, refetch } = useQuery(ALL_MESSAGES, { variables });
 
-  const [updateMessage] = useMutation(UPDATE_MESSAGE, { refetchQueries: ["Messages"] });
+  const [updateMessage] = useMutation(UPDATE_MESSAGE, {
+    refetchQueries: ["Messages"],
+    update: (cache, { data }) => {
+      if (data?.updateMessage) {
+        cache.modify({
+          id: cache.identify(data.updateMessage),
+          fields: {
+            unread: () => !data.updateMessage.unread, // Update unread field
+          },
+        });
+      }
+    },
+  });
   const [deleteMessage] = useMutation(REMOVE_MESSAGE, { refetchQueries: ["Messages"] });
 
   const columns: ColumnsType<Message> = [
@@ -96,7 +108,10 @@ const Messages: React.FC = () => {
       key: "actions",
       render: (_, record) => (
         <Space className="text-xl ">
-          <div className=" cursor-pointer mx-2 text-blue-400">
+          <div
+            className=" cursor-pointer mx-2 text-blue-400"
+            onClick={() => updateMessage({ variables: { body: { unread: false }, updateMessageId: record?._id } })}
+          >
             <Link href={`contact/${record?._id}`}>
               <EyeOutlined />
             </Link>
