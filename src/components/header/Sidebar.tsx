@@ -4,6 +4,10 @@ import { BiLogoGmail } from "react-icons/bi";
 import Image from "next/image";
 import user from "@/assets/user.jpeg";
 import NavLink from "../NavLink";
+import { store } from "@/redux/store";
+
+const state = store.getState();
+const isLogin = state.auth?.isLogin;
 
 const NavItems = [
   { name: "home", path: "/" },
@@ -12,6 +16,10 @@ const NavItems = [
   { name: "About Me", path: "/about" },
   { name: "Contact Me", path: "/contact" },
 ];
+
+if (isLogin) {
+  NavItems.push({ name: "admin", path: "/admin" });
+}
 
 const Sidebar = () => {
   return (
