@@ -170,3 +170,8 @@ textarea:-webkit-autofill {
   -webkit-text-fill-color: #e1e1e1 !important; /* Ensures text is visible */
   transition: background-color 5000s ease-in-out 0s;
 }
+
+.ant-image-preview-wrap{
+  background-color: #2929297c;
+  backdrop-filter: blur(4px);
+}

@@ -32,19 +32,19 @@ const Projects = () => {
     sortOrder: "asc",
     sortBy: "position",
     search: "",
-    tags: "",
+    q: "",
   });
-  const { page, limit, sortOrder, sortBy, search, tags } = params;
+  const { page, limit, sortOrder, sortBy, search, q } = params;
 
   // Local state for dynamic query adjustments
   const [query, setQuery] = useState<object>({});
 
   useEffect(() => {
-    // If tags or search changes, update the query state
-    if (tags) {
-      setQuery((prev) => ({ ...prev, search: tags }));
+    // If q or search changes, update the query state
+    if (q) {
+      setQuery((prev) => ({ ...prev, search: q }));
     }
-  }, [tags]);
+  }, [q]);
 
   // Prepare variables for GraphQL query
   const variables = {
@@ -75,7 +75,7 @@ const Projects = () => {
 
   // Clear search handler
   const clearSearch = () => {
-    updateParams({ search: "", tags: "" });
+    updateParams({ search: "", q: "" });
     setQuery({}); // Clear query state
     router.push("/projects"); // Reset to initial state
   };

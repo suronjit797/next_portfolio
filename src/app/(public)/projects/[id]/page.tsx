@@ -42,11 +42,11 @@ const ProductView: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto py-4 ">
+    <div className=" py-4 ">
       <div className=" rounded-lg ">
         <div className="mb-4">
-          <Image.PreviewGroup>
-            <Carousel arrows infinite={true}>
+          <Image.PreviewGroup >
+            <Carousel>
               {project.images &&
                 project.images.length > 0 &&
                 [project.thumbnail, ...project.images].map((image, index) => (
