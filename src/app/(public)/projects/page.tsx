@@ -111,12 +111,13 @@ const Projects = () => {
           <div className="search-actions flex items-center gap-3">
             <form className={`${styles.project_search} ms-auto`} autoComplete="off" onSubmit={searchHandler}>
               <input
-                type="search"
+                type="text"
                 name="search"
                 id="search"
                 placeholder="Search"
-                value={search}
+                value={search || ""}
                 onChange={(e) => updateParams({ search: e.target.value })}
+                
               />
               <button type="submit">
                 <BsSearch />

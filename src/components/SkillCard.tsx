@@ -9,7 +9,7 @@ interface SkillCardProps {
 
 const SkillCard: React.FC<SkillCardProps> = ({ data }) => {
   return (
-    <Link href={`/projects?q=${data?.name}`}>
+    <Link href={`/projects?q=${data?.name}`} className="!text-white">
       <div className={styles.skillCard}>
         <Image
           className="w-full"
