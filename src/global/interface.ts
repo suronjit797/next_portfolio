@@ -46,7 +46,20 @@ export interface Message {
   name: string;
   email: string;
   message: string;
-  unread: boolean
+  unread: boolean;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface Project {
+  position: number;
+  name: string;
+  description: string;
+  packages: string[];
+  tags: string[];
+  liveUrl: string;
+  thumbnail: ImageType;
+  images: ImageType[];
+  githubUrl: { frontend: string; backend: string };
+  user: Partial<User>;
 }

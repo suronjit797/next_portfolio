@@ -15,6 +15,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "  \n    mutation CreateMessage($body: CreateMessagesInput!) {\n      createMessage(body: $body) {\n        name\n      }\n    }\n": types.CreateMessageDocument,
+    "\n  query Projects($pagination: PaginationInput, $query: ProjectQueryInput) {\n      projects(pagination: $pagination, query: $query) {\n        meta { page limit total }\n        data { _id name thumbnail{name url} position tags }\n      }\n    }\n": types.ProjectsDocument,
+    "\n  query Projects($pagination: PaginationInput, $query: ProjectQueryInput) {\n    projects(pagination: $pagination, query: $query) {\n      meta { page limit total }\n      data { _id name thumbnail{name url} position tags }\n    }\n  }\n": types.ProjectsDocument,
     "\n  query message($messageId: ID!) {\n      message(id: $messageId) { _id name email unread message createdAt updatedAt}\n  }\n": types.MessageDocument,
     "\n  query Messages($pagination: PaginationInput, $query: MessagesQueryInput) {\n    messages(pagination: $pagination, query: $query) { meta { page limit total unread }\n    data { _id name email unread}\n    }\n  }\n": types.MessagesDocument,
     "\n  mutation UpdateMessage($updateMessageId: ID!, $body: UpdateMessagesInput) {\n    updateMessage(id: $updateMessageId, body: $body) { unread }\n}\n": types.UpdateMessageDocument,
@@ -58,6 +60,14 @@ export function gql(source: string): unknown;
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "  \n    mutation CreateMessage($body: CreateMessagesInput!) {\n      createMessage(body: $body) {\n        name\n      }\n    }\n"): (typeof documents)["  \n    mutation CreateMessage($body: CreateMessagesInput!) {\n      createMessage(body: $body) {\n        name\n      }\n    }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query Projects($pagination: PaginationInput, $query: ProjectQueryInput) {\n      projects(pagination: $pagination, query: $query) {\n        meta { page limit total }\n        data { _id name thumbnail{name url} position tags }\n      }\n    }\n"): (typeof documents)["\n  query Projects($pagination: PaginationInput, $query: ProjectQueryInput) {\n      projects(pagination: $pagination, query: $query) {\n        meta { page limit total }\n        data { _id name thumbnail{name url} position tags }\n      }\n    }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query Projects($pagination: PaginationInput, $query: ProjectQueryInput) {\n    projects(pagination: $pagination, query: $query) {\n      meta { page limit total }\n      data { _id name thumbnail{name url} position tags }\n    }\n  }\n"): (typeof documents)["\n  query Projects($pagination: PaginationInput, $query: ProjectQueryInput) {\n    projects(pagination: $pagination, query: $query) {\n      meta { page limit total }\n      data { _id name thumbnail{name url} position tags }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

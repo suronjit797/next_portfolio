@@ -1,9 +1,7 @@
 import { CodegenConfig } from "@graphql-codegen/cli";
 import dotenv from "dotenv";
 
-
 dotenv.config();
-
 
 const config: CodegenConfig = {
   overwrite: true,
@@ -18,6 +16,7 @@ const config: CodegenConfig = {
       plugins: [], // No additional plugins needed with the 'client' preset
       config: {
         dedupeFragments: true, // Prevent duplicate fragments
+        skipTypename: true,
       },
     },
   },

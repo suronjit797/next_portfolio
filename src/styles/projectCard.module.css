@@ -1,7 +1,7 @@
 .projectCard {
   /* background-color: var(--third_color); */
-  background-color: var(--primary_color);
-  border-radius: 40px;
+  /* background-color: var(--primary_color);
+  border-radius: 10px; */
   box-shadow: 10px 10px 21px #232323, -10px -10px 21px #2f2f2f;
   border: 1px solid transparent;
   position: relative;
@@ -27,5 +27,5 @@
   height: 100%;
 }
 .projectCard:hover img {
-  transform: scale(1.2) rotate(5deg);
+  transform: scale(1.2);
 }

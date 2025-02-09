@@ -1,71 +1,114 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { TProject } from "@/interfaces/project";
-import Loading from "@/components/loading/Loading";
-import { BsSearch } from "react-icons/bs";
+import { gql } from "@/__generated__";
+import { InputMaybe, Project, SortOrder } from "@/__generated__/graphql";
 import ProjectCard from "@/components/ProjectCard";
+import { useSearchParamsState } from "@/hooks/useSearchParamsState";
 import styles from "@/styles/projects.module.css";
+import { useQuery } from "@apollo/client";
+import { Button, Pagination, Spin } from "antd";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { BsArrowRepeat, BsSearch } from "react-icons/bs";
+import { IoClose } from "react-icons/io5";
+
+const ALL_PROJECTS = gql(`
+  query Projects($pagination: PaginationInput, $query: ProjectQueryInput) {
+    projects(pagination: $pagination, query: $query) {
+      meta { page limit total }
+      data { _id name thumbnail{name url} position tags }
+    }
+  }
+`);
 
 const Projects = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [projects, setProjects] = useState<TProject[]>([]);
-  const [filteredData, setFilteredData] = useState<TProject[]>(projects);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [search, setSearch] = useState<string>("");
+  const router = useRouter();
 
-  //   const getProjects = async () => {
-  //     try {
-  //       const { data } = await axios.get<TProject[]>("/json/projects.json");
-  //       console.log(data);
-  //       setProjects(data);
-  //       setFilteredData(data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
+  // Fetch search params state
+  const { params, updateParams } = useSearchParamsState({
+    page: "1",
+    limit: "10",
+    sortOrder: "asc",
+    sortBy: "position",
+    search: "",
+    tags: "",
+  });
+  const { page, limit, sortOrder, sortBy, search, tags } = params;
 
-  const fetchData = async () => {
-    setIsLoading(true);
-    // await getProjects();
-    setIsLoading(false);
-  };
+  // Local state for dynamic query adjustments
+  const [query, setQuery] = useState<object>({});
 
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  // handler
-  const searchHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    setIsLoading(true);
-    e.preventDefault();
-    if (search) {
-      const filtered = projects.filter(
-        (project) =>
-          project.name.includes(search) ||
-          project.packages.includes(search) ||
-          project._id.includes(search) ||
-          project.description.includes(search) ||
-          project.tags.includes(search)
-      );
-
-      setFilteredData(filtered);
-    } else {
-      setFilteredData(projects);
+    // If tags or search changes, update the query state
+    if (tags) {
+      setQuery((prev) => ({ ...prev, search: tags }));
     }
-    setIsLoading(false);
+  }, [tags]);
+
+  // Prepare variables for GraphQL query
+  const variables = {
+    pagination: {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      sortOrder: sortOrder as InputMaybe<SortOrder>,
+      sortBy,
+    },
+    query,
+  };
+
+  // GraphQL Query Hook
+  const { loading, data, refetch } = useQuery(ALL_PROJECTS, { variables });
+  const projects = data?.projects?.data || [];
+
+  // Handler for search submit
+  const searchHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setQuery((prev) => ({ ...prev, search }));
+    updateParams({ search }); // Update URL search param
+  };
+
+  // Refetch data on page load or query change
+  const handleRefetch = () => {
+    refetch(variables);
+  };
+
+  // Clear search handler
+  const clearSearch = () => {
+    updateParams({ search: "", tags: "" });
+    setQuery({}); // Clear query state
+    router.push("/projects"); // Reset to initial state
+  };
+
+  // Handle pagination change
+  const handlePaginationChange = (newPage: number) => {
+    updateParams({ page: String(newPage) });
   };
 
   return (
-    <>
-      {isLoading ? (
-        <Loading isLoading={isLoading} />
-      ) : (
-        <div className="project px-lg-5 py-5 px-3 ">
-          <div className="flex items-center mb-1">
+    <Spin spinning={loading}>
+      <div className="project px-lg-5 py-5 px-3">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center">
             <h3 className="heading text-capitalize">
-              <span> Recent </span> Projects
+              <span>Recent</span> Projects
             </h3>
+
+            <Button
+              type="default"
+              icon={<BsArrowRepeat />}
+              onClick={handleRefetch}
+              style={{ marginLeft: "10px", padding: "0 12px" }}
+            />
+            <Button
+              type="primary"
+              danger
+              icon={<IoClose />}
+              onClick={clearSearch}
+              style={{ marginLeft: "10px", padding: "0 12px" }}
+            />
+          </div>
+          <div className="search-actions flex items-center gap-3">
             <form className={`${styles.project_search} ms-auto`} autoComplete="off" onSubmit={searchHandler}>
               <input
                 type="search"
@@ -73,26 +116,44 @@ const Projects = () => {
                 id="search"
                 placeholder="Search"
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => updateParams({ search: e.target.value })}
               />
               <button type="submit">
                 <BsSearch />
               </button>
             </form>
           </div>
-          <hr className="mb-5" />
-          <div className="project_body pt-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-4 align-items-stretch">
-              {filteredData.length > 0 ? (
-                filteredData.map((filter) => <ProjectCard key={filter._id} data={filter} />)
-              ) : (
-                <p className="text-danger"> No Project Found </p>
-              )}
-            </div>
+        </div>
+        <hr className="mb-5" />
+        <div className="project_body pt-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 align-items-stretch">
+            {projects.length > 0 ? (
+              projects.map((project) => (
+                <Link key={project._id} href={`/projects/${project._id}`}>
+                  <ProjectCard data={project as Partial<Project>} />
+                </Link>
+              ))
+            ) : (
+              <p className="text-danger">No Project Found</p>
+            )}
           </div>
         </div>
-      )}
-    </>
+
+        {/* Ant Design Pagination */}
+        <div className="mt-4">
+          <Pagination
+            current={parseInt(page)}
+            pageSize={parseInt(limit)}
+            total={data?.projects?.meta?.total || 0}
+            onChange={handlePaginationChange}
+            showSizeChanger={false}
+            className="pagination-container"
+            style={{ textAlign: "center" }}
+            align="end"
+          />
+        </div>
+      </div>
+    </Spin>
   );
 };
 

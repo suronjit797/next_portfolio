@@ -57,9 +57,8 @@ export type GithubUrlInput = {
 };
 
 export type GithubUrlType = {
-  __typename?: 'GithubUrlType';
-  backend: Scalars['String']['output'];
-  frontend: Scalars['String']['output'];
+  backend?: Maybe<Scalars['String']['output']>;
+  frontend?: Maybe<Scalars['String']['output']>;
 };
 
 export type ImageInput = {
@@ -71,7 +70,6 @@ export type ImageInput = {
 };
 
 export type ImageType = {
-  __typename?: 'ImageType';
   name?: Maybe<Scalars['String']['output']>;
   size?: Maybe<Scalars['Int']['output']>;
   status?: Maybe<Scalars['String']['output']>;
@@ -85,13 +83,11 @@ export type LoginInput = {
 };
 
 export type LoginResponse = {
-  __typename?: 'LoginResponse';
   accessToken: Scalars['String']['output'];
   refreshToken: Scalars['String']['output'];
 };
 
 export type MessageMetaQuery = {
-  __typename?: 'MessageMetaQuery';
   limit: Scalars['Int']['output'];
   page: Scalars['Int']['output'];
   total: Scalars['Int']['output'];
@@ -109,7 +105,6 @@ export type MessagesQueryInput = {
 };
 
 export type MessagesType = {
-  __typename?: 'MessagesType';
   _id: Scalars['ID']['output'];
   createdAt: Scalars['Date']['output'];
   email: Scalars['String']['output'];
@@ -120,14 +115,12 @@ export type MessagesType = {
 };
 
 export type MetaQuery = {
-  __typename?: 'MetaQuery';
   limit: Scalars['Int']['output'];
   page: Scalars['Int']['output'];
   total: Scalars['Int']['output'];
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
   createMessage: MessagesType;
   createProject: Project;
   createSkill: SkillsType;
@@ -238,11 +231,10 @@ export type PaginationInput = {
 };
 
 export type Project = {
-  __typename?: 'Project';
   _id: Scalars['ID']['output'];
   createdAt?: Maybe<Scalars['Date']['output']>;
   description: Scalars['String']['output'];
-  githubUrl: GithubUrlType;
+  githubUrl?: Maybe<GithubUrlType>;
   images: Array<ImageType>;
   liveUrl?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
@@ -266,7 +258,6 @@ export type ProjectQueryInput = {
 };
 
 export type Query = {
-  __typename?: 'Query';
   message?: Maybe<MessagesType>;
   messages: GetAllMessagesQuery;
   profile?: Maybe<User>;
@@ -331,7 +322,6 @@ export type SkillsQueryInput = {
 };
 
 export type SkillsType = {
-  __typename?: 'SkillsType';
   _id: Scalars['ID']['output'];
   createdAt: Scalars['Date']['output'];
   image: ImageType;
@@ -381,7 +371,6 @@ export type UpdateUserInput = {
 };
 
 export type User = {
-  __typename?: 'User';
   _id: Scalars['ID']['output'];
   avatar?: Maybe<ImageType>;
   createdAt: Scalars['Date']['output'];
@@ -404,25 +393,21 @@ export type UserQueryInput = {
 };
 
 export type GetAllMessagesQuery = {
-  __typename?: 'getAllMessagesQuery';
   data?: Maybe<Array<MessagesType>>;
   meta?: Maybe<MessageMetaQuery>;
 };
 
 export type GetAllProjectsQuery = {
-  __typename?: 'getAllProjectsQuery';
   data?: Maybe<Array<Project>>;
   meta?: Maybe<MetaQuery>;
 };
 
 export type GetAllSkillsQuery = {
-  __typename?: 'getAllSkillsQuery';
   data?: Maybe<Array<SkillsType>>;
   meta?: Maybe<MetaQuery>;
 };
 
 export type GetAllUsersQuery = {
-  __typename?: 'getAllUsersQuery';
   data?: Maybe<Array<User>>;
   meta?: Maybe<MetaQuery>;
 };
@@ -432,14 +417,22 @@ export type CreateMessageMutationVariables = Exact<{
 }>;
 
 
-export type CreateMessageMutation = { __typename?: 'Mutation', createMessage: { __typename?: 'MessagesType', name: string } };
+export type CreateMessageMutation = { createMessage: { name: string } };
+
+export type ProjectsQueryVariables = Exact<{
+  pagination?: InputMaybe<PaginationInput>;
+  query?: InputMaybe<ProjectQueryInput>;
+}>;
+
+
+export type ProjectsQuery = { projects: { meta?: { page: number, limit: number, total: number } | null, data?: Array<{ _id: string, name: string, position: number, tags: Array<string>, thumbnail: { name?: string | null, url?: string | null } }> | null } };
 
 export type MessageQueryVariables = Exact<{
   messageId: Scalars['ID']['input'];
 }>;
 
 
-export type MessageQuery = { __typename?: 'Query', message?: { __typename?: 'MessagesType', _id: string, name: string, email: string, unread: boolean, message: string, createdAt: any, updatedAt: any } | null };
+export type MessageQuery = { message?: { _id: string, name: string, email: string, unread: boolean, message: string, createdAt: any, updatedAt: any } | null };
 
 export type MessagesQueryVariables = Exact<{
   pagination?: InputMaybe<PaginationInput>;
@@ -447,7 +440,7 @@ export type MessagesQueryVariables = Exact<{
 }>;
 
 
-export type MessagesQuery = { __typename?: 'Query', messages: { __typename?: 'getAllMessagesQuery', meta?: { __typename?: 'MessageMetaQuery', page: number, limit: number, total: number, unread: number } | null, data?: Array<{ __typename?: 'MessagesType', _id: string, name: string, email: string, unread: boolean }> | null } };
+export type MessagesQuery = { messages: { meta?: { page: number, limit: number, total: number, unread: number } | null, data?: Array<{ _id: string, name: string, email: string, unread: boolean }> | null } };
 
 export type UpdateMessageMutationVariables = Exact<{
   updateMessageId: Scalars['ID']['input'];
@@ -455,26 +448,26 @@ export type UpdateMessageMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMessageMutation = { __typename?: 'Mutation', updateMessage: { __typename?: 'MessagesType', unread: boolean } };
+export type UpdateMessageMutation = { updateMessage: { unread: boolean } };
 
 export type RemoveMessageMutationVariables = Exact<{
   deleteMessageId: Scalars['ID']['input'];
 }>;
 
 
-export type RemoveMessageMutation = { __typename?: 'Mutation', deleteMessage: { __typename?: 'MessagesType', _id: string } };
+export type RemoveMessageMutation = { deleteMessage: { _id: string } };
 
 export type GetProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProfileQuery = { __typename?: 'Query', profile?: { __typename?: 'User', _id: string, name: string, email: string, role: string } | null };
+export type GetProfileQuery = { profile?: { _id: string, name: string, email: string, role: string } | null };
 
 export type Single_ProjectQueryVariables = Exact<{
   projectId: Scalars['ID']['input'];
 }>;
 
 
-export type Single_ProjectQuery = { __typename?: 'Query', project?: { __typename?: 'Project', name: string, description: string, packages: Array<string>, tags: Array<string>, liveUrl?: string | null, createdAt?: any | null, updatedAt: any, thumbnail: { __typename?: 'ImageType', url?: string | null }, images: Array<{ __typename?: 'ImageType', url?: string | null }>, githubUrl: { __typename?: 'GithubUrlType', frontend: string, backend: string }, user: { __typename?: 'User', name: string, email: string } } | null };
+export type Single_ProjectQuery = { project?: { name: string, description: string, packages: Array<string>, tags: Array<string>, liveUrl?: string | null, createdAt?: any | null, updatedAt: any, thumbnail: { url?: string | null }, images: Array<{ url?: string | null }>, githubUrl?: { frontend?: string | null, backend?: string | null } | null, user: { name: string, email: string } } | null };
 
 export type ProjectsListQueryVariables = Exact<{
   pagination?: InputMaybe<PaginationInput>;
@@ -482,21 +475,21 @@ export type ProjectsListQueryVariables = Exact<{
 }>;
 
 
-export type ProjectsListQuery = { __typename?: 'Query', projects: { __typename?: 'getAllProjectsQuery', meta?: { __typename?: 'MetaQuery', page: number, limit: number, total: number } | null, data?: Array<{ __typename?: 'Project', _id: string, name: string, position: number, thumbnail: { __typename?: 'ImageType', uid?: string | null, name?: string | null, status?: string | null, url?: string | null } }> | null } };
+export type ProjectsListQuery = { projects: { meta?: { page: number, limit: number, total: number } | null, data?: Array<{ _id: string, name: string, position: number, thumbnail: { uid?: string | null, name?: string | null, status?: string | null, url?: string | null } }> | null } };
 
 export type ProjectQueryVariables = Exact<{
   projectId: Scalars['ID']['input'];
 }>;
 
 
-export type ProjectQuery = { __typename?: 'Query', project?: { __typename?: 'Project', _id: string, position: number, name: string, description: string, packages: Array<string>, tags: Array<string>, liveUrl?: string | null, thumbnail: { __typename?: 'ImageType', uid?: string | null, name?: string | null, status?: string | null, url?: string | null }, images: Array<{ __typename?: 'ImageType', uid?: string | null, name?: string | null, status?: string | null, url?: string | null }>, githubUrl: { __typename?: 'GithubUrlType', frontend: string, backend: string } } | null };
+export type ProjectQuery = { project?: { _id: string, position: number, name: string, description: string, packages: Array<string>, tags: Array<string>, liveUrl?: string | null, thumbnail: { uid?: string | null, name?: string | null, status?: string | null, url?: string | null }, images: Array<{ uid?: string | null, name?: string | null, status?: string | null, url?: string | null }>, githubUrl?: { frontend?: string | null, backend?: string | null } | null } | null };
 
 export type DeleteProjectMutationVariables = Exact<{
   deleteProjectId: Scalars['ID']['input'];
 }>;
 
 
-export type DeleteProjectMutation = { __typename?: 'Mutation', deleteProject: { __typename?: 'Project', _id: string } };
+export type DeleteProjectMutation = { deleteProject: { _id: string } };
 
 export type UpdateProjectMutationVariables = Exact<{
   updateProjectId: Scalars['ID']['input'];
@@ -504,14 +497,14 @@ export type UpdateProjectMutationVariables = Exact<{
 }>;
 
 
-export type UpdateProjectMutation = { __typename?: 'Mutation', updateProject: { __typename?: 'Project', _id: string } };
+export type UpdateProjectMutation = { updateProject: { _id: string } };
 
 export type CreateProjectMutationVariables = Exact<{
   body: CreateProjectInput;
 }>;
 
 
-export type CreateProjectMutation = { __typename?: 'Mutation', createProject: { __typename?: 'Project', _id: string } };
+export type CreateProjectMutation = { createProject: { _id: string } };
 
 export type SkillsQueryVariables = Exact<{
   pagination?: InputMaybe<PaginationInput>;
@@ -519,21 +512,21 @@ export type SkillsQueryVariables = Exact<{
 }>;
 
 
-export type SkillsQuery = { __typename?: 'Query', skills: { __typename?: 'getAllSkillsQuery', meta?: { __typename?: 'MetaQuery', page: number, limit: number, total: number } | null, data?: Array<{ __typename?: 'SkillsType', _id: string, name: string, type: string, createdAt: any, updatedAt: any, image: { __typename?: 'ImageType', uid?: string | null, name?: string | null, status?: string | null, url?: string | null, size?: number | null } }> | null } };
+export type SkillsQuery = { skills: { meta?: { page: number, limit: number, total: number } | null, data?: Array<{ _id: string, name: string, type: string, createdAt: any, updatedAt: any, image: { uid?: string | null, name?: string | null, status?: string | null, url?: string | null, size?: number | null } }> | null } };
 
 export type CreateSkillMutationVariables = Exact<{
   body: CreateSkillsInput;
 }>;
 
 
-export type CreateSkillMutation = { __typename?: 'Mutation', createSkill: { __typename?: 'SkillsType', _id: string } };
+export type CreateSkillMutation = { createSkill: { _id: string } };
 
 export type SkillQueryVariables = Exact<{
   skillId: Scalars['ID']['input'];
 }>;
 
 
-export type SkillQuery = { __typename?: 'Query', skill?: { __typename?: 'SkillsType', _id: string, name: string, type: string, createdAt: any, updatedAt: any, image: { __typename?: 'ImageType', uid?: string | null, name?: string | null, status?: string | null, url?: string | null, size?: number | null } } | null };
+export type SkillQuery = { skill?: { _id: string, name: string, type: string, createdAt: any, updatedAt: any, image: { uid?: string | null, name?: string | null, status?: string | null, url?: string | null, size?: number | null } } | null };
 
 export type UpdateSkillMutationVariables = Exact<{
   updateSkillId: Scalars['ID']['input'];
@@ -541,21 +534,21 @@ export type UpdateSkillMutationVariables = Exact<{
 }>;
 
 
-export type UpdateSkillMutation = { __typename?: 'Mutation', updateSkill: { __typename?: 'SkillsType', _id: string } };
+export type UpdateSkillMutation = { updateSkill: { _id: string } };
 
 export type RemoveSkillMutationVariables = Exact<{
   deleteSkillId: Scalars['ID']['input'];
 }>;
 
 
-export type RemoveSkillMutation = { __typename?: 'Mutation', deleteSkill: { __typename?: 'SkillsType', _id: string } };
+export type RemoveSkillMutation = { deleteSkill: { _id: string } };
 
 export type UserQueryVariables = Exact<{
   userId: Scalars['ID']['input'];
 }>;
 
 
-export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', name: string, email: string, role: string, isActive?: boolean | null, createdAt: any, updatedAt: any, avatar?: { __typename?: 'ImageType', url?: string | null } | null } | null };
+export type UserQuery = { user?: { name: string, email: string, role: string, isActive?: boolean | null, createdAt: any, updatedAt: any, avatar?: { url?: string | null } | null } | null };
 
 export type UsersListQueryVariables = Exact<{
   pagination?: InputMaybe<PaginationInput>;
@@ -563,14 +556,14 @@ export type UsersListQueryVariables = Exact<{
 }>;
 
 
-export type UsersListQuery = { __typename?: 'Query', users: { __typename?: 'getAllUsersQuery', meta?: { __typename?: 'MetaQuery', page: number, limit: number, total: number } | null, data?: Array<{ __typename?: 'User', _id: string, name: string, email: string, role: string, isActive?: boolean | null, avatar?: { __typename?: 'ImageType', uid?: string | null, name?: string | null, status?: string | null, url?: string | null } | null }> | null } };
+export type UsersListQuery = { users: { meta?: { page: number, limit: number, total: number } | null, data?: Array<{ _id: string, name: string, email: string, role: string, isActive?: boolean | null, avatar?: { uid?: string | null, name?: string | null, status?: string | null, url?: string | null } | null }> | null } };
 
 export type DeleteUserMutationVariables = Exact<{
   deleteUserId: Scalars['ID']['input'];
 }>;
 
 
-export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: { __typename?: 'User', _id: string } };
+export type DeleteUserMutation = { deleteUser: { _id: string } };
 
 export type UpdateUserMutationVariables = Exact<{
   updateUserId: Scalars['ID']['input'];
@@ -578,14 +571,14 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', name: string } };
+export type UpdateUserMutation = { updateUser: { name: string } };
 
 export type CreateUserMutationVariables = Exact<{
   body: CreateUserInput;
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'Mutation', register: { __typename?: 'User', _id: string } };
+export type CreateUserMutation = { register: { _id: string } };
 
 export type Skills_FQueryVariables = Exact<{
   pagination?: InputMaybe<PaginationInput>;
@@ -593,17 +586,18 @@ export type Skills_FQueryVariables = Exact<{
 }>;
 
 
-export type Skills_FQuery = { __typename?: 'Query', skills: { __typename?: 'getAllSkillsQuery', data?: Array<{ __typename?: 'SkillsType', _id: string, name: string, image: { __typename?: 'ImageType', url?: string | null } }> | null } };
+export type Skills_FQuery = { skills: { data?: Array<{ _id: string, name: string, image: { url?: string | null } }> | null } };
 
 export type LoginMutationVariables = Exact<{
   body?: InputMaybe<LoginInput>;
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginResponse', accessToken: string } };
+export type LoginMutation = { login: { accessToken: string } };
 
 
 export const CreateMessageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateMessage"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"body"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateMessagesInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createMessage"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"body"},"value":{"kind":"Variable","name":{"kind":"Name","value":"body"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<CreateMessageMutation, CreateMessageMutationVariables>;
+export const ProjectsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Projects"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"PaginationInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"query"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ProjectQueryInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"projects"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}},{"kind":"Argument","name":{"kind":"Name","value":"query"},"value":{"kind":"Variable","name":{"kind":"Name","value":"query"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"meta"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"limit"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"position"}},{"kind":"Field","name":{"kind":"Name","value":"tags"}}]}}]}}]}}]} as unknown as DocumentNode<ProjectsQuery, ProjectsQueryVariables>;
 export const MessageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"message"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"messageId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"messageId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"unread"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<MessageQuery, MessageQueryVariables>;
 export const MessagesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Messages"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"PaginationInput"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"query"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"MessagesQueryInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"messages"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}},{"kind":"Argument","name":{"kind":"Name","value":"query"},"value":{"kind":"Variable","name":{"kind":"Name","value":"query"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"meta"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"limit"}},{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"unread"}}]}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"unread"}}]}}]}}]}}]} as unknown as DocumentNode<MessagesQuery, MessagesQueryVariables>;
 export const UpdateMessageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateMessage"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateMessageId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"body"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateMessagesInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateMessage"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateMessageId"}}},{"kind":"Argument","name":{"kind":"Name","value":"body"},"value":{"kind":"Variable","name":{"kind":"Name","value":"body"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"unread"}}]}}]}}]} as unknown as DocumentNode<UpdateMessageMutation, UpdateMessageMutationVariables>;
