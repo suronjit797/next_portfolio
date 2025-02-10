@@ -31,7 +31,7 @@ const ProjectCard: React.FC<IProjectProps> = ({ data }) => {
         <div className="px-5 pb-3">
           {Array.isArray(data?.tags)
             ? data.tags?.slice(0, 5)?.map((tag, ind) => (
-                <Link key={ind} href={`/projects?tags=${tag}`}>
+                <Link key={ind} href={`/projects?q=${tag}`}>
                   <Tag color={colors[ind % 5]}>{tag}</Tag>
                 </Link>
               ))

@@ -2,7 +2,7 @@
 
 import { gql } from "@/__generated__";
 import { useQuery } from "@apollo/client";
-import { Button, Carousel, Divider, Image, Spin, Tag } from "antd";
+import { Carousel, Divider, Image, Spin, Tag } from "antd";
 import dayjs from "dayjs"; // Import dayjs for date formatting
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -116,9 +116,11 @@ const ProductView: React.FC = () => {
           </>
         )}
 
-        <Divider />
 
-        {Boolean(project?.liveUrl || project?.githubUrl?.frontend || project?.githubUrl?.backend) && (
+
+        {/* {Boolean(project?.liveUrl || project?.githubUrl?.frontend || project?.githubUrl?.backend) && (
+         <>
+                 <Divider />
           <div className="mb-4">
             <div className="flex space-x-4">
               {project?.liveUrl && (
@@ -137,8 +139,8 @@ const ProductView: React.FC = () => {
                 </Button>
               )}
             </div>
-          </div>
-        )}
+          </div> </>
+        )} */}
       </div>
     </div>
   );

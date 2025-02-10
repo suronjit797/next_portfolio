@@ -27,7 +27,7 @@ const ProductView: React.FC = () => {
       <div className="">
         <Card className="bg-gray-900/20 text-white shadow-xl rounded-xl p-6">
           <h2 className="text-2xl font-semibold capitalize">{message?.name}</h2>
-          <Link href={`mailto:${message?.email}`} className="!text-gray-400 hover:underline">
+          <Link href={`mailto:${message?.email}`} target="_blank" className="!text-gray-400 hover:!underline">
             {message?.email}
           </Link>
 

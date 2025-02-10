@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: var(--text_primary_color);
+}
+
 :root {
   font-family: "Merriweather Sans", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -14,15 +18,17 @@
   --secondary_color: #000;
   --third_color: #121212;
   /* --third_color_rgba: (18, 18, 18); */
-  --text_primary_color: #bb86fc;
+  /* --text_primary_color: #bb86fc;
   --button_hover: #8c61ff;
   --button_color: #6592fd;
   --text_color: #e1e1e1;
-  --text2_color: #343090;
-}
+  --text2_color: #343090; */
 
-@theme {
-  --color-primary: var(--text_primary_color);
+  --text_primary_color: #bb86fc;
+  --button_hover: #8056f3;
+  --button_color: #4672d8;
+  --text_color: #fff;
+  --text2_color: #343090;
 }
 
 /* * {

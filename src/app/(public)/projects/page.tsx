@@ -95,18 +95,23 @@ const Projects = () => {
             </h3>
 
             <Button
-              type="default"
+              type="primary"
               icon={<BsArrowRepeat />}
               onClick={handleRefetch}
-              style={{ marginLeft: "10px", padding: "0 12px" }}
+              style={{ marginLeft: "10px"}}
+              
+              size="small"
             />
-            <Button
-              type="primary"
-              danger
-              icon={<IoClose />}
-              onClick={clearSearch}
-              style={{ marginLeft: "10px", padding: "0 12px" }}
-            />
+            {Object.keys(query).length > 0 && (
+              <Button
+                type="primary"
+                danger
+                icon={<IoClose />}
+                onClick={clearSearch}
+                style={{ marginLeft: "10px"}}
+                size="small"
+              />
+            )}
           </div>
           <div className="search-actions flex items-center gap-3">
             <form className={`${styles.project_search} ms-auto`} autoComplete="off" onSubmit={searchHandler}>
@@ -117,7 +122,6 @@ const Projects = () => {
                 placeholder="Search"
                 value={search || ""}
                 onChange={(e) => updateParams({ search: e.target.value })}
-                
               />
               <button type="submit">
                 <BsSearch />

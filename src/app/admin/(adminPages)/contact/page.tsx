@@ -85,8 +85,12 @@ const Messages: React.FC = () => {
     },
     {
       title: "Email",
-      dataIndex: "email",
       key: "email",
+      render: (_, record) => (
+        <Link href={`mailto:${record?.email}`} target="_blank" className="!text-gray-300 hover:!underline">
+          {record?.email}
+        </Link>
+      ),
     },
     {
       title: "Unread",
