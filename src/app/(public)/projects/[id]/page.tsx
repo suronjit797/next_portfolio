@@ -2,7 +2,7 @@
 
 import { gql } from "@/__generated__";
 import { useQuery } from "@apollo/client";
-import { Carousel, Divider, Image, Spin, Tag } from "antd";
+import { Button, Carousel, Divider, Image, Spin, Tag } from "antd";
 import dayjs from "dayjs"; // Import dayjs for date formatting
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -45,7 +45,7 @@ const ProductView: React.FC = () => {
     <div className=" py-4 ">
       <div className=" rounded-lg ">
         <div className="mb-4">
-          <Image.PreviewGroup >
+          <Image.PreviewGroup>
             <Carousel>
               {project.images &&
                 project.images.length > 0 &&
@@ -116,27 +116,29 @@ const ProductView: React.FC = () => {
           </>
         )}
 
-        {/* <Divider />
+        <Divider />
 
-        <div className="mb-4">
-          <div className="flex space-x-4">
-            {project.liveUrl && (
-              <Button href={project.liveUrl} target="_blank">
-                Live Demo
-              </Button>
-            )}
-            {project.githubUrl?.frontend && (
-              <Button href={project.githubUrl.frontend} target="_blank">
-                Frontend GitHub
-              </Button>
-            )}
-            {project.githubUrl?.backend && (
-              <Button href={project.githubUrl.backend} target="_blank">
-                Backend GitHub
-              </Button>
-            )}
+        {Boolean(project?.liveUrl || project?.githubUrl?.frontend || project?.githubUrl?.backend) && (
+          <div className="mb-4">
+            <div className="flex space-x-4">
+              {project?.liveUrl && (
+                <Button href={project?.liveUrl} target="_blank">
+                  Live Demo
+                </Button>
+              )}
+              {project?.githubUrl?.frontend && (
+                <Button href={project?.githubUrl?.frontend} target="_blank">
+                  Frontend GitHub
+                </Button>
+              )}
+              {project?.githubUrl?.backend && (
+                <Button href={project?.githubUrl?.backend} target="_blank">
+                  Backend GitHub
+                </Button>
+              )}
+            </div>
           </div>
-        </div> */}
+        )}
       </div>
     </div>
   );
