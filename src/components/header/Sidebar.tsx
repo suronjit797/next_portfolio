@@ -25,7 +25,7 @@ const Sidebar = () => {
   return (
     <div className="h-screen w-full max-w-screen py-3 px-3 overflow-y-auto overflow-x-hidden bg-[#212529]">
       <div className="flex items-center flex-col h-full">
-        <Image src={user} height={200} width={200} alt="user" className={`${styles.userImage}`} />
+        <Image src={user} height={135} width={135} alt="user" className={`${styles.userImage}`} />
         <div className="intro text-center mt-3 mb-2">
         <h1 className="text-3xl text-primary underline mb-1"> Suronjit Pal </h1>
         <h2 className="text-md"> MERN Stack Developer </h2>

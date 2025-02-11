@@ -15,6 +15,7 @@
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@apollo/client": "^3.12.8",
     "@graphql-codegen/cli": "^5.0.4",
+    "@next/bundle-analyzer": "^15.1.7",
     "@parcel/watcher": "^2.5.1",
     "@reduxjs/toolkit": "^2.5.1",
     "@tailwindcss/postcss": "^4.0.0",

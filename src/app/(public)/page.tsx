@@ -13,7 +13,7 @@ const Home = () => {
     <>
       <div className="h-screen px-4  py-10 md:px-8 flex lg:items-center items-baseline">
         <div>
-          <h4 className="font-semibold text-xl md:text-2xl mb-2"> Hi There! </h4>
+          <p className="font-semibold text-xl md:text-2xl mb-2"> Hi There! </p>
           <h1 className="font-bold  text-2xl md:text-4xl">
             I&apos;m <span className="text_primary"> Suronjit Pal </span>
           </h1>
