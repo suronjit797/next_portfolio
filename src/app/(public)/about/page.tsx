@@ -1,8 +1,40 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime"
 import styles from "@/styles/about.module.css"
+import { Metadata } from "next";
 
 dayjs.extend(relativeTime)
+
+export const metadata: Metadata = {
+  title: `About Me | ${process.env.NEXT_PUBLIC_TITLE ?? ""} - Web Developer"`,
+  description:
+    "I'm Suronjit Pal, a web developer passionate about building modern, high-performance applications with Next.js and MERN stack.",
+  keywords: [
+    "About Suronjit Pal",
+    "Web Developer Experience",
+    "MERN Stack Developer",
+    "Next.js Developer",
+    "Full Stack Developer",
+  ],
+  openGraph: {
+    title: "About Me | Suronjit Pal - Web Developer",
+    description:
+      "Learn more about my journey, skills, and expertise in web development.",
+    url: "https://yourwebsite.com/about",
+    images: [
+      {
+        url: "https://yourwebsite.com/og-image-about.jpg",
+        width: 1200,
+        height: 630,
+        alt: "About Suronjit Pal - Web Developer",
+      },
+    ],
+    type: "website",
+  },
+};
+
+
+
 
 const About = () => {
   const birthday = dayjs('1999-01-01').fromNow() .slice(0, 8)

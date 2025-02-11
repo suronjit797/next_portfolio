@@ -98,8 +98,7 @@ const Projects = () => {
               type="primary"
               icon={<BsArrowRepeat />}
               onClick={handleRefetch}
-              style={{ marginLeft: "10px"}}
-              
+              style={{ marginLeft: "10px" }}
               size="small"
             />
             {Object.keys(query).length > 0 && (
@@ -108,7 +107,7 @@ const Projects = () => {
                 danger
                 icon={<IoClose />}
                 onClick={clearSearch}
-                style={{ marginLeft: "10px"}}
+                style={{ marginLeft: "10px" }}
                 size="small"
               />
             )}

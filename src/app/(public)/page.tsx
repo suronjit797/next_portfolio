@@ -1,17 +1,48 @@
 import { Metadata } from "next";
 import Link from "next/link";
 
-
 export const metadata: Metadata = {
-  title: "Home | " + process.env.TITLE,
-  description: "Web Developer Portfolio",
+  title: `Home | ${process.env.NEXT_PUBLIC_TITLE ?? "Portfolio"}`,
+  description:
+    "I'm Suronjit Pal, a skilled web developer specializing in the MERN stack and Next.js. Explore my projects and skills.",
+  keywords: [
+    "Suronjit Pal",
+    "Web Developer",
+    "MERN Stack",
+    "Next.js",
+    "Portfolio",
+  ],
+  openGraph: {
+    title: "Suronjit Pal | Web Developer & MERN Stack Expert",
+    description:
+      "Discover the work and skills of Suronjit Pal, a Next.js and MERN Stack developer.",
+    url: "https://suronjit797.vercel.app",
+    siteName: "Suronjit Pal Portfolio",
+    images: [
+      {
+        url: "/og-image-home.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Suronjit Pal - Web Developer",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Suronjit Pal | Web Developer",
+    description:
+      "I'm Suronjit Pal, a skilled web developer specializing in the MERN stack and Next.js.",
+    images: ["/og-image-home.jpg"],
+  },
 };
+
 
 
 const Home = () => {
   return (
     <>
-      <div className="h-screen px-4  py-10 md:px-8 flex lg:items-center items-baseline">
+      <div className="h-full px-4  py-10 md:px-8 flex lg:items-center items-baseline">
         <div>
           <p className="font-semibold text-xl md:text-2xl mb-2"> Hi There! </p>
           <h1 className="font-bold  text-2xl md:text-4xl">

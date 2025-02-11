@@ -41,15 +41,17 @@ const ProductView: React.FC = () => {
     );
   }
 
+  const images = [project?.thumbnail, ...(project?.images || [])];
+
   return (
     <div className=" py-4 ">
       <div className=" rounded-lg ">
         <div className="mb-4">
-          <Image.PreviewGroup>
+          <Image.PreviewGroup key={(id as string) || ""}>
             <Carousel>
-              {project.images &&
-                project.images.length > 0 &&
-                [project.thumbnail, ...project.images].map((image, index) => (
+              {Array.isArray(images) &&
+                images?.length > 0 &&
+                images?.map((image, index) => (
                   <div className="w-full flex" key={index}>
                     <Image
                       src={image?.url || ""}
@@ -115,8 +117,6 @@ const ProductView: React.FC = () => {
             </div>
           </>
         )}
-
-
 
         {/* {Boolean(project?.liveUrl || project?.githubUrl?.frontend || project?.githubUrl?.backend) && (
          <>

@@ -14,9 +14,15 @@ const colors = ["lime", "green", "cyan", "magenta", "volcano", "orange", "gold"]
 const ProjectCard: React.FC<IProjectProps> = ({ data }) => {
   return (
     <>
-      <div className={`${styles.projectCard} rounded overflow-hidden h-full flex flex-col`}>
-        <div className={`${styles.projectCard_img} bg-gray-500/50 p-5 `}>
-          <Image height={300} width={300} src={data?.thumbnail?.url || ""} alt={data?.name || "thumbnail"} />
+      <div className={`${styles.projectCard} rounded-md overflow-hidden h-full flex flex-col`}>
+        <div className={`${styles.projectCard_img} bg-gray-500/50 `}>
+          <Image
+            className="w-full h-full"
+            height={300}
+            width={300}
+            src={data?.thumbnail?.url || ""}
+            alt={data?.name || "thumbnail"}
+          />
         </div>
         <h5 className="capitalize pt-3 px-5">
           <Typography.Paragraph

@@ -17,27 +17,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-
-  // Headers for better caching
-  async headers() {
-    return [
-      {
-        source: "/_next/static/:path*",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
-    ];
-  },
-
-  // Enable React strict mode
-  reactStrictMode: true,
 };
 
-export default nextConfig;
+export default nextConfig
 
 // export default withBundleAnalyzer({
 //   enabled: process.env.ANALYZE === "true",
